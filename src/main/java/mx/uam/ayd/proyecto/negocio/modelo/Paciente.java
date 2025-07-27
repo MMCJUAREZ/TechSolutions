@@ -1,4 +1,5 @@
 package mx.uam.ayd.proyecto.negocio.modelo;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -14,6 +15,7 @@ public class Paciente {
 
 	private String nombre;
 	
+    @Column(unique = true)
 	private String correo;
 	
 	private int telefono;
