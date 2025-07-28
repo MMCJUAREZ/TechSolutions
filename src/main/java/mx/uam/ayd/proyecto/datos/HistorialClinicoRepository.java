@@ -8,9 +8,8 @@ import mx.uam.ayd.proyecto.negocio.modelo.HistorialClinico;
 
 /**
  * 
- * Repositorio para usuarios
+ * Repositorio para historial Clinico
  * 
- * @author humbertocervantes
  *
  */
 public interface HistorialClinicoRepository extends CrudRepository <HistorialClinico, Long> {
