@@ -13,6 +13,6 @@ public interface PacienteRepository extends CrudRepository <Paciente, Long>{
 
     public Paciente findByCorreo(String correo);
 	
-	public List <Paciente> findByEdadBetween(int edad1, int edad2);
+	//public List <Paciente> findByEdadBetween(int edad1, int edad2);
     
 } 
