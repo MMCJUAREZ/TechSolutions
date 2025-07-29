@@ -4,6 +4,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import lombok.Getter;
 
 @Entity // Esto le dice a Spring que esta es una entidad persistente
 public class Paciente {
@@ -14,11 +15,13 @@ public class Paciente {
 	private long idPaciente;
 
 	private String nombre;
+
+	private int edad;
 	
     @Column(unique = true)
 	private String correo;
 	
-	private int telefono;
+	private String telefono;
 	
 	/**
 	 * @return the idPaciente
@@ -49,6 +52,22 @@ public class Paciente {
 	}
 
 	/**
+	 * 
+	 * @return the edad
+	 */
+	public int getEdad() {
+		return edad;
+	}
+	
+	/**
+	 * 
+	 * @param edad
+	 */
+	public void setEdad(int edad) {
+		this.edad = edad;
+	}
+
+	/**
 	 * @return the correo
 	 */
 	public String getCorreo() {
@@ -65,14 +84,14 @@ public class Paciente {
 	/**
 	 * @return the telefono
 	 */
-	public int getTelefono() {
+	public String getTelefono() {
 		return telefono;
 	}
 
 	/**
 	 * @param telefono the telefono to set
 	 */
-	public void setTelefono(int telefono) {
+	public void setTelefono(String telefono) {
 		this.telefono = telefono;
 	}
 	
@@ -95,6 +114,6 @@ public class Paciente {
 	
 	@Override
 	public String toString() {
-		return "Usuario [idPaciente=" + idPaciente + ", nombre=" + nombre + ", correo=" + correo + ", telefono=" + telefono + "]";
+		return "Usuario [idPaciente=" + idPaciente + ", nombre=" + nombre + ", edad= "+ edad + ", correo=" + correo + ", telefono=" + telefono + "]";
 	}
 }
