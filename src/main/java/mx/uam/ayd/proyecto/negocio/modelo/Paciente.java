@@ -12,28 +12,28 @@ public class Paciente {
 
 	@Id // Esto le dice a Spring que este es el identificador
 	@GeneratedValue(strategy = GenerationType.IDENTITY) // Le dice a Spring que genere el id
-	private long idPaciente;
+	private Long idPaciente;
 
 	private String nombre;
 
 	private int edad;
 	
     @Column(unique = true)
-	private String correo;
+	private String correo;2
 	
 	private String telefono;
 	
 	/**
 	 * @return the idPaciente
 	 */
-	public long getIdPaciente() {
+	public Long getIdPaciente() {
 		return idPaciente;
 	}
 
 	/**
 	 * @param idPaciente the idPaciente to set
 	 */
-	public void setIdPaciente(long idPaciente) {
+	public void setIdPaciente(Long idPaciente) {
 		this.idPaciente = idPaciente;
 	}
 

@@ -21,7 +21,7 @@ import jakarta.persistence.OneToMany;
 public class Grupo {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private long idGrupo;
+	private Long idGrupo;
 
 	private String nombre;
 	

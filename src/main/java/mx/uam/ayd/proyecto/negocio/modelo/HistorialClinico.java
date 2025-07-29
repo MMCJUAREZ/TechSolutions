@@ -5,42 +5,55 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import java.time.LocalDate;
 
 @Entity // Esto le dice a Spring que esta es una entidad persistente
 public class HistorialClinico {
     @Id // Esto le dice a Spring que este es el identificador
 	@GeneratedValue(strategy = GenerationType.IDENTITY) // Le dice a Spring que genere el id
 	
-    private long idHistorialClinico;
+    private Long idHistorialClinico;
 
-    private boolean concentimientoAceptado;
+    private Boolean concentimientoAceptado;
 
+	private LocalDate fechaElaboracion;
+
+	@OneToOne(targetEntity = Paciente.class, fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
+
+
+	public LocalDate getFechaElaboracion(){
+		return fechaElaboracion;
+	}
+
+	public void setFechaElaboracion(LocalDate){
+		this.fechaElaboracion = fechaElaboracion;
+	}
 
     /**
 	 * @return the idHistorialClinico
 	 */
-	public long getIdHistorialClinico() {
+	public Long getIdHistorialClinico() {
 		return idHistorialClinico;
 	}
 
     /**
 	 * @param idHistorialClinico the idHistorialClinco to set
 	 */
-	public void setIdHistorialClinico(long idHistorialClinico) {
+	public void setIdHistorialClinico(Long idHistorialClinico) {
 		this.idHistorialClinico = idHistorialClinico;
 	}
 
     /**
      *  @return the concentimientoAceptado
      */
-    public boolean getConcentimientoAceptado(){
+    public Boolean getConcentimientoAceptado(){
         return concentimientoAceptado;
     }
 
     /**
 	 * @param concentimientoAceptado concentimientoAceptado to set
 	 */
-	public void setConcentimientoAceptado(boolean concentimientoAceptado) {
+	public void setConcentimientoAceptado(Boolean concentimientoAceptado) {
 		this.concentimientoAceptado = concentimientoAceptado;
 	}
 
