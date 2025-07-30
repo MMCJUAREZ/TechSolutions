@@ -1,10 +1,14 @@
 package mx.uam.ayd.proyecto.negocio.modelo;
 
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToOne;
+
 import java.time.LocalDate;
 
 @Entity // Esto le dice a Spring que esta es una entidad persistente
@@ -25,7 +29,7 @@ public class HistorialClinico {
 		return fechaElaboracion;
 	}
 
-	public void setFechaElaboracion(LocalDate){
+	public void setFechaElaboracion(LocalDate fechaElaboracion){
 		this.fechaElaboracion = fechaElaboracion;
 	}
 

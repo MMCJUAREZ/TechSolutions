@@ -16,10 +16,12 @@ public class Paciente {
 
 	private String nombre;
 
+	private String apellido;
+
 	private int edad;
 	
     @Column(unique = true)
-	private String correo;2
+	private String correo;
 	
 	private String telefono;
 	
@@ -38,10 +40,24 @@ public class Paciente {
 	}
 
 	/**
+	 * @param apellido apellido Paciente to set
+	 */
+	public void setApellido(String apellido){
+		this.apellido = apellido;
+	}
+
+	/**
 	 * @return the nombre
 	 */
 	public String getNombre() {
 		return nombre;
+	}
+
+	/**
+	 * @return the nombre
+	 */
+	public String getApellido() {
+		return apellido;
 	}
 
 	/**
