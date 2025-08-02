@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Text?>
+
+<VBox spacing="10" style="-fx-padding: 15px;" xmlns="http://javafx.com/javafx/24.0.1" xmlns:fx="http://javafx.com/fxml/1">
+    
+    <Label style="-fx-font-size: 18px; -fx-font-weight: bold;" text="Centro de atención psicológica" />
+   <Label layoutX="25.0" layoutY="25.0" style="-fx-font-size: 18px; -fx-font-weight: bold;" text="Bienestar emocional" />
+   <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Historial médico y baterias" />
+    
+    <Button fx:id="idAgregarPaciente" onAction="#handleAgregarPaciente" style="-fx-min-width: 200px; -fx-min-height: 30px;" text="Agregar paciente" />
+    
+    <Button fx:id="idPacientesRegistrados" onAction="#handlePacientesRegistrados" style="-fx-min-width: 200px; -fx-min-height: 30px;" text="Pacientes registrados" />
+   <Text layoutX="25.0" layoutY="220.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Psicólogos" />
+   <Button fx:id="idListarPsicologos" layoutX="25.0" layoutY="167.0" onAction="#handleListarPsicologos" style="-fx-min-width: 200px; -fx-min-height: 30px;" text="Listar psicólogos" />
+   <Text layoutX="25.0" layoutY="106.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Citas" />
+   <Button fx:id="idAgregarCita" layoutX="25.0" layoutY="120.0" onAction="#handleAgregarCita" style="-fx-min-width: 200px; -fx-min-height: 30px;" text="Agregar" />
+   <Button fx:id="idEditarCitas" layoutX="25.0" layoutY="270.0" onAction="#handleEditarCitas" style="-fx-min-width: 200px; -fx-min-height: 30px;" text="Editar" />
+    
+</VBox>
