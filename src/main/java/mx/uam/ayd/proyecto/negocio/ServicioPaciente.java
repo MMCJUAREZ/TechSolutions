@@ -88,7 +88,7 @@ public class ServicioPaciente {
 		
 		paciente = new Paciente();
 		paciente.setNombre(nombre);
-		paciente.setApellido(apellido);
+		//paciente.setApellido(apellido);
 		
 		// Conecta al grupo con el usuari
 		
