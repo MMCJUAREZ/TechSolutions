@@ -4,6 +4,16 @@ import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.io.IOException;
+import java.util.List;
+
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
+
+import mx.uam.ayd.proyecto.negocio.ServicioPsicologo;
+import mx.uam.ayd.proyecto.negocio.modelo.Psicologo;
+
 /**
  * Controlador para la ventana principal del sistema de psicología
  * 
@@ -13,10 +23,12 @@ import org.springframework.stereotype.Component;
 public class ControlPrincipal1 {
 
     private final VentanaPrincipal1 ventana;
-    
+    private final ServicioPsicologo servicioPsicologo;
+
     @Autowired
-    public ControlPrincipal1(VentanaPrincipal1 ventana) {
+    public ControlPrincipal1(VentanaPrincipal1 ventana, ServicioPsicologo servicioPsicologo) {
         this.ventana = ventana;
+        this.servicioPsicologo = servicioPsicologo;
     }
     
     /**
@@ -45,7 +57,28 @@ public class ControlPrincipal1 {
     }
 
     public void listarPsicologos() {
-        System.out.println("Listar psicólogos - Funcionalidad pendiente");
+        try {
+            // Cargar el FXML de la ventana de psicólogos
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/ventana-3-psicologos.fxml"));
+            
+            // Crear el controlador y pasarle el servicio
+            VentanaPsicologos controllerPsicologos = new VentanaPsicologos(servicioPsicologo);
+            loader.setController(controllerPsicologos);
+            
+            // Crear la escena y la ventana
+            Scene scene = new Scene(loader.load());
+            Stage stage = new Stage();
+            stage.setTitle("Psicólogos Registrados");
+            stage.setScene(scene);
+            stage.setResizable(false); // Igual que en el ejemplo del profesor
+            stage.show();
+            
+            System.out.println("Ventana de psicólogos abierta correctamente");
+            
+        } catch (IOException e) {
+            System.err.println("Error al abrir ventana de psicólogos: " + e.getMessage());
+            e.printStackTrace();
+        }
     }
 
     public void agregarCita() {

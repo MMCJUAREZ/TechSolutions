@@ -17,7 +17,7 @@
          <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Psicólogos registrados" BorderPane.alignment="CENTER" />
       </top>
       <center>
-         <TableView prefHeight="250.0" prefWidth="261.0" BorderPane.alignment="CENTER">
+         <TableView fx:id="tablaPsicologos" prefHeight="250.0" prefWidth="261.0" BorderPane.alignment="CENTER">
            <columns>
              <TableColumn fx:id="idNombre" prefWidth="75.0" text="Nombre" />
              <TableColumn fx:id="idEspecialidad" prefWidth="126.66670227050781" text="Especialidad" />

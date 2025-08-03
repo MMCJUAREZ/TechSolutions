@@ -140,4 +140,27 @@ public class ServicioPsicologo {
             throw new IllegalArgumentException("El ID del psicólogo debe ser un número válido: " + psicologoID);
         }
     }
+
+    /**
+     * Lista todos los psicólogos registrados en el sistema
+     * 
+     * @return lista de psicólogos (puede estar vacía)
+     */
+    public List<Psicologo> listarPsicologos() {
+        log.info("Obteniendo lista de psicólogos");
+        
+        try {
+            // Debemos convertir Iterable a List
+            List<Psicologo> psicologos = new ArrayList<>();
+            for (Psicologo psicologo : psicologoRepository.findAll()) {
+                psicologos.add(psicologo);
+            }
+            
+            log.info("Se encontraron {} psicólogos", psicologos.size());
+            return psicologos;
+        } catch (Exception e) {
+            log.error("Error al obtener lista de psicólogos", e);
+            return new ArrayList<>();
+        }
+    }
 }
