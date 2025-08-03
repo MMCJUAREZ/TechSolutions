@@ -12,6 +12,8 @@ import javafx.stage.Stage;
 import mx.uam.ayd.proyecto.datos.GrupoRepository;
 import mx.uam.ayd.proyecto.negocio.modelo.Grupo;
 import mx.uam.ayd.proyecto.presentacion.principal.ControlPrincipal;
+import mx.uam.ayd.proyecto.presentacion.principal1.ControlPrincipal1;
+
 
 /**
  * 
@@ -26,11 +28,17 @@ import mx.uam.ayd.proyecto.presentacion.principal.ControlPrincipal;
 public class ProyectoApplication {
 
 	private final ControlPrincipal controlPrincipal;
+	// Agregamos nuestro crontol principal
+	private final ControlPrincipal1 controlPrincipal1;
 	private final GrupoRepository grupoRepository;
 	
 	@Autowired
-	public ProyectoApplication(ControlPrincipal controlPrincipal, GrupoRepository grupoRepository) {
+	public ProyectoApplication(
+			ControlPrincipal controlPrincipal, 
+			ControlPrincipal1 controlPrincipal1,  // Agregamos el nuestr
+			GrupoRepository grupoRepository) {
 		this.controlPrincipal = controlPrincipal;
+		this.controlPrincipal1 = controlPrincipal1;  // Agregamos el nuestro
 		this.grupoRepository = grupoRepository;
 	}
 
@@ -76,14 +84,15 @@ public class ProyectoApplication {
 	
 	/**
 	 * Metodo que arranca la aplicacion
-	 * inicializa la bd y arranca el controlador
+	 * inicializa la bd y arranca los controladores
 	 */
 	public void inicia() {
 		inicializaBD();
 		
 		// Make sure controllers are created on JavaFX thread
 		Platform.runLater(() -> {
-			controlPrincipal.inicia();
+			controlPrincipal.inicia();      // Ventana del profesor
+			controlPrincipal1.inicia();     // La nuestra al mismo tiempo
 		});
 	}
 	
