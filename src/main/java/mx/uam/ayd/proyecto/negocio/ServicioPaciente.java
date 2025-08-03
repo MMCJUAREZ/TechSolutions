@@ -72,15 +72,15 @@ public class ServicioPaciente {
 	 *         o si alguno de los parámetros es nulo o vacío
      */
 
-	public Paciente agregaPaciente(String nombre, String apellido, String correo) {
+	public Paciente agregaPaciente(String nombre, String correo, String telefono) {
 		
 		// Validar que ningún parámetro sea nulo o vacío
 		if(nombre == null || nombre.trim().isEmpty()) {
 			throw new IllegalArgumentException("El nombre no puede ser nulo o vacío");
 		}
-		
-		if(apellido == null || apellido.trim().isEmpty()) {
-			throw new IllegalArgumentException("El apellido no puede ser nulo o vacío");
+
+		if(telefono == null || telefono.trim().isEmpty()) {
+			throw new IllegalArgumentException("El teléfono no puede ser nulo o vacío");
 		}
 		
 		if(correo == null || correo.trim().isEmpty()) {
@@ -96,14 +96,14 @@ public class ServicioPaciente {
 		
 		
 		// Se validaron correctamente las reglas de negocio
-		log.info("Agregando paciente nombre: " + nombre + " apellido: " + apellido);
+		log.info("Agregando paciente nombre: " + nombre + ", correo: " + correo + ", telefono: " + telefono);
 
 		// Crea el paciente
 		paciente = new Paciente();
 		paciente.setNombre(nombre);
-		paciente.setApellido(apellido);
 		paciente.setCorreo(correo);
-		
+		paciente.setTelefono(telefono);
+
 		pacienteRepository.save(paciente);
 		
 		return paciente;

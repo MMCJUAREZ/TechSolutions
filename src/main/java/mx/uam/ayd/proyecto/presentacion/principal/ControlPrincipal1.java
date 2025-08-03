@@ -13,6 +13,8 @@ import javafx.stage.Stage;
 
 import mx.uam.ayd.proyecto.negocio.ServicioPsicologo;
 import mx.uam.ayd.proyecto.negocio.modelo.Psicologo;
+import mx.uam.ayd.proyecto.presentacion.agregarPaciente.ControlAgregarPaciente;
+
 
 /**
  * Controlador para la ventana principal del sistema de psicología
@@ -24,11 +26,13 @@ public class ControlPrincipal1 {
 
     private final VentanaPrincipal1 ventana;
     private final ServicioPsicologo servicioPsicologo;
-
+    private final ControlAgregarPaciente controlAgregarPaciente;
     @Autowired
-    public ControlPrincipal1(VentanaPrincipal1 ventana, ServicioPsicologo servicioPsicologo) {
+    public ControlPrincipal1(VentanaPrincipal1 ventana, ServicioPsicologo servicioPsicologo
+        , ControlAgregarPaciente controlAgregarPaciente) {
         this.ventana = ventana;
         this.servicioPsicologo = servicioPsicologo;
+        this.controlAgregarPaciente = controlAgregarPaciente;
     }
     
     /**
@@ -48,10 +52,18 @@ public class ControlPrincipal1 {
     }
 
     // Métodos para manejar los eventos de los botones solo que estan vacios 
-    public void agregarPaciente() {
-        System.out.println("Agregar paciente - Funcionalidad pendiente");
-    }
+    //public void agregarPaciente() {
+    //    System.out.println("Agregar paciente - Funcionalidad pendiente");
+    //}
     
+    /**
+	 * Método que arranca la historia de usuario "agregar usuario"
+	 * 
+	 */
+	public void agregarPaciente() {
+		controlAgregarPaciente.inicia();
+	}
+
     public void pacientesRegistrados() {
         System.out.println("Pacientes registrados - Funcionalidad pendiente");
     }

@@ -91,7 +91,7 @@ public class ProyectoApplication {
 		
 		// Make sure controllers are created on JavaFX thread
 		Platform.runLater(() -> {
-			controlPrincipal.inicia();      // Ventana del profesor
+			//controlPrincipal.inicia();      // Ventana del profesor
 			controlPrincipal1.inicia();     // La nuestra al mismo tiempo
 		});
 	}
