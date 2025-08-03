@@ -12,7 +12,7 @@ import javafx.stage.Stage;
 import mx.uam.ayd.proyecto.datos.GrupoRepository;
 import mx.uam.ayd.proyecto.negocio.modelo.Grupo;
 import mx.uam.ayd.proyecto.presentacion.principal.ControlPrincipal;
-import mx.uam.ayd.proyecto.presentacion.principal1.ControlPrincipal1;
+import mx.uam.ayd.proyecto.presentacion.principal.ControlPrincipal1;
 
 
 /**

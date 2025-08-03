@@ -1,4 +1,4 @@
-package mx.uam.ayd.proyecto.presentacion.principal1;
+package mx.uam.ayd.proyecto.presentacion.principal;
 
 import javafx.application.Platform;
 import javafx.fxml.FXML;

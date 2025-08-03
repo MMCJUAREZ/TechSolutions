@@ -1,4 +1,4 @@
-package mx.uam.ayd.proyecto.presentacion.principal1;
+package mx.uam.ayd.proyecto.presentacion.principal;
 
 import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
