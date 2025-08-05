@@ -9,18 +9,30 @@ import java.util.Date;
 public class HistorialClinico {
 
     @Id
-    private Long id; // Usamos el mismo ID que el Paciente para la relación 1 a 1
+    private Long id; // Mismo ID que el Paciente
 
+    // Relación: Paciente llena 1 <--> 1 HistorialClinico
+    @OneToOne
+    @MapsId
+    @JoinColumn(name = "id")
+    private Paciente paciente;
+
+    // Relación: Psicologo accede 1 <--> 1...* HistorialClinico
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "psicologo_id")
+    private Psicologo psicologo;
+    
+    //Observaciones realizadas durante el llenado del historial
     private String observaciones;
 
     @Temporal(TemporalType.DATE)
     private Date fechaElaboracion;
 
+    //Obligatorio para seguir
     private boolean consentimientoAceptado;
 
-    // Relación uno a uno con Paciente
-    @OneToOne
-    @MapsId // Mapea esta clave primaria con la del Paciente
-    @JoinColumn(name = "id")
-    private Paciente paciente;
+    //Respuestas
+    private String motivo;
+    private String consumoDrogas;
+    private String descripcionDrogas;
 }

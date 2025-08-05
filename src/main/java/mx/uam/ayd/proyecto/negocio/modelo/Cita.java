@@ -15,19 +15,19 @@ public class Cita {
     @Temporal(TemporalType.DATE)
     private Date fechaCita;
 
-    @Temporal(TemporalType.DATE)
-    private Date fechaConfirmacion;
+    @Temporal(TemporalType.TIME)
+    private Date horaCita;
 
-    private String estado;
-    private String detallesAdicionales;
+    @Enumerated(EnumType.STRING)
+    private TipoConfirmacionCita estadoCita;
+    
+    private String detallesAdicionalesPsicologo;
+    private String detallesAdicionalesPaciente;
+    private String notaPostSesion;
     private String motivoCancelacion;
 
-    // Muchas Citas pertenecen a un Paciente
-    @ManyToOne
+    // Relación con Paciente
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "paciente_id")
     private Paciente paciente;
-
-    // Una Cita tiene un HistorialDeCitas
-    @OneToOne(mappedBy = "cita", cascade = CascadeType.ALL)
-    private HistorialCitas historialDeCitas;
 }

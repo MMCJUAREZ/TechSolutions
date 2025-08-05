@@ -22,4 +22,23 @@ public interface PsicologoRepository extends CrudRepository<Psicologo, Integer> 
      * @return Una lista de psicólogos.
      */
     List<Psicologo> findByEspecialidad(String especialidad);
+
+    /**
+     * Encuentra un psicólogo por su correo electrónico.
+     * @param correo El correo a buscar.
+     * @return El psicólogo encontrado.
+     */
+    Psicologo findByCorreo(String correo);
+
+    /**
+     * Encuentra todos los psicólogos que tienen pacientes asignados.
+     * @return Una lista de psicólogos con pacientes.
+     */
+    List<Psicologo> findByPacientesIsNotEmpty();
+
+    /**
+     * Encuentra todos los psicólogos que han accedido a historiales clínicos.
+     * @return Una lista de psicólogos con historiales clínicos.
+     */
+    List<Psicologo> findByHistorialesClinicoIsNotEmpty();
 }

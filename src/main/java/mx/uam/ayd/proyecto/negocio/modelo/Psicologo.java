@@ -13,15 +13,15 @@ public class Psicologo {
     private int id;
 
     private String nombre;
-    private String especialidad;
+    private String correo;
     private String telefono;
+    private String especialidad;
 
-    // Muchos Psicologos reportan a un Director
-    @ManyToOne
-    @JoinColumn(name = "director_id")
-    private Director director;
-
-    // Un Psicologo atiende a muchos Pacientes
-    @OneToMany(mappedBy = "psicologo", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    // Relación: Psicologo atiende 1 <--> 0...* Paciente
+    @OneToMany(mappedBy = "psicologo", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Paciente> pacientes;
+
+    // Relación: Psicologo accede 1 <--> 1...* HistorialClinico
+    @OneToMany(mappedBy = "psicologo", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<HistorialClinico> historialesClinico;
 }

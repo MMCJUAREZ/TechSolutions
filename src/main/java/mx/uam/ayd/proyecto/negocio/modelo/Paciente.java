@@ -17,20 +17,20 @@ public class Paciente {
     private String correo;
     private int edad;
 
-    // Muchos Pacientes son atendidos por un Psicologo
-    @ManyToOne
+    // Relación: Psicologo atiende 1 <--> 0...* Paciente
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "psicologo_id")
     private Psicologo psicologo;
 
-    // Un Paciente tiene un solo Historial Clínico
-    @OneToOne(mappedBy = "paciente", cascade = CascadeType.ALL)
+    // Relación: Paciente llena 1 <--> 1 HistorialClinico
+    @OneToOne(mappedBy = "paciente", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private HistorialClinico historialClinico;
 
-    // Un Paciente puede tener muchas Citas
-    @OneToMany(mappedBy = "paciente", cascade = CascadeType.ALL)
-    private List<Cita> citas;
-
-    // Un Paciente puede tener de 1 a 3 Baterías Clínicas
-    @OneToMany(mappedBy = "paciente", cascade = CascadeType.ALL)
+    // Relación: Paciente llena 1 <--> 1...3 BateriasClinica
+    @OneToMany(mappedBy = "paciente", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<BateriaClinica> bateriasClinicas;
+
+    // Relación: Paciente tiene 1 <--> 1...* citas
+    @OneToMany(mappedBy = "paciente", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<Cita> citas;
 }
