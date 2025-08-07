@@ -8,6 +8,7 @@ import org.springframework.stereotype.Component;
 import mx.uam.ayd.proyecto.datos.PsicologoRepository;
 import mx.uam.ayd.proyecto.negocio.modelo.Psicologo;
 import mx.uam.ayd.proyecto.presentacion.listarpacientes.ControlListarPacientes;
+import mx.uam.ayd.proyecto.presentacion.agregarPsicologo.ControlAgregarPsicologo;
 
 @Component
 public class ControlMenu {
@@ -17,17 +18,22 @@ public class ControlMenu {
     // --- NUEVOS CAMPOS PARA INYECTAR ---
     private final ControlListarPacientes controlListarPacientes;
     private final PsicologoRepository psicologoRepository;
+
+    // cammpos para aggregar psicologo
+    private final ControlAgregarPsicologo controlAgregarPsicologo;
     
     @Autowired
     public ControlMenu(
             VentanaMenu ventana,
             // Spring inyectará estas dependencias automáticamente
             ControlListarPacientes controlListarPacientes,
-            PsicologoRepository psicologoRepository
+            PsicologoRepository psicologoRepository,
+            ControlAgregarPsicologo controlAgregarPsicologo
         ) {
         this.ventana = ventana;
         this.controlListarPacientes = controlListarPacientes;
         this.psicologoRepository = psicologoRepository;
+        this.controlAgregarPsicologo = controlAgregarPsicologo;
     }
     
     @PostConstruct
@@ -61,7 +67,7 @@ public class ControlMenu {
     }
     
     public void agregarPsicologo() {
-        System.out.println("Agregar psicólogo - Funcionalidad pendiente");
+        controlAgregarPsicologo.inicia();
     }
     
     public void listarPsicologo() {
