@@ -1,10 +1,10 @@
 package mx.uam.ayd.proyecto.negocio.modelo;
 
 public enum TipoEspecialidad {
-    INFANTIL("Psicología Infantil"),
+    INFANTIL("Psicologia Infantil"),
     MARITAL("Terapia Marital"),
     FAMILIAR("Terapia Familiar"),
-    DELAMUJER("Psicología de la Mujer");
+    DELAMUJER("Psicologia de la Mujer");
     
     private final String descripcion;
     
