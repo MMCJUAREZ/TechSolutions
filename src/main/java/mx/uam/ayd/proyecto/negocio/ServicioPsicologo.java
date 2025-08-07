@@ -21,7 +21,6 @@ public class ServicioPsicologo {
     private PacienteRepository pacienteRepository;
 
     /**
-     * 2. MÉTODO NUEVO QUE RESUELVE EL ERROR.
      * Recupera todos los pacientes y los filtra, devolviendo
      * únicamente aquellos que tienen al menos una batería clínica asociada.
      * @return Lista de pacientes con cuestionarios.
