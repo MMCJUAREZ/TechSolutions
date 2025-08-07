@@ -45,22 +45,16 @@ public class VentanaListarUsuarios {
 	private ControlListarUsuarios control;
 	private boolean initialized = false;
 
-	/**
-	 * Constructor without UI initialization
-	 */
 	public VentanaListarUsuarios() {
-		// Don't initialize JavaFX components in constructor
+		
 	}
 	
-	/**
-	 * Initialize UI components on the JavaFX application thread
-	 */
 	private void initializeUI() {
 		if (initialized) {
 			return;
 		}
 		
-		// Create UI only if we're on JavaFX thread
+		
 		if (!Platform.isFxApplicationThread()) {
 			Platform.runLater(this::initializeUI);
 			return;
