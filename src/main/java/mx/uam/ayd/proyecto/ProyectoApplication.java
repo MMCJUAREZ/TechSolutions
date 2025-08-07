@@ -13,6 +13,7 @@ import mx.uam.ayd.proyecto.datos.GrupoRepository;
 import mx.uam.ayd.proyecto.datos.PsicologoRepository;
 import mx.uam.ayd.proyecto.negocio.modelo.Grupo;
 import mx.uam.ayd.proyecto.negocio.modelo.Psicologo;
+import mx.uam.ayd.proyecto.negocio.modelo.TipoEspecialidad;
 import mx.uam.ayd.proyecto.presentacion.principal.ControlPrincipal;
 import mx.uam.ayd.proyecto.presentacion.principal.ControlPrincipalCentro;
 
@@ -130,7 +131,7 @@ public class ProyectoApplication {
         psicologo1.setNombre("Dr. Ana María González");
         psicologo1.setCorreo("ana.gonzalez@techsolutions.com");
         psicologo1.setTelefono("555-0101");
-        psicologo1.setEspecialidad("Psicología Clínica");
+        psicologo1.setEspecialidad(TipoEspecialidad.INFANTIL);
         psicologoRepository.save(psicologo1);
     }
 }
