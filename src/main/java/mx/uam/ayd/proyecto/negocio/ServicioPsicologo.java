@@ -1,9 +1,15 @@
 package mx.uam.ayd.proyecto.negocio;
 
 import mx.uam.ayd.proyecto.datos.PacienteRepository;
+import mx.uam.ayd.proyecto.datos.PsicologoRepository;
 import mx.uam.ayd.proyecto.negocio.modelo.Paciente;
+import mx.uam.ayd.proyecto.negocio.modelo.Psicologo;
+import mx.uam.ayd.proyecto.negocio.modelo.TipoEspecialidad;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,9 +17,14 @@ import java.util.stream.Collectors;
 
 @Service
 public class ServicioPsicologo {
+
+    private static final Logger log = LoggerFactory.getLogger(ServicioPsicologo.class);
     
     @Autowired
     private PacienteRepository pacienteRepository;
+    
+    @Autowired
+    private PsicologoRepository psicologoRepository;
 
     /**
      * Recupera todos los pacientes y los filtra, devolviendo
@@ -28,4 +39,46 @@ public class ServicioPsicologo {
                 .filter(paciente -> paciente.getBateriasClinicas() != null && !paciente.getBateriasClinicas().isEmpty())
                 .collect(Collectors.toList());
     }
+
+    public Psicologo agregarPsicologo(String nombre, String correo, String telefono, TipoEspecialidad especialidad) {
+        if(nombre == null || nombre.trim().isEmpty()) {
+            throw new IllegalArgumentException("El nombre no puede ser nulo o vacio");
+        }
+
+        if(correo == null || correo.trim().isEmpty()) {
+            throw new IllegalArgumentException("El correo no puede ser nulo o vacio");
+        }
+
+        if(telefono == null || telefono.trim().isEmpty()) {
+            throw new IllegalArgumentException("El telefono no puede ser nulo o vacio");
+        }
+
+        // Regla de negocio, no podemos tener dos psicologos con el mismo correo
+        Psicologo psicologo = psicologoRepository.findByCorreo(correo);
+        if (psicologo != null){
+            throw new IllegalArgumentException("Ese psicologo ya existe: Correo no disponible");
+        }
+
+        // Regla de negocio, no podemos tener dos psicologos con el mismo telefono
+        psicologo = psicologoRepository.findByTelefono(telefono);
+        if (psicologo != null){
+            throw new IllegalArgumentException("Ese psicologo ya existe: Telefono no disponible");
+        }
+
+
+        // Si las reglas fueron validadas correctamente
+        log.info("Agregando psicologo nombre: "+nombre+" correo: "+correo);
+
+        //Creamos el psicologo
+        psicologo = new Psicologo();
+        psicologo.setNombre(nombre);
+        psicologo.setCorreo(correo);
+        psicologo.setTelefono(telefono);
+        psicologo.setEspecialidad(especialidad);
+
+        psicologoRepository.save(psicologo);
+
+        return psicologo;
+    }
+
 }

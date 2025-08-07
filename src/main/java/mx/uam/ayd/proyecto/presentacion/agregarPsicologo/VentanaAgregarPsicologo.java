@@ -122,7 +122,7 @@ public class VentanaAgregarPsicologo {
         }
     }
 
-    private void mostrarError(String mensaje) {
+    public void mostrarError(String mensaje) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle("Error de validacion");
         alert.setHeaderText(null);
@@ -144,6 +144,27 @@ public class VentanaAgregarPsicologo {
         textFieldTelefono.clear();
         comboBoxEspecialidad.setValue(null);
     }
+
+    public void setVisible(boolean visible) {
+		if (!Platform.isFxApplicationThread()) {
+			Platform.runLater(() -> this.setVisible(visible));
+			return;
+		}
+		
+		if (!initialized) {
+			if (visible) {
+				initializeUI();
+			} else {
+				return;
+			}
+		}
+		
+		if (visible) {
+			stage.show();
+		} else {
+			stage.hide();
+		}
+	}
 
     @FXML
     private void handleCancelar() {

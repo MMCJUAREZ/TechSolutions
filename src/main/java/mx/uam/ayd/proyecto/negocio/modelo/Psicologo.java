@@ -15,7 +15,7 @@ public class Psicologo {
     private String nombre;
     private String correo;
     private String telefono;
-    private String especialidad;
+    private TipoEspecialidad especialidad;
 
     // Relación: Psicologo atiende 1 <--> 0...* Paciente
     @OneToMany(mappedBy = "psicologo", fetch = FetchType.LAZY, cascade = CascadeType.ALL)

@@ -1,6 +1,7 @@
 package mx.uam.ayd.proyecto.datos;
 
 import mx.uam.ayd.proyecto.negocio.modelo.Psicologo;
+import mx.uam.ayd.proyecto.negocio.modelo.TipoEspecialidad;
 import org.springframework.data.repository.CrudRepository;
 import java.util.List;
 
@@ -21,7 +22,7 @@ public interface PsicologoRepository extends CrudRepository<Psicologo, Integer> 
      * @param especialidad La especialidad a buscar.
      * @return Una lista de psicólogos.
      */
-    List<Psicologo> findByEspecialidad(String especialidad);
+    List<Psicologo> findByEspecialidad(TipoEspecialidad especialidad);
 
     /**
      * Encuentra un psicólogo por su correo electrónico.

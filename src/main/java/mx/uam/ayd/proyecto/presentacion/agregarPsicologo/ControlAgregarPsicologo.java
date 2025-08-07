@@ -36,6 +36,17 @@ public class ControlAgregarPsicologo {
     }
 
     public void agregarPsicologo(String nombre, String correo, String telefono, TipoEspecialidad especialidad) {
-        System.out.println("Aun no se implementa");
+        try {
+            servicioPsicologo.agregarPsicologo(nombre, correo, telefono, especialidad);
+            ventanaAgregarPsicologo.mostrarExito("Psicologo agregado exitosamente");
+        } catch(Exception ex) {
+            ventanaAgregarPsicologo.mostrarError("Error al agregar Psicologo: "+ex.getMessage());
+        }
+
+        termina();
+    }
+
+    public void termina() {
+        ventanaAgregarPsicologo.setVisible(false);
     }
 }
