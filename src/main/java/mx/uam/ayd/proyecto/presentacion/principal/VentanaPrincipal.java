@@ -9,11 +9,9 @@ import javafx.stage.Stage;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
+import javafx.scene.control.Alert;
 
-/**
- * Ventana principal usando JavaFX con FXML
- * 
- */
+
 @Component
 public class VentanaPrincipal {
 
@@ -21,22 +19,15 @@ public class VentanaPrincipal {
 	private ControlPrincipal control;
 	private boolean initialized = false;
 
-	/**
-	 * Constructor without UI initialization
-	 */
 	public VentanaPrincipal() {
-		// Don't initialize JavaFX components in constructor
+		// Constructor
 	}
 	
-	/**
-	 * Initialize UI components on the JavaFX application thread
-	 */
 	private void initializeUI() {
 		if (initialized) {
 			return;
 		}
 		
-		// Create UI only if we're on JavaFX thread
 		if (!Platform.isFxApplicationThread()) {
 			Platform.runLater(this::initializeUI);
 			return;
@@ -46,7 +37,6 @@ public class VentanaPrincipal {
 			stage = new Stage();
 			stage.setTitle("Mi Aplicación");
 			
-			// Load FXML
 			FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/ventana-principal.fxml"));
 			loader.setController(this);
 			Scene scene = new Scene(loader.load(), 450, 300);
@@ -61,24 +51,16 @@ public class VentanaPrincipal {
 	public void setControlPrincipal(ControlPrincipal control) {
 		this.control = control;
 	}
-	/**
-	 * Muestra la ventana y establece el control
-	 * 
-	 * @param control El controlador asociado a esta ventana
-	 */
+
 	public void muestra() {
-		//this.control = control;
-		
 		if (!Platform.isFxApplicationThread()) {
-			Platform.runLater(() -> this.muestra());
+			Platform.runLater(this::muestra);
 			return;
 		}
 		
 		initializeUI();
 		stage.show();
 	}
-	
-	// FXML Event Handlers
 	
 	@FXML
 	private void handleAgregarUsuario() {
@@ -100,4 +82,19 @@ public class VentanaPrincipal {
 			control.listarGrupos();
 		}
 	}
+	
+	@FXML
+    private void handleListarPacientes() {
+        if (control != null) {
+            control.listarPacientes();
+        }
+    }
+	
+	public void muestraDialogoDeError(String mensaje) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Error");
+        alert.setHeaderText(null);
+        alert.setContentText(mensaje);
+        alert.showAndWait();
+    }
 }

@@ -1,18 +1,22 @@
 package mx.uam.ayd.proyecto.presentacion.principal;
 
 import jakarta.annotation.PostConstruct;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+// --- IMPORTACIONES EXISTENTES ---
 import mx.uam.ayd.proyecto.presentacion.agregarUsuario.ControlAgregarUsuario;
 import mx.uam.ayd.proyecto.presentacion.listarUsuarios.ControlListarUsuarios;
 import mx.uam.ayd.proyecto.presentacion.listarGrupos.ControlListarGrupos;
 
+// --- IMPORTACIONES PARA LA NUEVA FUNCIONALIDAD ---
+import mx.uam.ayd.proyecto.datos.PsicologoRepository;
+import mx.uam.ayd.proyecto.negocio.modelo.Psicologo;
+import mx.uam.ayd.proyecto.presentacion.listarpacientes.ControlListarPacientes;
+
 /**
  * Esta clase lleva el flujo de control de la ventana principal
- * 
- * @author humbertocervantes
+ * * @author humbertocervantes
  *
  */
 @Component
@@ -22,57 +26,63 @@ public class ControlPrincipal {
 	private final ControlListarUsuarios controlListarUsuarios;
 	private final ControlListarGrupos controlListarGrupos;
 	private final VentanaPrincipal ventana;
-	
+
+	// --- CAMPOS PARA LA NUEVA FUNCIONALIDAD ---
+	private final ControlListarPacientes controlListarPacientes;
+	private final PsicologoRepository psicologoRepository;
+
 	@Autowired
 	public ControlPrincipal(
 			ControlAgregarUsuario controlAgregarUsuario,
 			ControlListarUsuarios controlListarUsuarios,
 			ControlListarGrupos controlListarGrupos,
-			VentanaPrincipal ventana) {
+			VentanaPrincipal ventana,
+			// Spring inyecta estas dependencias automáticamente
+			ControlListarPacientes controlListarPacientes,
+			PsicologoRepository psicologoRepository
+		) {
 		this.controlAgregarUsuario = controlAgregarUsuario;
 		this.controlListarUsuarios = controlListarUsuarios;
 		this.controlListarGrupos = controlListarGrupos;
 		this.ventana = ventana;
+		this.controlListarPacientes = controlListarPacientes;
+		this.psicologoRepository = psicologoRepository;
 	}
 	
-	/**
-	 * Método que se ejecuta después de la construcción del bean
-	 * y realiza la conexión bidireccional entre el control principal y la ventana principal
-	 */
 	@PostConstruct
 	public void init() {
 		ventana.setControlPrincipal(this);
 	}
 	
-	/**
-	 * Inicia el flujo de control de la ventana principal
-	 * 
-	 */
 	public void inicia() {
 		ventana.muestra();
 	}
 
-	/**
-	 * Método que arranca la historia de usuario "agregar usuario"
-	 * 
-	 */
 	public void agregarUsuario() {
 		controlAgregarUsuario.inicia();
 	}
 	
-	/**
-	 * Método que arranca la historia de usuario "listar usuarios"
-	 * 
-	 */
 	public void listarUsuarios() {
 		controlListarUsuarios.inicia();
 	}
 
-	/**
-	 * Método que arranca la historia de usuario "listar grupos"
-	 * 
-	 */
 	public void listarGrupos() {
 		controlListarGrupos.inicia();
+	}
+	
+	/**
+	 * Método que arranca la historia de usuario "Listar Pacientes"
+	 */
+	public void listarPacientes() {
+		// Simulación: Obtenemos el psicólogo con ID 1 (corregido a Integer)
+        Psicologo psicologo = psicologoRepository.findById(1).orElse(null);
+
+        if (psicologo != null) {
+            // Inicia el flujo de la ventana de listar pacientes
+            controlListarPacientes.inicia(psicologo);
+        } else {
+            // Muestra un error si no se encuentra el psicólogo de prueba
+            ventana.muestraDialogoDeError("No se encontró un psicólogo de prueba para la evaluación.");
+        }
 	}
 }

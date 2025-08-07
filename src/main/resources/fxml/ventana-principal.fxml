@@ -17,5 +17,6 @@
     
     <Button text="Listar grupos" onAction="#handleListarGrupos" 
             style="-fx-min-width: 200px; -fx-min-height: 30px;"/>
-    
+    <Button text="Listar Pacientes" onAction="#handleListarPacientes"
+            style="-fx-min-width: 200px; -fx-min-height: 30px;"/>
 </VBox> 

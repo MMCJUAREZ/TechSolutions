@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1">
+   <top>
+      <VBox prefHeight="61.0" prefWidth="800.0" spacing="5.0" BorderPane.alignment="CENTER">
+         <children>
+            <Label text="Atención Psicológica Bienestar">
+               <font>
+                  <Font name="System Bold" size="24.0" />
+               </font>
+            </Label>
+            <Label text="Listado y Detalles de Pacientes" />
+         </children>
+         <padding>
+            <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+         </padding>
+      </VBox>
+   </top>
+   <left>
+      <VBox prefHeight="439.0" prefWidth="400.0" spacing="10.0" BorderPane.alignment="CENTER">
+         <children>
+            <Label text="Pacientes con Cuestionarios Completados">
+               <font>
+                  <Font name="System Bold" size="14.0" />
+               </font>
+            </Label>
+            <TableView fx:id="tablaPacientes" prefHeight="416.0" prefWidth="380.0">
+              <columns>
+                <TableColumn fx:id="columnaNombre" prefWidth="120.0" text="Nombre" />
+                <TableColumn fx:id="columnaCorreo" prefWidth="150.0" text="Correo" />
+                  <TableColumn fx:id="columnaTelefono" prefWidth="110.0" text="Teléfono" />
+              </columns>
+            </TableView>
+         </children>
+         <padding>
+            <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+         </padding>
+      </VBox>
+   </left>
+   <center>
+      <VBox prefHeight="200.0" prefWidth="100.0" spacing="10.0" BorderPane.alignment="CENTER">
+         <children>
+            <Label text="Detalles del Paciente">
+               <font>
+                  <Font name="System Bold" size="14.0" />
+               </font>
+            </Label>
+            <HBox spacing="20.0">
+               <children>
+                  <VBox spacing="10.0">
+                     <children>
+                        <Label text="Baterías Aplicadas" />
+                        <ListView fx:id="listaBaterias" prefHeight="150.0" prefWidth="250.0" />
+                     </children>
+                  </VBox>
+                  <VBox alignment="TOP_CENTER" spacing="10.0">
+                     <children>
+                        <Label text="Puntaje Obtenido" />
+                        <Label fx:id="puntajeObtenidoLabel" text="-" textAlignment="CENTER">
+                           <font>
+                              <Font name="System Bold" size="36.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </VBox>
+               </children>
+            </HBox>
+            <Label text="Comentarios sobre la prueba" />
+            <TextArea fx:id="comentariosTextArea" prefHeight="150.0" prefWidth="460.0" wrapText="true" />
+            <HBox alignment="CENTER_RIGHT" spacing="10.0">
+               <children>
+                  <Button mnemonicParsing="false" onAction="#handleGuardarComentarios" text="Almacenar Comentarios" />
+               </children>
+            </HBox>
+         </children>
+         <padding>
+            <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+         </padding>
+      </VBox>
+   </center>
+   <bottom>
+      <HBox alignment="CENTER_RIGHT" prefHeight="55.0" prefWidth="800.0" spacing="10.0" BorderPane.alignment="CENTER">
+         <children>
+            <Button mnemonicParsing="false" onAction="#handleCerrar" prefWidth="80.0" text="Cerrar" />
+         </children>
+         <padding>
+            <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+         </padding>
+      </HBox>
+   </bottom>
+</BorderPane>
