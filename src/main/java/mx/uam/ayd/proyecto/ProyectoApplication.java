@@ -10,8 +10,11 @@ import javafx.application.Platform;
 import javafx.stage.Stage;
 
 import mx.uam.ayd.proyecto.datos.GrupoRepository;
+import mx.uam.ayd.proyecto.datos.PsicologoRepository;
 import mx.uam.ayd.proyecto.negocio.modelo.Grupo;
+import mx.uam.ayd.proyecto.negocio.modelo.Psicologo;
 import mx.uam.ayd.proyecto.presentacion.principal.ControlPrincipal;
+import mx.uam.ayd.proyecto.presentacion.principal.ControlPrincipalCentro;
 
 
 /**
@@ -27,14 +30,20 @@ import mx.uam.ayd.proyecto.presentacion.principal.ControlPrincipal;
 public class ProyectoApplication {
 
     private final ControlPrincipal controlPrincipal;
+    private final ControlPrincipalCentro controlPrincipalCentro;
     private final GrupoRepository grupoRepository;
+    private final PsicologoRepository psicologoRepository;
     
     @Autowired
     public ProyectoApplication(
-            ControlPrincipal controlPrincipal, 
-            GrupoRepository grupoRepository) {
+            ControlPrincipal controlPrincipal,
+            ControlPrincipalCentro controlPrincipalCentro,
+            GrupoRepository grupoRepository,
+            PsicologoRepository psicologoRepository) {
         this.controlPrincipal = controlPrincipal;
+        this.controlPrincipalCentro = controlPrincipalCentro;
         this.grupoRepository = grupoRepository;
+        this.psicologoRepository = psicologoRepository;
     }
 
     /**
@@ -86,7 +95,20 @@ public class ProyectoApplication {
         
         // Make sure controllers are created on JavaFX thread
         Platform.runLater(() -> {
-            controlPrincipal.inicia();      // Ventana del profesor
+            // Nuestro proyecto arranca con loggin
+            controlPrincipalCentro.inicia();      
+            
+            // Se comenta el del profe
+            // controlPrincipal.inicia();
+        });
+    }
+    
+    /**
+     * Se mantiene como referencia
+     */
+    public void iniciarSistemaProfesor() {
+        Platform.runLater(() -> {
+            controlPrincipal.inicia();  
         });
     }
     
@@ -102,5 +124,13 @@ public class ProyectoApplication {
         Grupo grupoOps = new Grupo();
         grupoOps.setNombre("Operadores");
         grupoRepository.save(grupoOps);
+
+        //Nuestros datos iniciales prueba
+        Psicologo psicologo1 = new Psicologo();
+        psicologo1.setNombre("Dr. Ana María González");
+        psicologo1.setCorreo("ana.gonzalez@techsolutions.com");
+        psicologo1.setTelefono("555-0101");
+        psicologo1.setEspecialidad("Psicología Clínica");
+        psicologoRepository.save(psicologo1);
     }
 }

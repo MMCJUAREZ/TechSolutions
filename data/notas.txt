@@ -1,8 +1,0 @@
-Conectarse a la BD
-
-URL: http://localhost:8080/h2-console
-
-Dentro de la pagina pida la siguiente informacion
-JDBC URL: jdbc:h2:file:./data/techsolutions
-User Name: admin
-Password: 1234
