@@ -44,7 +44,7 @@
     <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="-1.0" prefWidth="-1.0" VBox.vgrow="ALWAYS">
          <children>
             <Label layoutX="51.0" layoutY="30.0" text="Psicológos registrados en el centro:" />
-            <TableView layoutX="51.0" layoutY="65.0" prefHeight="266.0" prefWidth="537.0">
+            <TableView fx:id="tableViewPsicologos" layoutX="51.0" layoutY="65.0" prefHeight="266.0" prefWidth="537.0">
               <columns>
                 <TableColumn fx:id="tableColumnID" prefWidth="50.6666259765625" text="ID" />
                 <TableColumn fx:id="tableColumnNombre" prefWidth="133.33331298828125" text="Nombre" />

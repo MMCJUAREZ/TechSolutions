@@ -81,4 +81,9 @@ public class ServicioPsicologo {
         return psicologo;
     }
 
+    public List<Psicologo> listarPsicologos() {
+        List<Psicologo> psicologos = new ArrayList<>();
+        psicologoRepository.findAll().forEach(psicologos::add);
+        return psicologos;
+    }
 }
