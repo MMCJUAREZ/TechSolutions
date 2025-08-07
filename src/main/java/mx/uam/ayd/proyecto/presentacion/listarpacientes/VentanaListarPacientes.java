@@ -11,6 +11,8 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TableColumn;
@@ -26,7 +28,7 @@ public class VentanaListarPacientes {
 
     private Stage stage;
     private ControlListarPacientes control;
-    
+
     @FXML private TableView<Paciente> tablaPacientes;
     @FXML private TableColumn<Paciente, String> columnaNombre;
     @FXML private TableColumn<Paciente, String> columnaCorreo;
@@ -34,9 +36,12 @@ public class VentanaListarPacientes {
     @FXML private ListView<String> listaBaterias;
     @FXML private Label puntajeObtenidoLabel;
     @FXML private TextArea comentariosTextArea;
-    
+    @FXML private Button btnAbrirDetalles;
+    @FXML private Button btnVerHistorial;
+
     private BateriaClinica bateriaSeleccionada;
     private List<BateriaClinica> bateriasDelPaciente;
+    private Paciente pacienteSeleccionado;
 
     public void muestra(ControlListarPacientes control, List<Paciente> pacientes) {
         this.control = control;
@@ -53,18 +58,21 @@ public class VentanaListarPacientes {
             columnaNombre.setCellValueFactory(new PropertyValueFactory<>("nombre"));
             columnaCorreo.setCellValueFactory(new PropertyValueFactory<>("correo"));
             columnaTelefono.setCellValueFactory(new PropertyValueFactory<>("telefono"));
-            
+
             tablaPacientes.setItems(FXCollections.observableArrayList(pacientes));
-    
+
             tablaPacientes.getSelectionModel().selectedItemProperty().addListener(
-                (observable, oldValue, newValue) -> control.seleccionarPaciente(newValue)
+                (observable, oldValue, newValue) -> {
+                    this.pacienteSeleccionado = newValue; // Guardamos referencia al paciente actual
+                    control.seleccionarPaciente(newValue);
+                }
             );
 
             listaBaterias.getSelectionModel().selectedItemProperty().addListener(
                 (observable, oldValue, newValue) -> {
-                    if(newValue != null && bateriasDelPaciente != null) {
+                    btnAbrirDetalles.setDisable(newValue == null);
+                    if (newValue != null && bateriasDelPaciente != null) {
                         bateriasDelPaciente.stream()
-                            // CORRECCIÓN 1: Usamos getTipoDeBateria() para encontrar la batería correcta
                             .filter(b -> b.getTipoDeBateria().toString().equals(newValue))
                             .findFirst()
                             .ifPresent(b -> control.seleccionarBateria(b));
@@ -87,17 +95,17 @@ public class VentanaListarPacientes {
             stage.close();
         }
     }
-    
+
     public void muestraDialogoDeInformacion(String mensaje) {
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        Alert alert = new Alert(AlertType.INFORMATION);
         alert.setTitle("Información");
         alert.setHeaderText(null);
         alert.setContentText(mensaje);
         alert.showAndWait();
     }
-    
+
     public void muestraDialogoDeError(String mensaje) {
-        Alert alert = new Alert(Alert.AlertType.ERROR);
+        Alert alert = new Alert(AlertType.ERROR);
         alert.setTitle("Error");
         alert.setHeaderText(null);
         alert.setContentText(mensaje);
@@ -106,26 +114,49 @@ public class VentanaListarPacientes {
 
     public void mostrarBaterias(List<BateriaClinica> baterias) {
         this.bateriasDelPaciente = baterias;
-        // CORRECCIÓN 2: Mapeamos usando el tipo de batería para mostrar en la lista
         List<String> nombresBaterias = baterias.stream()
             .map(bateria -> bateria.getTipoDeBateria().toString())
             .collect(Collectors.toList());
         listaBaterias.setItems(FXCollections.observableArrayList(nombresBaterias));
     }
-    
+
     public void mostrarDetallesBateria(BateriaClinica bateria) {
         this.bateriaSeleccionada = bateria;
-        // CORRECCIÓN 3: Usamos getCalificacion() en lugar de getPuntuacionTotal()
         puntajeObtenidoLabel.setText(String.valueOf(bateria.getCalificacion()));
         comentariosTextArea.setText(bateria.getComentarios());
     }
-    
+
     public void limpiarDetallesDeBateria() {
         this.bateriaSeleccionada = null;
         this.bateriasDelPaciente = null;
         listaBaterias.getItems().clear();
         puntajeObtenidoLabel.setText("-");
         comentariosTextArea.clear();
+        btnAbrirDetalles.setDisable(true);
+        btnVerHistorial.setDisable(true);
+    }
+
+    public void habilitarBotonHistorial(boolean habilitar) {
+        btnVerHistorial.setDisable(!habilitar);
+    }
+
+    public void mostrarHistorialEnDialogo(String textoHistorial) {
+        Alert alert = new Alert(AlertType.INFORMATION);
+        alert.setTitle("Historial Clínico");
+        if (pacienteSeleccionado != null) {
+            alert.setHeaderText("Detalles del historial de: " + pacienteSeleccionado.getNombre());
+        }
+
+        TextArea textArea = new TextArea(textoHistorial);
+        textArea.setEditable(false);
+        textArea.setWrapText(true);
+        textArea.setMaxWidth(Double.MAX_VALUE);
+        textArea.setMaxHeight(Double.MAX_VALUE);
+
+        alert.getDialogPane().setContent(textArea);
+        alert.setResizable(true);
+        alert.getDialogPane().setPrefSize(480, 320); // Tamaño inicial del diálogo
+        alert.showAndWait();
     }
 
     @FXML
@@ -136,5 +167,19 @@ public class VentanaListarPacientes {
     @FXML
     private void handleCerrar() {
         control.cerrar();
+    }
+
+    @FXML
+    private void handleAbrirDetalles() {
+        if (bateriaSeleccionada != null) {
+            control.abrirDetallesBateria(bateriaSeleccionada);
+        }
+    }
+
+    @FXML
+    private void handleVerHistorial() {
+        if (pacienteSeleccionado != null) {
+            control.solicitarHistorial(pacienteSeleccionado);
+        }
     }
 }
