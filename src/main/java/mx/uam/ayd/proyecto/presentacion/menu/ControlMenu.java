@@ -9,6 +9,7 @@ import mx.uam.ayd.proyecto.datos.PsicologoRepository;
 import mx.uam.ayd.proyecto.negocio.modelo.Psicologo;
 import mx.uam.ayd.proyecto.presentacion.listarpacientes.ControlListarPacientes;
 import mx.uam.ayd.proyecto.presentacion.agregarPsicologo.ControlAgregarPsicologo;
+import mx.uam.ayd.proyecto.presentacion.listarPsicologo.ControlListarPsicologo;
 
 @Component
 public class ControlMenu {
@@ -22,18 +23,23 @@ public class ControlMenu {
     // cammpos para aggregar psicologo
     private final ControlAgregarPsicologo controlAgregarPsicologo;
     
+    // campo para listar psicologo
+    private final ControlListarPsicologo controlListarPsicologo;
+    
     @Autowired
     public ControlMenu(
             VentanaMenu ventana,
             // Spring inyectará estas dependencias automáticamente
             ControlListarPacientes controlListarPacientes,
             PsicologoRepository psicologoRepository,
-            ControlAgregarPsicologo controlAgregarPsicologo
+            ControlAgregarPsicologo controlAgregarPsicologo,
+            ControlListarPsicologo controlListarPsicologo
         ) {
         this.ventana = ventana;
         this.controlListarPacientes = controlListarPacientes;
         this.psicologoRepository = psicologoRepository;
         this.controlAgregarPsicologo = controlAgregarPsicologo;
+        this.controlListarPsicologo = controlListarPsicologo;
     }
     
     @PostConstruct
@@ -71,7 +77,7 @@ public class ControlMenu {
     }
     
     public void listarPsicologo() {
-        System.out.println("Listar psicólogos - Funcionalidad pendiente");
+        controlListarPsicologo.inicia();
     }
     
     public void salir() {
