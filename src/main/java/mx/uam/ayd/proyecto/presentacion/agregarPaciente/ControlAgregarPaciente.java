@@ -12,6 +12,7 @@ import mx.uam.ayd.proyecto.presentacion.agregarPaciente.VentanaAgregarPaciente;
 import mx.uam.ayd.proyecto.negocio.ServicioPaciente;
 import mx.uam.ayd.proyecto.presentacion.contestarBaterias.ControlContestarBaterias;
 import mx.uam.ayd.proyecto.presentacion.contestarBaterias.VentanaContestarBaterias;
+import mx.uam.ayd.proyecto.presentacion.agregarBAI.ControlAgregarBAI;
 
 
 /**
@@ -28,17 +29,20 @@ public class ControlAgregarPaciente {
     private final ServicioPaciente servicioPaciente;
     private final ControlContestarBaterias controlContestarBaterias;
     private final VentanaContestarBaterias ventanaContestarBaterias;
+    private final ControlAgregarBAI controlAgregarBAI;
 
     @Autowired
     public ControlAgregarPaciente(
     VentanaAgregarPaciente ventanaAgregarPaciente, 
     ServicioPaciente servicioPaciente, 
     ControlContestarBaterias controlContestarBaterias,
-    VentanaContestarBaterias ventanaContestarBaterias) {
+    VentanaContestarBaterias ventanaContestarBaterias,
+    ControlAgregarBAI controlAgregarBAI) {
         this.ventanaAgregarPaciente = ventanaAgregarPaciente;
         this.servicioPaciente = servicioPaciente;
         this.controlContestarBaterias = controlContestarBaterias;
         this.ventanaContestarBaterias = ventanaContestarBaterias;
+        this.controlAgregarBAI = controlAgregarBAI;
     }
 
     /**
@@ -77,5 +81,12 @@ public class ControlAgregarPaciente {
      */
     private void termina() {
         ventanaAgregarPaciente.setVisible(false);
+    }
+
+    /**
+     * Inicia el flujo para contestar el inventario BAI.
+     */
+    public void agregarBAI() {
+        controlAgregarBAI.inicia();
     }
 }
