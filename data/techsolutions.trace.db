@@ -1,0 +1,3 @@
+2025-08-07 22:33:48.677596-06:00 jdbc[13]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "SELECT * FROM PACIENTE PSICOLOGO [*]GRUPO"; SQL statement:
+SELECT * FROM PACIENTE PSICOLOGO GRUPO [42000-224]

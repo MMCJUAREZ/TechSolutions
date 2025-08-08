@@ -143,6 +143,9 @@ public class VentanaAgregarPaciente {
 
     @FXML
     private void handleBDI(){
+        if (controlAgregarPaciente != null) {
+            controlAgregarPaciente.agregarBDI(); 
+        }
     }
 
 }

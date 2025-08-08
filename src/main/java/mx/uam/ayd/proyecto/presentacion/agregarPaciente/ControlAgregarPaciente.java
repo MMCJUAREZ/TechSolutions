@@ -8,6 +8,8 @@ import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import mx.uam.ayd.proyecto.presentacion.agregarBAI.VentanaAgregarBAI;
+import mx.uam.ayd.proyecto.presentacion.agregarBDI.VentanaAgregarBDI;
+
 //Importaciones necesarias
 import mx.uam.ayd.proyecto.presentacion.agregarPaciente.VentanaAgregarPaciente;
 import mx.uam.ayd.proyecto.negocio.ServicioPaciente;
@@ -30,6 +32,7 @@ public class ControlAgregarPaciente {
     private final ControlContestarBaterias controlContestarBaterias;
     private final VentanaContestarBaterias ventanaContestarBaterias;
     private final VentanaAgregarBAI ventanaAgregarBAI;
+    private final VentanaAgregarBDI ventanaAgregarBDI;
 
     @Autowired
     public ControlAgregarPaciente(
@@ -37,12 +40,14 @@ public class ControlAgregarPaciente {
     ServicioPaciente servicioPaciente, 
     ControlContestarBaterias controlContestarBaterias,
     VentanaContestarBaterias ventanaContestarBaterias,
-    VentanaAgregarBAI ventanaAgregarBAI) {
+    VentanaAgregarBAI ventanaAgregarBAI,
+    VentanaAgregarBDI ventanaAgregarBDI) {
         this.ventanaAgregarPaciente = ventanaAgregarPaciente;
         this.servicioPaciente = servicioPaciente;
         this.controlContestarBaterias = controlContestarBaterias;
         this.ventanaContestarBaterias = ventanaContestarBaterias;
         this.ventanaAgregarBAI = ventanaAgregarBAI;
+        this.ventanaAgregarBDI = ventanaAgregarBDI;
     }
 
     /**
@@ -78,6 +83,10 @@ public class ControlAgregarPaciente {
 
     public void agregarBAI() {
         ventanaAgregarBAI.muestra();
+    }
+
+    public void agregarBDI() {
+        ventanaAgregarBDI.muestra();
     }
 
     /**
