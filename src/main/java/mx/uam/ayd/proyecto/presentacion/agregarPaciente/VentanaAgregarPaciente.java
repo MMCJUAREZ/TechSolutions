@@ -132,6 +132,9 @@ public class VentanaAgregarPaciente {
 
     @FXML
     private void handleCeper(){
+        if(controlAgregarPaciente != null) {
+            controlAgregarPaciente.agregarCEPER();
+        }
     }
 
     @FXML
