@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import mx.uam.ayd.proyecto.presentacion.agregarBAI.VentanaAgregarBAI;
 import mx.uam.ayd.proyecto.presentacion.agregarBDI.VentanaAgregarBDI;
 
+import mx.uam.ayd.proyecto.presentacion.agregarCEPER.VentanaAgregarCEPER;
 //Importaciones necesarias
 import mx.uam.ayd.proyecto.presentacion.agregarPaciente.VentanaAgregarPaciente;
 import mx.uam.ayd.proyecto.negocio.ServicioPaciente;
@@ -33,6 +34,7 @@ public class ControlAgregarPaciente {
     private final VentanaContestarBaterias ventanaContestarBaterias;
     private final VentanaAgregarBAI ventanaAgregarBAI;
     private final VentanaAgregarBDI ventanaAgregarBDI;
+    private final VentanaAgregarCEPER ventanaAgregarCEPER;
 
     @Autowired
     public ControlAgregarPaciente(
@@ -41,13 +43,15 @@ public class ControlAgregarPaciente {
     ControlContestarBaterias controlContestarBaterias,
     VentanaContestarBaterias ventanaContestarBaterias,
     VentanaAgregarBAI ventanaAgregarBAI,
-    VentanaAgregarBDI ventanaAgregarBDI) {
+    VentanaAgregarBDI ventanaAgregarBDI,
+    VentanaAgregarCEPER ventanaAgregarCEPER) {
         this.ventanaAgregarPaciente = ventanaAgregarPaciente;
         this.servicioPaciente = servicioPaciente;
         this.controlContestarBaterias = controlContestarBaterias;
         this.ventanaContestarBaterias = ventanaContestarBaterias;
         this.ventanaAgregarBAI = ventanaAgregarBAI;
         this.ventanaAgregarBDI = ventanaAgregarBDI;
+        this.ventanaAgregarCEPER=ventanaAgregarCEPER;
     }
 
     /**
@@ -87,6 +91,10 @@ public class ControlAgregarPaciente {
 
     public void agregarBDI() {
         ventanaAgregarBDI.muestra();
+    }
+    
+    public void agregarCEPER() {
+        ventanaAgregarCEPER.muestra();
     }
 
     /**
