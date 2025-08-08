@@ -136,6 +136,9 @@ public class VentanaAgregarPaciente {
 
     @FXML
     private void handleBAI(){
+        if (controlAgregarPaciente != null) {
+            controlAgregarPaciente.agregarBAI(); 
+        }
     }
 
     @FXML

@@ -7,6 +7,7 @@ import org.springframework.stereotype.Component;
 import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import mx.uam.ayd.proyecto.presentacion.agregarBAI.VentanaAgregarBAI;
 //Importaciones necesarias
 import mx.uam.ayd.proyecto.presentacion.agregarPaciente.VentanaAgregarPaciente;
 import mx.uam.ayd.proyecto.negocio.ServicioPaciente;
@@ -28,17 +29,20 @@ public class ControlAgregarPaciente {
     private final ServicioPaciente servicioPaciente;
     private final ControlContestarBaterias controlContestarBaterias;
     private final VentanaContestarBaterias ventanaContestarBaterias;
+    private final VentanaAgregarBAI ventanaAgregarBAI;
 
     @Autowired
     public ControlAgregarPaciente(
     VentanaAgregarPaciente ventanaAgregarPaciente, 
     ServicioPaciente servicioPaciente, 
     ControlContestarBaterias controlContestarBaterias,
-    VentanaContestarBaterias ventanaContestarBaterias) {
+    VentanaContestarBaterias ventanaContestarBaterias,
+    VentanaAgregarBAI ventanaAgregarBAI) {
         this.ventanaAgregarPaciente = ventanaAgregarPaciente;
         this.servicioPaciente = servicioPaciente;
         this.controlContestarBaterias = controlContestarBaterias;
         this.ventanaContestarBaterias = ventanaContestarBaterias;
+        this.ventanaAgregarBAI = ventanaAgregarBAI;
     }
 
     /**
@@ -70,6 +74,10 @@ public class ControlAgregarPaciente {
 		
 		termina(); */
         System.out.println("Servicio pendiente"); 
+    }
+
+    public void agregarBAI() {
+        ventanaAgregarBAI.muestra();
     }
 
     /**
