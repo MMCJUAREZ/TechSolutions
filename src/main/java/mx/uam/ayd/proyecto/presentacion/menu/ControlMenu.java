@@ -10,6 +10,8 @@ import mx.uam.ayd.proyecto.negocio.modelo.Psicologo;
 import mx.uam.ayd.proyecto.presentacion.listarpacientes.ControlListarPacientes;
 import mx.uam.ayd.proyecto.presentacion.agregarPsicologo.ControlAgregarPsicologo;
 import mx.uam.ayd.proyecto.presentacion.listarPsicologo.ControlListarPsicologo;
+import mx.uam.ayd.proyecto.presentacion.agregarPaciente.ControlAgregarPaciente;
+
 
 @Component
 public class ControlMenu {
@@ -20,7 +22,10 @@ public class ControlMenu {
     private final ControlListarPacientes controlListarPacientes;
     private final PsicologoRepository psicologoRepository;
 
-    // cammpos para aggregar psicologo
+    //Control para agregar paciente
+    private final ControlAgregarPaciente controlAgregarPaciente;
+
+    // campos para agregar psicologo
     private final ControlAgregarPsicologo controlAgregarPsicologo;
     
     // campo para listar psicologo
@@ -33,13 +38,15 @@ public class ControlMenu {
             ControlListarPacientes controlListarPacientes,
             PsicologoRepository psicologoRepository,
             ControlAgregarPsicologo controlAgregarPsicologo,
-            ControlListarPsicologo controlListarPsicologo
+            ControlListarPsicologo controlListarPsicologo,
+            ControlAgregarPaciente controlAgregarPaciente
         ) {
         this.ventana = ventana;
         this.controlListarPacientes = controlListarPacientes;
         this.psicologoRepository = psicologoRepository;
         this.controlAgregarPsicologo = controlAgregarPsicologo;
         this.controlListarPsicologo = controlListarPsicologo;
+        this.controlAgregarPaciente = controlAgregarPaciente;
     }
     
     @PostConstruct
@@ -51,8 +58,9 @@ public class ControlMenu {
         ventana.muestra();
     }
     
+    //Metodo que inicia el flujo para agregar paciente
     public void agregarPaciente() {
-        System.out.println("Agregar paciente - Funcionalidad pendiente");
+        controlAgregarPaciente.inicia();
     }
     
     /**
