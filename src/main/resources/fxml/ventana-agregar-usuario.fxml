@@ -34,6 +34,7 @@
     </GridPane>
     
     <HBox spacing="10" style="-fx-padding: 10px 0 0 0;">
+        <Button onAction="#handleAgregarBAI" style="-fx-min-width: 80px; -fx-min-height: 25px;" text="Agregar BAI" />
         <Button onAction="#handleAgregar" style="-fx-min-width: 80px; -fx-min-height: 25px;" text="Agregar" />
         <Button onAction="#handleCancelar" style="-fx-min-width: 80px; -fx-min-height: 25px;" text="Cancelar" />
     </HBox>
