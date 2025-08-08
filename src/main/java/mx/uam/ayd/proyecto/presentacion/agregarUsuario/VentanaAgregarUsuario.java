@@ -152,17 +152,22 @@ public class VentanaAgregarUsuario {
 	
 	// FXML Event Handlers
 	
-	@FXML
-	private void handleAgregar() {
-		if(textFieldNombre.getText().isEmpty() || textFieldApellido.getText().isEmpty()) {
-			muestraDialogoConMensaje("El nombre y el apellido no deben estar vacios");
-		} else {
-			control.agregaUsuario(textFieldNombre.getText(), textFieldApellido.getText(), comboBoxGrupo.getValue());
-		}
-	}
-	
-	@FXML
-	private void handleCancelar() {
-		control.termina();
-	}
+        @FXML
+        private void handleAgregar() {
+                if(textFieldNombre.getText().isEmpty() || textFieldApellido.getText().isEmpty()) {
+                        muestraDialogoConMensaje("El nombre y el apellido no deben estar vacios");
+                } else {
+                        control.agregaUsuario(textFieldNombre.getText(), textFieldApellido.getText(), comboBoxGrupo.getValue());
+                }
+        }
+
+        @FXML
+        private void handleAgregarBAI() {
+                control.agregarBAI();
+        }
+
+        @FXML
+        private void handleCancelar() {
+                control.termina();
+        }
 }
