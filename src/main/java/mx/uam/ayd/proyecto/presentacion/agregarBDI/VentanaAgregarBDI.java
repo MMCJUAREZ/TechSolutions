@@ -10,12 +10,14 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.ToggleGroup;
 import javafx.stage.Stage;
 
 
 @Component
 public class VentanaAgregarBDI {
 
+    
     private Stage stage;
     private boolean initialized = false; 
     private ControlAgregarBDI controlAgregarBDI;
@@ -87,5 +89,22 @@ public class VentanaAgregarBDI {
         alert.setHeaderText(null);
         alert.setContentText(mensaje);
         alert.showAndWait();
+    }
+
+        
+    @FXML
+    private ToggleGroup q1;
+    @FXML
+    private ToggleGroup q2;
+    @FXML
+    private ToggleGroup q3;
+    @FXML
+    private ToggleGroup q4;
+    @FXML
+    private ToggleGroup q5;
+
+    @FXML
+    public void guardarBateriaBDI(){
+        controlAgregarBDI.guardarBDI(q1, q2, q3, q4, q5);
     }
 }

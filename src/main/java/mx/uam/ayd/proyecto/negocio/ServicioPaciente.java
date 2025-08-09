@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import mx.uam.ayd.proyecto.datos.PacienteRepository;
+import mx.uam.ayd.proyecto.negocio.modelo.BateriaClinica;
 import mx.uam.ayd.proyecto.negocio.modelo.Paciente;
 
 
@@ -57,4 +58,5 @@ public class ServicioPaciente {
 
         return paciente;
     }
+
 }
