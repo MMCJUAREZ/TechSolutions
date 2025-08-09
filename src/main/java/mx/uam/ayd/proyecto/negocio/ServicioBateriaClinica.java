@@ -41,11 +41,15 @@ public class ServicioBateriaClinica {
 
         Paciente paciente = pacienteRepository.findById(pacienteID).orElseThrow(() -> new IllegalArgumentException("Paciente no encontrado "+pacienteID));
 
-        BateriaClinica bateria = new BateriaClinica();
-        bateria.setPaciente(paciente);
-        bateria.setTipoDeBateria(tipo);
-        bateria.setFechaAplicacion(new Date());
+        // Revisamos si no hay una bateria existente
+        BateriaClinica bateria = bateriaClinicaRepository.findByPacienteAndTipoDeBateria(paciente, tipo).orElseGet(BateriaClinica::new);
 
+        if (bateria.getId() == 0){
+            bateria.setPaciente(paciente);
+            bateria.setTipoDeBateria(tipo);
+        }
+        
+        bateria.setFechaAplicacion(new Date());
         bateria.setRespuesta1(respuestas.get(0));
         bateria.setRespuesta2(respuestas.get(1));
         bateria.setRespuesta3(respuestas.get(2));
