@@ -1,11 +1,24 @@
 package mx.uam.ayd.proyecto.negocio;
 
+import org.springframework.stereotype.Service;
+import org.springframework.beans.factory.annotation.Autowired;
+import jakarta.transaction.Transactional;
+
 import mx.uam.ayd.proyecto.datos.BateriaClinicaRepository;
 import mx.uam.ayd.proyecto.negocio.modelo.BateriaClinica;
-import mx.uam.ayd.proyecto.negocio.modelo.TipoBateria;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.Date;
+import java.util.List;
+import java.util.Objects;
+
+import mx.uam.ayd.proyecto.datos.BateriaClinicaRepository;
+import mx.uam.ayd.proyecto.datos.PacienteRepository;
+import mx.uam.ayd.proyecto.negocio.modelo.BateriaClinica;
+import mx.uam.ayd.proyecto.negocio.modelo.Paciente;
+import mx.uam.ayd.proyecto.negocio.modelo.TipoBateria;
 
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.Toggle;
@@ -14,8 +27,50 @@ import javafx.scene.control.ToggleGroup;
 @Service
 public class ServicioBateriaClinica {
     
+    private final BateriaClinicaRepository bateriaClinicaRepository;
+    private final PacienteRepository pacienteRepository;
+
     @Autowired
-    private BateriaClinicaRepository bateriaClinicaRepository;
+    public ServicioBateriaClinica(BateriaClinicaRepository bateriaClinicaRepository,
+                                    PacienteRepository pacienteRepository) {
+                                        this.bateriaClinicaRepository=bateriaClinicaRepository;
+                                        this.pacienteRepository=pacienteRepository;
+    }
+
+    @Transactional
+    public BateriaClinica registrarBateria(Long pacienteID,
+                                            TipoBateria tipo,
+                                            List<Integer> respuestas,
+                                            String comentarios) {
+        if(pacienteID==null) throw new IllegalArgumentException("pacienteID obligatorio");
+        if(tipo==null) throw new IllegalArgumentException("Tipo es obligatorio");
+        if(respuestas==null || respuestas.size() !=5) throw new IllegalArgumentException("Se requieren las 5 respuestas");
+
+        Paciente paciente = pacienteRepository.findById(pacienteID).orElseThrow(() -> new IllegalArgumentException("Paciente no encontrado "+pacienteID));
+
+        // Revisamos si no hay una bateria existente
+        BateriaClinica bateria = bateriaClinicaRepository.findByPacienteAndTipoDeBateria(paciente, tipo).orElseGet(BateriaClinica::new);
+
+        if (bateria.getId() == 0){
+            bateria.setPaciente(paciente);
+            bateria.setTipoDeBateria(tipo);
+        }
+        
+        bateria.setFechaAplicacion(new Date());
+        bateria.setRespuesta1(respuestas.get(0));
+        bateria.setRespuesta2(respuestas.get(1));
+        bateria.setRespuesta3(respuestas.get(2));
+        bateria.setRespuesta4(respuestas.get(3));
+        bateria.setRespuesta5(respuestas.get(4));
+
+        //Regla del negocio, la calificacion es la suma
+        int calificacion = respuestas.stream().filter(Objects::nonNull).mapToInt(Integer::intValue).sum();
+        bateria.setCalificacion(calificacion);
+
+        bateria.setComentarios(comentarios != null ? comentarios.trim() : " ");
+
+        return bateriaClinicaRepository.save(bateria);
+    }
 
     /**
      * Guarda los comentarios para una batería clínica específica.
