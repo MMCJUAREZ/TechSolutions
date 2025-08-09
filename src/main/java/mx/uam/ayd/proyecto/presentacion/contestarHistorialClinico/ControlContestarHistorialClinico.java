@@ -29,10 +29,10 @@ public class ControlContestarHistorialClinico {
     public void inicia(){
         ventanaContestarHistorialClinico.muestra();
     }
-
-    public void guardarHistorialClinico(String nombre, String correo, String motivo, String consumoDrogas, String descripcion){
+    //Agregue el booleano del consentimiento
+    public void guardarHistorialClinico(String nombre, String correo, String motivo, String consumoDrogas, String descripcion, boolean consentimientoAceptado){
         try {
-			servicioHistorialClinico.guardarHistorialClinico(nombre, correo, motivo, consumoDrogas, descripcion);
+			servicioHistorialClinico.guardarHistorialClinico(nombre, correo, motivo, consumoDrogas, descripcion, consentimientoAceptado);
 			ventanaContestarHistorialClinico.muestraDialogoConMensaje("Historial clinico agregado exitosamente");	
 		} catch(Exception ex) {
 			ventanaContestarHistorialClinico.muestraDialogoConMensaje("Error al agregar historial clinico: "+ex.getMessage());

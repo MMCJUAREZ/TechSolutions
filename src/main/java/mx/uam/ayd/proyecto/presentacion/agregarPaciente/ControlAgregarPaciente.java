@@ -10,7 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import mx.uam.ayd.proyecto.presentacion.agregarBAI.VentanaAgregarBAI;
 import mx.uam.ayd.proyecto.presentacion.agregarBDI.VentanaAgregarBDI;
 import mx.uam.ayd.proyecto.presentacion.agregarCEPER.VentanaAgregarCEPER;
-import mx.uam.ayd.proyecto.presentacion.contestarHistorialClinico.VentanaContestarHistorialClinico;
+
 //Importaciones necesarias
 import mx.uam.ayd.proyecto.presentacion.agregarPaciente.VentanaAgregarPaciente;
 import mx.uam.ayd.proyecto.negocio.ServicioPaciente;
@@ -37,7 +37,7 @@ public class ControlAgregarPaciente {
     private final VentanaAgregarBAI ventanaAgregarBAI;
     private final VentanaAgregarBDI ventanaAgregarBDI;
     private final VentanaAgregarCEPER ventanaAgregarCEPER;
-    private final VentanaContestarHistorialClinico ventanaContestarHistorialClinico;
+    private final ControlContestarHistorialClinico controlContestarHistorialClinico;
 
     @Autowired
     public ControlAgregarPaciente(
@@ -48,7 +48,7 @@ public class ControlAgregarPaciente {
     VentanaAgregarBAI ventanaAgregarBAI,
     VentanaAgregarBDI ventanaAgregarBDI,
     VentanaAgregarCEPER ventanaAgregarCEPER,
-    VentanaContestarHistorialClinico ventanaContestarHistorialClinico) {
+    ControlContestarHistorialClinico controlContestarHistorialClinico) {
         this.ventanaAgregarPaciente = ventanaAgregarPaciente;
         this.servicioPaciente = servicioPaciente;
         this.controlContestarBaterias = controlContestarBaterias;
@@ -56,7 +56,7 @@ public class ControlAgregarPaciente {
         this.ventanaAgregarBAI = ventanaAgregarBAI;
         this.ventanaAgregarBDI = ventanaAgregarBDI;
         this.ventanaAgregarCEPER=ventanaAgregarCEPER;
-        this.ventanaContestarHistorialClinico = ventanaContestarHistorialClinico;
+        this.controlContestarHistorialClinico = controlContestarHistorialClinico;
     }
 
     /**
@@ -79,13 +79,13 @@ public class ControlAgregarPaciente {
     public void agregarPaciente(String nombre, String correo, String telefono, int edad) {
         try {
 			servicioPaciente.agregarPaciente(nombre, correo, telefono, edad);
-			ventanaAgregarPaciente.muestraDialogoConMensaje("Paciente agregado exitosamente");	
+			ventanaAgregarPaciente.muestraDialogoConMensaje("Paciente agregado exitosamente");
+            this.contestarHistorialClinico(correo);
 		} catch(Exception ex) {
 			ventanaAgregarPaciente.muestraDialogoConMensaje("Error al agregar usuario: "+ex.getMessage());
 		}
 		
 		termina(); 
-        //System.out.println("Servicio pendiente"); 
     }
 
     public void agregarBAI() {
@@ -100,8 +100,8 @@ public class ControlAgregarPaciente {
         ventanaAgregarCEPER.muestra();
     }
 
-    public void contestarHistorialClinico(){
-        ventanaContestarHistorialClinico.muestra();
+    public void contestarHistorialClinico(String correo){
+        controlContestarHistorialClinico.inicia();
     }
 
     /**
