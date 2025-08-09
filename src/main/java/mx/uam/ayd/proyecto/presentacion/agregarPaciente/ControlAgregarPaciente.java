@@ -9,12 +9,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import mx.uam.ayd.proyecto.presentacion.agregarBAI.VentanaAgregarBAI;
 import mx.uam.ayd.proyecto.presentacion.agregarBDI.VentanaAgregarBDI;
-
 import mx.uam.ayd.proyecto.presentacion.agregarCEPER.VentanaAgregarCEPER;
+import mx.uam.ayd.proyecto.presentacion.contestarHistorialClinico.VentanaContestarHistorialClinico;
 //Importaciones necesarias
 import mx.uam.ayd.proyecto.presentacion.agregarPaciente.VentanaAgregarPaciente;
 import mx.uam.ayd.proyecto.negocio.ServicioPaciente;
 import mx.uam.ayd.proyecto.presentacion.contestarBaterias.ControlContestarBaterias;
+import mx.uam.ayd.proyecto.presentacion.contestarHistorialClinico.ControlContestarHistorialClinico;
+
 import mx.uam.ayd.proyecto.presentacion.contestarBaterias.VentanaContestarBaterias;
 
 
@@ -35,6 +37,7 @@ public class ControlAgregarPaciente {
     private final VentanaAgregarBAI ventanaAgregarBAI;
     private final VentanaAgregarBDI ventanaAgregarBDI;
     private final VentanaAgregarCEPER ventanaAgregarCEPER;
+    private final VentanaContestarHistorialClinico ventanaContestarHistorialClinico;
 
     @Autowired
     public ControlAgregarPaciente(
@@ -44,7 +47,8 @@ public class ControlAgregarPaciente {
     VentanaContestarBaterias ventanaContestarBaterias,
     VentanaAgregarBAI ventanaAgregarBAI,
     VentanaAgregarBDI ventanaAgregarBDI,
-    VentanaAgregarCEPER ventanaAgregarCEPER) {
+    VentanaAgregarCEPER ventanaAgregarCEPER,
+    VentanaContestarHistorialClinico ventanaContestarHistorialClinico) {
         this.ventanaAgregarPaciente = ventanaAgregarPaciente;
         this.servicioPaciente = servicioPaciente;
         this.controlContestarBaterias = controlContestarBaterias;
@@ -52,6 +56,7 @@ public class ControlAgregarPaciente {
         this.ventanaAgregarBAI = ventanaAgregarBAI;
         this.ventanaAgregarBDI = ventanaAgregarBDI;
         this.ventanaAgregarCEPER=ventanaAgregarCEPER;
+        this.ventanaContestarHistorialClinico = ventanaContestarHistorialClinico;
     }
 
     /**
@@ -72,17 +77,15 @@ public class ControlAgregarPaciente {
     }
 
     public void agregarPaciente(String nombre, String correo, String telefono, int edad) {
-        /*try {
+        try {
 			servicioPaciente.agregarPaciente(nombre, correo, telefono, edad);
-			ventanaAgregarPaciente.muestraDialogoConMensaje("Paciente agregado exitosamente");
-			
-			
+			ventanaAgregarPaciente.muestraDialogoConMensaje("Paciente agregado exitosamente");	
 		} catch(Exception ex) {
 			ventanaAgregarPaciente.muestraDialogoConMensaje("Error al agregar usuario: "+ex.getMessage());
 		}
 		
-		termina(); */
-        System.out.println("Servicio pendiente"); 
+		termina(); 
+        //System.out.println("Servicio pendiente"); 
     }
 
     public void agregarBAI() {
@@ -95,6 +98,10 @@ public class ControlAgregarPaciente {
     
     public void agregarCEPER() {
         ventanaAgregarCEPER.muestra();
+    }
+
+    public void contestarHistorialClinico(){
+        ventanaContestarHistorialClinico.muestra();
     }
 
     /**

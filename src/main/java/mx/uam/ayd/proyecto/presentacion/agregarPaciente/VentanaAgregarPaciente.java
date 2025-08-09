@@ -127,6 +127,7 @@ public class VentanaAgregarPaciente {
             muestraDialogoConMensaje("Los campos no deben estar vacíos");
         } else {
             controlAgregarPaciente.agregarPaciente(textFieldNombre.getText(), textFieldCorreo.getText(), textFieldTelefono.getText(), Integer.parseInt(textFieldEdad.getText()));
+            controlAgregarPaciente.contestarHistorialClinico();
         }
     }
 

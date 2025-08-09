@@ -33,4 +33,10 @@ public class Paciente {
     // Relación: Paciente tiene 1 <--> 1...* citas
     @OneToMany(mappedBy = "paciente", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Cita> citas;
+
+    public Paciente(){
+        historialClinico = null;
+        bateriasClinicas = null;
+        citas = null;
+    }
 }
