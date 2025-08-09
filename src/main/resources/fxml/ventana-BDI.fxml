@@ -127,7 +127,7 @@
    <bottom>
       <Pane prefHeight="43.0" prefWidth="600.0" BorderPane.alignment="CENTER">
          <children>
-            <Button layoutX="266.0" layoutY="11.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="68.0" text="Guardar" onAction="#guardarBateriaBDI" />
+            <Button layoutX="266.0" layoutY="11.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="68.0" text="Guardar" onAction="#onGuard" />
          </children>
       </Pane>
    </bottom>

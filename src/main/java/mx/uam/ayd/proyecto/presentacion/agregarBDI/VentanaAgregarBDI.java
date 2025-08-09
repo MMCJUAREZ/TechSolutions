@@ -12,6 +12,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ToggleGroup;
 import javafx.stage.Stage;
+import mx.uam.ayd.proyecto.presentacion.agregarCEPER.ControlAgregarCEPER;
 
 
 @Component
@@ -21,6 +22,8 @@ public class VentanaAgregarBDI {
     private Stage stage;
     private boolean initialized = false; 
     private ControlAgregarBDI controlAgregarBDI;
+
+    private Long pacienteID;
 
     public void setControlAgregarBDI(ControlAgregarBDI controlAgregarBDI) {
         this.controlAgregarBDI = controlAgregarBDI;
@@ -91,20 +94,44 @@ public class VentanaAgregarBDI {
         alert.showAndWait();
     }
 
-        
-    @FXML
-    private ToggleGroup q1;
-    @FXML
-    private ToggleGroup q2;
-    @FXML
-    private ToggleGroup q3;
-    @FXML
-    private ToggleGroup q4;
-    @FXML
-    private ToggleGroup q5;
+    @FXML private javafx.scene.control.ToggleGroup q1;
+    @FXML private javafx.scene.control.ToggleGroup q2;
+    @FXML private javafx.scene.control.ToggleGroup q3;
+    @FXML private javafx.scene.control.ToggleGroup q4;
+    @FXML private javafx.scene.control.ToggleGroup q5;
 
-    @FXML
-    public void guardarBateriaBDI(){
-        controlAgregarBDI.guardarBDI(q1, q2, q3, q4, q5);
+    @FXML    
+    private void onGuard() {
+        try {
+            java.util.List<Integer> respuestas = java.util.Arrays.asList(
+                getSelectedValue(q1),
+                getSelectedValue(q2),
+                getSelectedValue(q3),
+                getSelectedValue(q4),
+                getSelectedValue(q5)
+            );
+
+            if (respuestas.stream().anyMatch(r -> r == null)) {
+                muestraDialogoConMensaje("Responde todas las preguntas antes de guardar.");
+                return;
+            }
+
+            String comentarios = " ";
+            controlAgregarBDI.guardarBDI(pacienteID, respuestas, comentarios);
+
+            muestraDialogoConMensaje("¡Batería BDI guardada!");
+            stage.close();
+
+        } catch (Exception ex) {
+            new Alert(Alert.AlertType.ERROR, "Error al guardar: " + ex.getMessage()).showAndWait();
+        }
+    }
+
+    private Integer getSelectedValue(ToggleGroup group) {
+        if (group != null && group.getSelectedToggle() != null &&
+            group.getSelectedToggle().getUserData() != null) {
+            return Integer.parseInt(group.getSelectedToggle().getUserData().toString());
+        }
+        return 0;
     }
 }

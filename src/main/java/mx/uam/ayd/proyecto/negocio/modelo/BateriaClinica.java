@@ -26,11 +26,6 @@ public class BateriaClinica {
     private Date fechaAplicacion;
     
     private int calificacion;
-    private int respuesta1;
-    private int respuesta2;
-    private int respuesta3;
-    private int respuesta4;
-    private int respuesta5;
     
     @Enumerated(EnumType.STRING)
     private TipoBateria tipoDeBateria;
@@ -42,15 +37,5 @@ public class BateriaClinica {
     @JoinColumn(name = "paciente_id")
     private Paciente paciente;
 
-    public BateriaClinica(TipoBateria tipoDeBateria, Integer respuesta1, Integer respuesta2, 
-                    Integer respuesta3, Integer respuesta4, Integer respuesta5){
-
-                        this.tipoDeBateria = tipoDeBateria;
-                        this.respuesta1 = respuesta1;
-                        this.respuesta2 = respuesta2;
-                        this.respuesta3 = respuesta3;
-                        this.respuesta4 = respuesta4;
-                        this.respuesta5 = respuesta5;
-    }
 
 }
