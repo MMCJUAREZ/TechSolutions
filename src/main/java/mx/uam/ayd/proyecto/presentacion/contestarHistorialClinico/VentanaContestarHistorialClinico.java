@@ -124,9 +124,11 @@ public class VentanaContestarHistorialClinico {
             textFieldDescripcion.getText().isEmpty()) {
             muestraDialogoConMensaje("Los campos no deben estar vacíos");
         } else {
+            //Agregue el consentimiento
             controlContestarHistorialClinico.guardarHistorialClinico(textFieldNombre.getText(), textFieldCorreo.getText(),
                                                                      textFieldMotivo.getText(),  textFieldConsumo.getText(),
-                                                                     textFieldDescripcion.getText());
+                                                                     textFieldDescripcion.getText(),
+                                                                     checkBoxConsentimiento.isSelected());
         }
     }
 }
