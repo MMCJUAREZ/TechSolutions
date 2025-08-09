@@ -3,13 +3,9 @@ package mx.uam.ayd.proyecto.presentacion.principal;
 import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
-// --- IMPORTACIONES EXISTENTES ---
 import mx.uam.ayd.proyecto.presentacion.agregarUsuario.ControlAgregarUsuario;
 import mx.uam.ayd.proyecto.presentacion.listarUsuarios.ControlListarUsuarios;
 import mx.uam.ayd.proyecto.presentacion.listarGrupos.ControlListarGrupos;
-
-// --- IMPORTACIONES PARA LA NUEVA FUNCIONALIDAD ---
 import mx.uam.ayd.proyecto.datos.PsicologoRepository;
 import mx.uam.ayd.proyecto.negocio.modelo.Psicologo;
 import mx.uam.ayd.proyecto.presentacion.listarpacientes.ControlListarPacientes;
@@ -69,20 +65,8 @@ public class ControlPrincipal {
 	public void listarGrupos() {
 		controlListarGrupos.inicia();
 	}
-	
-	/**
-	 * Método que arranca la historia de usuario "Listar Pacientes"
-	 */
-	public void listarPacientes() {
-		// Simulación: Obtenemos el psicólogo con ID 1 (corregido a Integer)
-        Psicologo psicologo = psicologoRepository.findById(1).orElse(null);
 
-        if (psicologo != null) {
-            // Inicia el flujo de la ventana de listar pacientes
-            controlListarPacientes.inicia(psicologo);
-        } else {
-            // Muestra un error si no se encuentra el psicólogo de prueba
-            ventana.muestraDialogoDeError("No se encontró un psicólogo de prueba para la evaluación.");
-        }
+	public void listarPacientes() {
+    	controlListarPacientes.inicia(); 
 	}
 }
