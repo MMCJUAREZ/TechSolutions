@@ -14,6 +14,7 @@ import mx.uam.ayd.proyecto.presentacion.agregarCEPER.VentanaAgregarCEPER;
 //Importaciones necesarias
 import mx.uam.ayd.proyecto.presentacion.agregarPaciente.VentanaAgregarPaciente;
 import mx.uam.ayd.proyecto.negocio.ServicioPaciente;
+import mx.uam.ayd.proyecto.negocio.modelo.Paciente;
 import mx.uam.ayd.proyecto.presentacion.contestarBaterias.ControlContestarBaterias;
 import mx.uam.ayd.proyecto.presentacion.contestarHistorialClinico.ControlContestarHistorialClinico;
 
@@ -38,6 +39,8 @@ public class ControlAgregarPaciente {
     private final VentanaAgregarBDI ventanaAgregarBDI;
     private final VentanaAgregarCEPER ventanaAgregarCEPER;
     private final ControlContestarHistorialClinico controlContestarHistorialClinico;
+
+    private Long pacienteID;
 
     @Autowired
     public ControlAgregarPaciente(
@@ -78,7 +81,10 @@ public class ControlAgregarPaciente {
 
     public void agregarPaciente(String nombre, String correo, String telefono, int edad) {
         try {
-			servicioPaciente.agregarPaciente(nombre, correo, telefono, edad);
+			Paciente paciente = servicioPaciente.agregarPaciente(nombre, correo, telefono, edad);
+            pacienteID = paciente.getId();
+            
+
 			ventanaAgregarPaciente.muestraDialogoConMensaje("Paciente agregado exitosamente");
             this.contestarHistorialClinico(correo);
 		} catch(Exception ex) {
@@ -87,6 +93,8 @@ public class ControlAgregarPaciente {
 		
 		termina(); 
     }
+
+
 
     public void agregarBAI() {
         ventanaAgregarBAI.muestra();
@@ -97,6 +105,7 @@ public class ControlAgregarPaciente {
     }
     
     public void agregarCEPER() {
+        ventanaAgregarCEPER.setPacienteID(pacienteID);
         ventanaAgregarCEPER.muestra();
     }
 

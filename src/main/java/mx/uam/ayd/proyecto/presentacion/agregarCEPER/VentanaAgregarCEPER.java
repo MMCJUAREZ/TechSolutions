@@ -10,6 +10,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.ToggleGroup;
 import javafx.stage.Stage;
 
 @Component
@@ -18,9 +19,58 @@ public class VentanaAgregarCEPER {
     private boolean initialized = false;
     private ControlAgregarCEPER controlAgregarCEPER;
 
+    private Long pacienteID;
+
     public void setControlAgregarCEPER(ControlAgregarCEPER controlAgregarCEPER) {
         this.controlAgregarCEPER=controlAgregarCEPER;
     }
+
+    public void setPacienteID(Long pacienteID) {
+        this.pacienteID = pacienteID;
+    }
+
+    @FXML private javafx.scene.control.ToggleGroup q1;
+    @FXML private javafx.scene.control.ToggleGroup q2;
+    @FXML private javafx.scene.control.ToggleGroup q3;
+    @FXML private javafx.scene.control.ToggleGroup q4;
+    @FXML private javafx.scene.control.ToggleGroup q5;
+
+    @FXML
+    private void onGuard() {
+        try {
+            java.util.List<Integer> respuestas = java.util.Arrays.asList(
+                getSelectedValue(q1),
+                getSelectedValue(q2),
+                getSelectedValue(q3),
+                getSelectedValue(q4),
+                getSelectedValue(q5)
+            );
+
+            if (respuestas.stream().anyMatch(r -> r == null)) {
+                muestraDialogoConMensaje("Responde todas las preguntas antes de guardar.");
+                return;
+            }
+
+            String comentarios = " ";
+            controlAgregarCEPER.guardarCEPER(pacienteID, respuestas, comentarios);
+
+            muestraDialogoConMensaje("¡Batería CEPER guardada!");
+            stage.close();
+
+        } catch (Exception ex) {
+            new Alert(Alert.AlertType.ERROR, "Error al guardar: " + ex.getMessage()).showAndWait();
+        }
+    }
+
+    private Integer getSelectedValue(ToggleGroup group) {
+        if (group != null && group.getSelectedToggle() != null &&
+            group.getSelectedToggle().getUserData() != null) {
+            return Integer.parseInt(group.getSelectedToggle().getUserData().toString());
+        }
+        return 0;
+    }
+
+
 
     private void initializeUI() {
         if (initialized) return;

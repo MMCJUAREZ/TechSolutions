@@ -23,4 +23,6 @@ public interface PacienteRepository extends CrudRepository<Paciente, Long> {
      * @return Una lista de pacientes en el rango de edad.
      */
     List<Paciente> findByEdadBetween(int edad1, int edad2);
+
+    
 }

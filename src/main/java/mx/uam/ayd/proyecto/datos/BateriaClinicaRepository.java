@@ -2,8 +2,11 @@ package mx.uam.ayd.proyecto.datos;
 
 import mx.uam.ayd.proyecto.negocio.modelo.BateriaClinica;
 import mx.uam.ayd.proyecto.negocio.modelo.Paciente;
+import mx.uam.ayd.proyecto.negocio.modelo.TipoBateria;
+
 import org.springframework.data.repository.CrudRepository;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Repositorio para la entidad BateriaClinica
@@ -16,4 +19,6 @@ public interface BateriaClinicaRepository extends CrudRepository<BateriaClinica,
      * @return Una lista de baterías clínicas
      */
     public List<BateriaClinica> findByPaciente(Paciente paciente);
+
+    public Optional<BateriaClinica> findByPacienteAndTipoDeBateria(Paciente paciente, TipoBateria tipoBateria);
 }
