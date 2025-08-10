@@ -54,12 +54,14 @@ public class ServicioHistorialClinico {
         }
             //Validar que el nombre coincida con el paciente guardado
         if (!paciente.getNombre().equalsIgnoreCase(nombre.trim())) {
-            throw new IllegalArgumentException("El nombre no coincide con el registrado para el correo proporcionado.");
+            throw new IllegalArgumentException("El nombre no coincide con el registrado para el correo");
         }
+
             //Validar consentimiento
         if (!consentimientoAceptado) {
-            throw new IllegalArgumentException("No se puede guardar el historial sin consentimiento aceptado.");
+            throw new IllegalArgumentException("Acepte el consentimiento informado, por favor.");
         }
+
             //Validar fecha del sistema (no antigua ni futura)
         Date fechaActual = new Date();
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");

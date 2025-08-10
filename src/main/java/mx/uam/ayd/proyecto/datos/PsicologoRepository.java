@@ -17,12 +17,19 @@ public interface PsicologoRepository extends CrudRepository<Psicologo, Integer> 
      */
     Psicologo findByTelefono(String telefono);
 
+
     /**
-     * Encuentra todos los psicólogos con una especialidad específica.
+     * Encuentra todos los psicólogos de la especialidad.
      * @param especialidad La especialidad a buscar.
-     * @return Una lista de psicólogos.
+     * @return Una lista de psicólogos de la especialidad.
      */
     List<Psicologo> findByEspecialidad(TipoEspecialidad especialidad);
+
+    /** Encuentra todos los psicólogos que no son de la especialidad.
+     * @param especialidad La especialidad a excluir.
+     * @return Una lista de psicólogos que no son de la especialidad.
+     */
+    List<Psicologo> findByEspecialidadNot(TipoEspecialidad especialidad);
 
     /**
      * Encuentra un psicólogo por su correo electrónico.

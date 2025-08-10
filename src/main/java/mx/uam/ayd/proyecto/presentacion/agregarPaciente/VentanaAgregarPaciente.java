@@ -33,10 +33,18 @@ public class VentanaAgregarPaciente {
     @FXML
     private TextField textFieldEdad;
 
+    /**
+     * Establece el controlador asociado a esta ventana
+     * 
+     * @param control El controlador asociado
+     */
     public void setControlAgregarPaciente(ControlAgregarPaciente controlAgregarPaciente) {
         this.controlAgregarPaciente = controlAgregarPaciente;
     }
 
+    /**
+     * Inicializa la interfaz de usuario.
+     */
     private void initializeUI() {
         if (initialized) return;
         if (!Platform.isFxApplicationThread()) {
@@ -47,7 +55,7 @@ public class VentanaAgregarPaciente {
             stage = new Stage();
             stage.setTitle("Agregar Paciente");
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/ventanaAgregarPaciente.fxml"));
-            loader.setController(this); // Solo si NO hay fx:controller en el FXML
+            loader.setController(this); 
             Scene scene = new Scene(loader.load());
             stage.setScene(scene);
             initialized = true;
@@ -57,29 +65,39 @@ public class VentanaAgregarPaciente {
         }
     }
 
+    /**
+     * Limpia los campos de texto de la ventana.
+     */
+    private void limpiarCampos() {
+        textFieldNombre.clear();
+        textFieldTelefono.clear();
+        textFieldCorreo.clear();
+        textFieldEdad.clear();
+    }
+
+    /**
+     * Muestra la ventana.
+     */
     public void muestra() {
         if (!initialized) {
             initializeUI();
         }
-
-        //textFieldNombre.setText("");
-		//textFieldCorreo.setText("");
-		//textFieldTelefono.setText("");
-		//textFieldEdad.setText("");
+        limpiarCampos();
         stage.show();
     }
 
-    /**
-     * Establece el controlador asociado a esta ventana
-     * 
-     * @param control El controlador asociado
-     */
     /**
      * Constructor sin inicialización de UI
      */
     public VentanaAgregarPaciente() {
         // No inicializar componentes JavaFX en el constructor
     }
+
+    /**
+     * Muestra un diálogo con un mensaje.
+     * 
+     * @param mensaje El mensaje a mostrar
+     */
     public void muestraDialogoConMensaje(String mensaje) {
 		if (!Platform.isFxApplicationThread()) {
 			Platform.runLater(() -> this.muestraDialogoConMensaje(mensaje));
@@ -93,7 +111,11 @@ public class VentanaAgregarPaciente {
 		alert.showAndWait();
 	}
 
-
+    /**
+     * Establece la visibilidad de la ventana.
+     * 
+     * @param visible true para mostrar la ventana, false para ocultarla
+     */
     public void setVisible(boolean visible) {
 		if (!Platform.isFxApplicationThread()) {
 			Platform.runLater(() -> this.setVisible(visible));
@@ -121,16 +143,54 @@ public class VentanaAgregarPaciente {
      */
     @FXML
     private void handleAgregarPaciente() {
-        // Validación básica
-        if (textFieldNombre.getText().isEmpty() || textFieldTelefono.getText().isEmpty() || 
-            textFieldCorreo.getText().isEmpty() || textFieldEdad.getText().isEmpty()) {
-            muestraDialogoConMensaje("Los campos no deben estar vacíos");
-        } else {
-            controlAgregarPaciente.agregarPaciente(textFieldNombre.getText(), textFieldCorreo.getText(), textFieldTelefono.getText(), Integer.parseInt(textFieldEdad.getText()));
-            //Comente esta linea para que no muestre el historial si falla al agregar el paciente, se
-            //movio al metodo agregar paciente del control agregar paciente
-            //controlAgregarPaciente.contestarHistorialClinico(textFieldCorreo.getText());
+        String nombre = textFieldNombre.getText().trim();
+        String telefono = textFieldTelefono.getText().trim();
+        String correo = textFieldCorreo.getText().trim();
+        String edadStr = textFieldEdad.getText().trim();
+
+        //Expresiones regulares en java para validar correo y telefono
+        String regexCorreo = "^[\\w._%+-]+@[\\w.-]+\\.[A-Za-z]{2,}$";
+        String regexTelefono = "^(\\+\\d{1,3}\\s?)?\\d{7,15}$";
+
+        StringBuilder errores = new StringBuilder();
+
+        // Validar campos vacíos
+        if (nombre.isEmpty()) errores.append("- El nombre no debe estar vacío.\n");
+        if (telefono.isEmpty()) errores.append("- El teléfono no debe estar vacío.\n");
+        if (correo.isEmpty()) errores.append("- El correo no debe estar vacío.\n");
+        if (edadStr.isEmpty()) errores.append("- La edad no debe estar vacía.\n");
+
+        // Validar formato correo
+        if (!correo.isEmpty() && !correo.matches(regexCorreo)) {
+            errores.append("- El correo no tiene un formato válido.\n");
         }
+
+        // Validar formato teléfono
+        if (!telefono.isEmpty() && !telefono.matches(regexTelefono)) {
+            errores.append("- El número de teléfono no es válido.\n");
+        }
+
+        // Validar edad
+        if (!edadStr.isEmpty()) {
+            try {
+                int edad = Integer.parseInt(edadStr);
+                if (edad <= 5) {
+                    errores.append("- La edad debe ser mayor a 5 años.\n");
+                }
+            } catch (NumberFormatException e) {
+                errores.append("- La edad debe ser un número válido.\n");
+            }
+        }
+
+        // Mostrar todos los errores en un Alert
+        if (errores.length() > 0) {
+            muestraDialogoConMensaje("Por favor corrige los siguientes errores:\n\n" + errores.toString());
+            return;
+        }
+
+        // Si pasa las validaciones, continuar
+        int edad = Integer.parseInt(edadStr);
+        controlAgregarPaciente.agregarPaciente(nombre, correo, telefono, edad);
     }
 
     @FXML
