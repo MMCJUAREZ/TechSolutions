@@ -14,9 +14,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
-import mx.uam.ayd.proyecto.datos.BateriaClinicaRepository;
 import mx.uam.ayd.proyecto.datos.PacienteRepository;
-import mx.uam.ayd.proyecto.negocio.modelo.BateriaClinica;
 import mx.uam.ayd.proyecto.negocio.modelo.Paciente;
 import mx.uam.ayd.proyecto.negocio.modelo.TipoBateria;
 

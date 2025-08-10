@@ -7,7 +7,6 @@ import mx.uam.ayd.proyecto.presentacion.agregarUsuario.ControlAgregarUsuario;
 import mx.uam.ayd.proyecto.presentacion.listarUsuarios.ControlListarUsuarios;
 import mx.uam.ayd.proyecto.presentacion.listarGrupos.ControlListarGrupos;
 import mx.uam.ayd.proyecto.datos.PsicologoRepository;
-import mx.uam.ayd.proyecto.negocio.modelo.Psicologo;
 import mx.uam.ayd.proyecto.presentacion.listarpacientes.ControlListarPacientes;
 
 /**
@@ -25,7 +24,6 @@ public class ControlPrincipal {
 
 	// --- CAMPOS PARA LA NUEVA FUNCIONALIDAD ---
 	private final ControlListarPacientes controlListarPacientes;
-	private final PsicologoRepository psicologoRepository;
 
 	@Autowired
 	public ControlPrincipal(
@@ -42,7 +40,6 @@ public class ControlPrincipal {
 		this.controlListarGrupos = controlListarGrupos;
 		this.ventana = ventana;
 		this.controlListarPacientes = controlListarPacientes;
-		this.psicologoRepository = psicologoRepository;
 	}
 	
 	@PostConstruct
