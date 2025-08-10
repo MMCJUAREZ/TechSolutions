@@ -1,19 +1,19 @@
 package mx.uam.ayd.proyecto.negocio;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import mx.uam.ayd.proyecto.datos.PacienteRepository;
 import mx.uam.ayd.proyecto.datos.PsicologoRepository;
 import mx.uam.ayd.proyecto.negocio.modelo.Paciente;
 import mx.uam.ayd.proyecto.negocio.modelo.Psicologo;
 import mx.uam.ayd.proyecto.negocio.modelo.TipoEspecialidad;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class ServicioPsicologo {
@@ -86,4 +86,16 @@ public class ServicioPsicologo {
         psicologoRepository.findAll().forEach(psicologos::add);
         return psicologos;
     }
+
+    //Obtiene los psicologos por especialidad acorde a la edad del paciente
+    public List<Psicologo> obtenerPsicologosPorEdadPaciente(Paciente paciente) {
+    if (paciente.getEdad() < 18) {
+        // Solo psicólogos infantiles
+        return psicologoRepository.findByEspecialidad(TipoEspecialidad.INFANTIL);
+    } else {
+        // Todos menos infantiles
+        return psicologoRepository.findByEspecialidadNot(TipoEspecialidad.INFANTIL);
+    }
+}
+
 }

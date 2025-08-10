@@ -2,13 +2,16 @@ package mx.uam.ayd.proyecto.negocio;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import jakarta.transaction.Transactional;
 import mx.uam.ayd.proyecto.datos.PacienteRepository;
 import mx.uam.ayd.proyecto.negocio.modelo.Paciente;
+import mx.uam.ayd.proyecto.negocio.modelo.Psicologo;
 
 /**
  * Servicio relacionado con los pacientes
@@ -35,7 +38,7 @@ public class ServicioPaciente {
 
         Paciente paciente = pacienteRepository.findByCorreo(correo);
         if (paciente != null){
-            throw new IllegalArgumentException("El paciente ya existe: Correo no disponible");
+            throw new IllegalArgumentException("Este correo ya ha sido registrado en el centro");
         }
 
         log.info("Agregando paciente nombre: "+nombre+" correo: "+correo);
@@ -57,4 +60,11 @@ public class ServicioPaciente {
         pacienteRepository.findAll().forEach(pacientes::add);
         return pacientes;
     }
+
+    @Transactional
+    public void asignarPsicologo(Paciente paciente, Psicologo psicologo) {
+        paciente.setPsicologo(psicologo);
+        pacienteRepository.save(paciente);
+    }
+
 }
