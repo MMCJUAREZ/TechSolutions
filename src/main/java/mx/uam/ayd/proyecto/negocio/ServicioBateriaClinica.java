@@ -20,9 +20,6 @@ import mx.uam.ayd.proyecto.negocio.modelo.BateriaClinica;
 import mx.uam.ayd.proyecto.negocio.modelo.Paciente;
 import mx.uam.ayd.proyecto.negocio.modelo.TipoBateria;
 
-import javafx.scene.control.RadioButton;
-import javafx.scene.control.Toggle;
-import javafx.scene.control.ToggleGroup;
 
 @Service
 public class ServicioBateriaClinica {
@@ -37,6 +34,14 @@ public class ServicioBateriaClinica {
                                         this.pacienteRepository=pacienteRepository;
     }
 
+    /**
+     * Registra las respuestas de y obtiene el puntaje para despues asociar la bateria al paciente
+     * @param pacienteID el id del paciente a quien se le va asociar la bateria
+     * @param tipo el tipo de bateria que se va a registrar (CEPER, BAI, BDI-II)
+     * @param respuestas una lista que contiene las respuestas dadas por el usuario
+     * @param comentarios los comentarios que el psicologo hace respecto al puntaje obtenido 
+     * @return una nueva bateria 
+     */
     @Transactional
     public BateriaClinica registrarBateria(Long pacienteID,
                                             TipoBateria tipo,
