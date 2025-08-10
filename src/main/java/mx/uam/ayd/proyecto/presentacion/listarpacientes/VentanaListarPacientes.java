@@ -1,6 +1,7 @@
 package mx.uam.ayd.proyecto.presentacion.listarpacientes;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.stream.Collectors;
 import org.springframework.stereotype.Component;
@@ -19,15 +20,15 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import mx.uam.ayd.proyecto.negocio.modelo.BateriaClinica;
+import mx.uam.ayd.proyecto.negocio.modelo.HistorialClinico;
 import mx.uam.ayd.proyecto.negocio.modelo.Paciente;
 
 @Component
 public class VentanaListarPacientes {
-
-    private Stage stage;
-    private ControlListarPacientes control;
 
     @FXML private TableView<Paciente> tablaPacientes;
     @FXML private TableColumn<Paciente, String> columnaNombre;
@@ -37,12 +38,22 @@ public class VentanaListarPacientes {
     @FXML private Label puntajeObtenidoLabel;
     @FXML private TextArea comentariosTextArea;
     @FXML private Button btnAbrirDetalles;
-    @FXML private Button btnVerHistorial;
+    @FXML private Button btnGuardarComentarios;
 
+    @FXML private VBox historialPlaceholder;
+    @FXML private GridPane historialDetailsPane;
+    @FXML private Label lblHistorialFecha;
+    @FXML private Label lblHistorialMotivo;
+    @FXML private Label lblHistorialConsumo;
+    @FXML private Label lblHistorialDescripcion;
+    @FXML private Label lblHistorialConsentimiento;
+    
+    private Stage stage;
+    private ControlListarPacientes control;
+    private Paciente pacienteSeleccionado;
     private BateriaClinica bateriaSeleccionada;
     private List<BateriaClinica> bateriasDelPaciente;
-    private Paciente pacienteSeleccionado;
-
+    
     public void muestra(ControlListarPacientes control, List<Paciente> pacientes) {
         this.control = control;
         if (!Platform.isFxApplicationThread()) {
@@ -60,23 +71,26 @@ public class VentanaListarPacientes {
             columnaTelefono.setCellValueFactory(new PropertyValueFactory<>("telefono"));
 
             tablaPacientes.setItems(FXCollections.observableArrayList(pacientes));
-
-            tablaPacientes.getSelectionModel().selectedItemProperty().addListener(
-                (observable, oldValue, newValue) -> {
-                    this.pacienteSeleccionado = newValue; // Guardamos referencia al paciente actual
-                    control.seleccionarPaciente(newValue);
-                }
-            );
-
+            
             listaBaterias.getSelectionModel().selectedItemProperty().addListener(
                 (observable, oldValue, newValue) -> {
-                    btnAbrirDetalles.setDisable(newValue == null);
-                    if (newValue != null && bateriasDelPaciente != null) {
+                    boolean isSelected = newValue != null;
+                    btnAbrirDetalles.setDisable(!isSelected);
+                    btnGuardarComentarios.setDisable(!isSelected); 
+                    
+                    if (isSelected && bateriasDelPaciente != null) {
                         bateriasDelPaciente.stream()
                             .filter(b -> b.getTipoDeBateria().toString().equals(newValue))
                             .findFirst()
                             .ifPresent(b -> control.seleccionarBateria(b));
                     }
+                }
+            );
+            
+            tablaPacientes.getSelectionModel().selectedItemProperty().addListener(
+                (observable, oldValue, newValue) -> {
+                    this.pacienteSeleccionado = newValue;
+                    control.seleccionarPaciente(newValue);
                 }
             );
 
@@ -90,34 +104,47 @@ public class VentanaListarPacientes {
         }
     }
 
-    public void cierra() {
-        if (stage != null) {
-            stage.close();
-        }
+    public void mostrarHistorialEnPestana(HistorialClinico historial) {
+        historialPlaceholder.setVisible(false);
+        historialPlaceholder.setManaged(false);
+        historialDetailsPane.setVisible(true);
+        historialDetailsPane.setManaged(true);
+        
+        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+        lblHistorialFecha.setText(historial.getFechaElaboracion() != null ? formatter.format(historial.getFechaElaboracion()) : "N/A");
+        lblHistorialMotivo.setText(historial.getMotivo());
+        lblHistorialConsumo.setText(historial.getConsumoDrogas());
+        lblHistorialDescripcion.setText(historial.getDescripcionDrogas() != null && !historial.getDescripcionDrogas().isEmpty() ? historial.getDescripcionDrogas() : "N/A");
+        lblHistorialConsentimiento.setText(historial.isConsentimientoAceptado() ? "Sí" : "No");
     }
 
-    public void muestraDialogoDeInformacion(String mensaje) {
-        Alert alert = new Alert(AlertType.INFORMATION);
-        alert.setTitle("Información");
-        alert.setHeaderText(null);
-        alert.setContentText(mensaje);
-        alert.showAndWait();
+    public void limpiarHistorialEnPestana() {
+        historialPlaceholder.setVisible(true);
+        historialPlaceholder.setManaged(true);
+        historialDetailsPane.setVisible(false);
+        historialDetailsPane.setManaged(false);
     }
-
-    public void muestraDialogoDeError(String mensaje) {
-        Alert alert = new Alert(AlertType.ERROR);
-        alert.setTitle("Error");
-        alert.setHeaderText(null);
-        alert.setContentText(mensaje);
-        alert.showAndWait();
+    
+    public void limpiarDetallesDeBateria() {
+        this.bateriaSeleccionada = null;
+        this.bateriasDelPaciente = null;
+        listaBaterias.getItems().clear();
+        puntajeObtenidoLabel.setText("-");
+        comentariosTextArea.clear();
+        btnAbrirDetalles.setDisable(true);
+        btnGuardarComentarios.setDisable(true);
     }
 
     public void mostrarBaterias(List<BateriaClinica> baterias) {
         this.bateriasDelPaciente = baterias;
-        List<String> nombresBaterias = baterias.stream()
-            .map(bateria -> bateria.getTipoDeBateria().toString())
-            .collect(Collectors.toList());
-        listaBaterias.setItems(FXCollections.observableArrayList(nombresBaterias));
+        if (baterias != null) {
+            List<String> nombresBaterias = baterias.stream()
+                .map(bateria -> bateria.getTipoDeBateria().toString())
+                .collect(Collectors.toList());
+            listaBaterias.setItems(FXCollections.observableArrayList(nombresBaterias));
+        } else {
+            listaBaterias.getItems().clear();
+        }
     }
 
     public void mostrarDetallesBateria(BateriaClinica bateria) {
@@ -126,60 +153,11 @@ public class VentanaListarPacientes {
         comentariosTextArea.setText(bateria.getComentarios());
     }
 
-    public void limpiarDetallesDeBateria() {
-        this.bateriaSeleccionada = null;
-        this.bateriasDelPaciente = null;
-        listaBaterias.getItems().clear();
-        puntajeObtenidoLabel.setText("-");
-        comentariosTextArea.clear();
-        btnAbrirDetalles.setDisable(true);
-        btnVerHistorial.setDisable(true);
-    }
+    public void cierra() { if (stage != null) { stage.close(); } }
+    public void muestraDialogoDeInformacion(String m) { new Alert(AlertType.INFORMATION, m).showAndWait(); }
+    public void muestraDialogoDeError(String m) { new Alert(AlertType.ERROR, m).showAndWait(); }
 
-    public void habilitarBotonHistorial(boolean habilitar) {
-        btnVerHistorial.setDisable(!habilitar);
-    }
-
-    public void mostrarHistorialEnDialogo(String textoHistorial) {
-        Alert alert = new Alert(AlertType.INFORMATION);
-        alert.setTitle("Historial Clínico");
-        if (pacienteSeleccionado != null) {
-            alert.setHeaderText("Detalles del historial de: " + pacienteSeleccionado.getNombre());
-        }
-
-        TextArea textArea = new TextArea(textoHistorial);
-        textArea.setEditable(false);
-        textArea.setWrapText(true);
-        textArea.setMaxWidth(Double.MAX_VALUE);
-        textArea.setMaxHeight(Double.MAX_VALUE);
-
-        alert.getDialogPane().setContent(textArea);
-        alert.setResizable(true);
-        alert.getDialogPane().setPrefSize(480, 320); // Tamaño inicial del diálogo
-        alert.showAndWait();
-    }
-
-    @FXML
-    private void handleGuardarComentarios() {
-        control.guardarComentarios(bateriaSeleccionada, comentariosTextArea.getText());
-    }
-
-    @FXML
-    private void handleCerrar() {
-        control.cerrar();
-    }
-
-    @FXML
-    private void handleAbrirDetalles() {
-        if (bateriaSeleccionada != null) {
-            control.abrirDetallesBateria(bateriaSeleccionada);
-        }
-    }
-
-    @FXML
-    private void handleVerHistorial() {
-        if (pacienteSeleccionado != null) {
-            control.solicitarHistorial(pacienteSeleccionado);
-        }
-    }
+    @FXML private void handleGuardarComentarios() { control.guardarComentarios(bateriaSeleccionada, comentariosTextArea.getText()); }
+    @FXML private void handleCerrar() { control.cerrar(); }
+    @FXML private void handleAbrirDetalles() { if (bateriaSeleccionada != null) { control.abrirDetallesBateria(bateriaSeleccionada); } }
 }
