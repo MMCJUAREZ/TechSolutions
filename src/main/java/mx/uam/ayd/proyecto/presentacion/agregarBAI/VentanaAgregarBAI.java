@@ -10,6 +10,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.ToggleGroup;
 import javafx.stage.Stage;
 
 @Component
@@ -18,8 +19,55 @@ public class VentanaAgregarBAI {
     private boolean initialized = false;
     private ControlAgregarBAI controlAgregarBAI;
 
+    private Long pacienteID;
+
     public void setControlAgregarBAI(ControlAgregarBAI controlAgregarBAI) {
         this.controlAgregarBAI = controlAgregarBAI;
+    }
+
+    public void setPacienteID(Long pacienteID) {
+        this.pacienteID=pacienteID;
+    }
+
+    @FXML private javafx.scene.control.ToggleGroup q1;
+    @FXML private javafx.scene.control.ToggleGroup q2;
+    @FXML private javafx.scene.control.ToggleGroup q3;
+    @FXML private javafx.scene.control.ToggleGroup q4;
+    @FXML private javafx.scene.control.ToggleGroup q5;
+
+    @FXML
+    private void onGuard() {
+        try {
+            java.util.List<Integer> respuesta = java.util.Arrays.asList(
+                getSelectedValue(q1),
+                getSelectedValue(q2),
+                getSelectedValue(q3),
+                getSelectedValue(q4),
+                getSelectedValue(q5)
+            );
+
+            if (respuesta.stream().anyMatch(r -> r == null)) {
+                muestraDialogoConMensaje("Responde todas las preguntas antes de guardar.");
+                return;
+            }
+
+            String comentarios = " ";
+            controlAgregarBAI.guardarBAI(pacienteID, respuesta, comentarios);
+
+            muestraDialogoConMensaje("¡Batería BDI guardada!");
+            stage.close();
+
+        } catch (Exception ex) {
+            new Alert(Alert.AlertType.ERROR, "Error al guardar "+ ex.getMessage()).showAndWait();
+        }
+    }
+
+    private Integer getSelectedValue(ToggleGroup group) {
+        if (group != null && group.getSelectedToggle() != null &&
+            group.getSelectedToggle().getUserData() != null) {
+            return Integer.parseInt(group.getSelectedToggle().getUserData().toString());
+        }
+        return 0;
     }
 
     private void initializeUI() {
@@ -43,7 +91,7 @@ public class VentanaAgregarBAI {
     }
 
     public VentanaAgregarBAI() {
-        // No inicializar componentes JavaFX en el constructor
+        
     }
 
     public void muestra() {
@@ -86,5 +134,4 @@ public class VentanaAgregarBAI {
         alert.setContentText(mensaje);
         alert.showAndWait();
     }
-
 }

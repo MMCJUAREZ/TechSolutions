@@ -91,12 +91,13 @@ public class ControlAgregarPaciente {
 			ventanaAgregarPaciente.muestraDialogoConMensaje("Error al agregar usuario: "+ex.getMessage());
 		}
 		
-		termina(); 
+		//termina(); 
     }
 
 
 
     public void agregarBAI() {
+        ventanaAgregarBAI.setPacienteID(pacienteID);
         ventanaAgregarBAI.muestra();
     }
 

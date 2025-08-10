@@ -9,6 +9,7 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import org.springframework.stereotype.Component;
 import java.io.IOException;
+import javafx.scene.control.PasswordField;
 
 /**
  * Ventana de Login para el Centro Psicológico
@@ -22,7 +23,7 @@ public class VentanaPrincipalCentro {
     private TextField textFieldUsuario;
     
     @FXML
-    private TextField textFieldContrasena;
+    private PasswordField textFieldContrasena;
 
     private Stage stage;
     private ControlPrincipalCentro control;

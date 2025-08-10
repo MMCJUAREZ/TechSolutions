@@ -34,11 +34,10 @@ public class ControlContestarHistorialClinico {
         try {
 			servicioHistorialClinico.guardarHistorialClinico(nombre, correo, motivo, consumoDrogas, descripcion, consentimientoAceptado);
 			ventanaContestarHistorialClinico.muestraDialogoConMensaje("Historial clinico agregado exitosamente");	
-		} catch(Exception ex) {
+            termina(); //Solo termina la ventana si se ha guardado el HC
+        } catch(Exception ex) {
 			ventanaContestarHistorialClinico.muestraDialogoConMensaje("Error al agregar historial clinico: "+ex.getMessage());
 		}
-		
-		termina(); 
     }
 
     private void termina(){
