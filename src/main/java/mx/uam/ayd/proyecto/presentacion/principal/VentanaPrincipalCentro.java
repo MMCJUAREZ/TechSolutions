@@ -11,6 +11,8 @@ import org.springframework.stereotype.Component;
 import java.io.IOException;
 import javafx.scene.control.PasswordField;
 
+import javafx.scene.control.Button;
+
 /**
  * Ventana de Login para el Centro Psicológico
  * 
@@ -22,8 +24,32 @@ public class VentanaPrincipalCentro {
     @FXML
     private TextField textFieldUsuario;
     
+    @FXML private PasswordField passwordFieldOculto;
+    @FXML private TextField passwordFieldVisible;
+    @FXML private Button btnTogglePassword;
+    private boolean mostrando = false;
+
     @FXML
-    private PasswordField textFieldContrasena;
+    private void initialize() {
+        // Sincroniza ambos campos para que siempre tengan el mismo texto
+        if (passwordFieldVisible != null && passwordFieldOculto != null) {
+            passwordFieldVisible.textProperty().bindBidirectional(passwordFieldOculto.textProperty());
+        }
+    }
+
+    // Ncesitamos manejar el cambio entre una version y otra
+    @FXML
+    private void togglePasswordVisibility() {
+        mostrando = !mostrando;
+        passwordFieldVisible.setVisible(mostrando);
+        passwordFieldVisible.setManaged(mostrando);
+        passwordFieldOculto.setVisible(!mostrando);
+        passwordFieldOculto.setManaged(!mostrando);
+        if (btnTogglePassword != null) {
+            // No puede procesar emoji por eso usamos prefijo
+            btnTogglePassword.setText(mostrando ? "O" : "V");
+        }
+    }
 
     private Stage stage;
     private ControlPrincipalCentro control;
@@ -92,7 +118,7 @@ public class VentanaPrincipalCentro {
     @FXML
     private void handleIngresar() {
         String usuario = textFieldUsuario.getText();
-        String contrasena = textFieldContrasena.getText();
+        String contrasena = passwordFieldOculto.getText();
         
         if (control != null) {
             control.autenticar(usuario, contrasena);
