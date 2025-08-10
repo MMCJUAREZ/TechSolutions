@@ -70,8 +70,6 @@ public class VentanaAgregarCEPER {
         return 0;
     }
 
-
-
     private void initializeUI() {
         if (initialized) return;
         if (!Platform.isFxApplicationThread()) {

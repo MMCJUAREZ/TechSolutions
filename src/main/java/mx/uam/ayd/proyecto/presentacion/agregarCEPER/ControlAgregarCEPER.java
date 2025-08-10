@@ -18,7 +18,6 @@ import mx.uam.ayd.proyecto.negocio.modelo.TipoBateria;
 import mx.uam.ayd.proyecto.presentacion.agregarCEPER.VentanaAgregarCEPER;
 
 
-
 @Component
 public class ControlAgregarCEPER {
     

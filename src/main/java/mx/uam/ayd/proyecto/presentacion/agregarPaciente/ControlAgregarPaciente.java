@@ -97,6 +97,7 @@ public class ControlAgregarPaciente {
 
 
     public void agregarBAI() {
+        ventanaAgregarBAI.setPacienteID(pacienteID);
         ventanaAgregarBAI.muestra();
     }
 
