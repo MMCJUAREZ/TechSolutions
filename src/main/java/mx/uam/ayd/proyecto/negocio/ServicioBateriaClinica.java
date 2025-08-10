@@ -49,7 +49,7 @@ public class ServicioBateriaClinica {
         if(tipo==null) throw new IllegalArgumentException("Tipo es obligatorio");
         if(respuestas==null || respuestas.size() !=5) throw new IllegalArgumentException("Se requieren las 5 respuestas");
 
-        Paciente paciente = pacienteRepository.findById(pacienteID).orElseThrow(() -> new IllegalArgumentException("Paciente no encontrado "+pacienteID));
+        Paciente paciente = pacienteRepository.findById(pacienteID).orElseThrow(() -> new IllegalArgumentException("Paciente no encontrado "+ pacienteID));
 
         // Revisamos si no hay una bateria existente
         BateriaClinica bateria = bateriaClinicaRepository.findByPacienteAndTipoDeBateria(paciente, tipo).orElseGet(BateriaClinica::new);

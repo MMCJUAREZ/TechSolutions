@@ -12,13 +12,12 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ToggleGroup;
 import javafx.stage.Stage;
-import mx.uam.ayd.proyecto.presentacion.agregarCEPER.ControlAgregarCEPER;
+
 
 
 @Component
 public class VentanaAgregarBDI {
 
-    
     private Stage stage;
     private boolean initialized = false; 
     private ControlAgregarBDI controlAgregarBDI;
@@ -94,6 +93,10 @@ public class VentanaAgregarBDI {
         alert.showAndWait();
     }
 
+    public void setPacienteID(Long pacienteID) {
+        this.pacienteID=pacienteID;
+    }
+
     @FXML private javafx.scene.control.ToggleGroup q1;
     @FXML private javafx.scene.control.ToggleGroup q2;
     @FXML private javafx.scene.control.ToggleGroup q3;
@@ -125,6 +128,7 @@ public class VentanaAgregarBDI {
         } catch (Exception ex) {
             new Alert(Alert.AlertType.ERROR, "Error al guardar: " + ex.getMessage()).showAndWait();
         }
+    
     }
 
     private Integer getSelectedValue(ToggleGroup group) {

@@ -6,7 +6,6 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import jakarta.annotation.PostConstruct;
-import javafx.scene.control.ToggleGroup;
 import mx.uam.ayd.proyecto.negocio.ServicioBateriaClinica;
 import mx.uam.ayd.proyecto.negocio.modelo.TipoBateria;
 
@@ -19,8 +18,8 @@ public class ControlAgregarBDI {
 
     @Autowired
     public ControlAgregarBDI(
-        VentanaAgregarBDI ventanaAgregarBDI,
-        ServicioBateriaClinica servicioBateriaClinica) {
+            VentanaAgregarBDI ventanaAgregarBDI,
+            ServicioBateriaClinica servicioBateriaClinica) {
         this.ventanaAgregarBDI = ventanaAgregarBDI;
         this.servicioBateriaClinica = servicioBateriaClinica;
     }
@@ -30,7 +29,9 @@ public class ControlAgregarBDI {
         ventanaAgregarBDI.setControlAgregarBDI(this);
     }
 
-    public void inicia() {
+    public void inicia(Long pacienteID) {
+        ventanaAgregarBDI.setControlAgregarBDI(this);
+        ventanaAgregarBDI.setPacienteID(pacienteID);
         ventanaAgregarBDI.muestra();
     }
 
@@ -43,7 +44,4 @@ public class ControlAgregarBDI {
         );
     } 
 
-    private void termina() {
-        ventanaAgregarBDI.setVisible(false);
-    }
 }

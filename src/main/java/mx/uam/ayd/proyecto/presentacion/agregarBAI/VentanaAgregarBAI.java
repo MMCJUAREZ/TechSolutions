@@ -15,6 +15,7 @@ import javafx.stage.Stage;
 
 @Component
 public class VentanaAgregarBAI {
+    
     private Stage stage;
     private boolean initialized = false;
     private ControlAgregarBAI controlAgregarBAI;
@@ -54,7 +55,7 @@ public class VentanaAgregarBAI {
             String comentarios = " ";
             controlAgregarBAI.guardarBAI(pacienteID, respuesta, comentarios);
 
-            muestraDialogoConMensaje("¡Batería BDI guardada!");
+            muestraDialogoConMensaje("¡Batería BAI guardada!");
             stage.close();
 
         } catch (Exception ex) {

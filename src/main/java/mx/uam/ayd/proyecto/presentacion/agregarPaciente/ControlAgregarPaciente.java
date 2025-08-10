@@ -91,6 +91,7 @@ public class ControlAgregarPaciente {
     }
 
     public void agregarBDI() {
+        ventanaAgregarBDI.setPacienteID(pacienteID);
         ventanaAgregarBDI.muestra();
     }
     
