@@ -30,6 +30,7 @@ import mx.uam.ayd.proyecto.negocio.modelo.Paciente;
 @Component
 public class VentanaListarPacientes {
 
+    // Componentes de la interfaz de usuario inyectados desde el archivo FXML
     @FXML private TableView<Paciente> tablaPacientes;
     @FXML private TableColumn<Paciente, String> columnaNombre;
     @FXML private TableColumn<Paciente, String> columnaCorreo;
@@ -40,44 +41,64 @@ public class VentanaListarPacientes {
     @FXML private Button btnAbrirDetalles;
     @FXML private Button btnGuardarComentarios;
 
-    @FXML private VBox historialPlaceholder;
-    @FXML private GridPane historialDetailsPane;
+    // Paneles para mostrar/ocultar dinámicamente la información del historial clínico
+    @FXML private VBox historialPlaceholder; // Se muestra cuando no hay historial
+    @FXML private GridPane historialDetailsPane; // Se muestra con los detalles del historial
+    
+    // Etiquetas para los detalles del historial clínico
     @FXML private Label lblHistorialFecha;
     @FXML private Label lblHistorialMotivo;
     @FXML private Label lblHistorialConsumo;
     @FXML private Label lblHistorialDescripcion;
     @FXML private Label lblHistorialConsentimiento;
     
-    private Stage stage;
-    private ControlListarPacientes control;
-    private BateriaClinica bateriaSeleccionada;
-    private List<BateriaClinica> bateriasDelPaciente;
-    
+    // Variables de estado y control
+    private Stage stage; // La ventana principal (escenario) de JavaFX
+    private ControlListarPacientes control; // Referencia al controlador para delegar la lógica de negocio
+    private BateriaClinica bateriaSeleccionada; // Almacena la batería seleccionada actualmente en la lista
+    private List<BateriaClinica> bateriasDelPaciente; // Lista de todas las baterías del paciente seleccionado
+
+    /**
+     * Muestra la ventana de listado de pacientes.
+     * Carga la vista FXML, configura los componentes y establece los listeners de eventos.
+     *
+     * @param control El controlador que gestionará la lógica de esta vista.
+     * @param pacientes La lista inicial de pacientes a mostrar en la tabla.
+     */
     public void muestra(ControlListarPacientes control, List<Paciente> pacientes) {
         this.control = control;
+        
+        // Asegura que el código de la UI se ejecute en el hilo de aplicación de JavaFX
         if (!Platform.isFxApplicationThread()) {
             Platform.runLater(() -> muestra(control, pacientes));
             return;
         }
 
         try {
+            // Carga el archivo FXML y establece esta clase como su controlador
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/ventana-listar-pacientes.fxml"));
             loader.setController(this);
 
             Parent root = loader.load();
+
+            // Configura las celdas de la tabla para que muestren las propiedades del objeto Paciente
             columnaNombre.setCellValueFactory(new PropertyValueFactory<>("nombre"));
             columnaCorreo.setCellValueFactory(new PropertyValueFactory<>("correo"));
             columnaTelefono.setCellValueFactory(new PropertyValueFactory<>("telefono"));
 
+            // Carga los pacientes en la tabla
             tablaPacientes.setItems(FXCollections.observableArrayList(pacientes));
             
+            // Listener para la selección de una batería en la lista
             listaBaterias.getSelectionModel().selectedItemProperty().addListener(
                 (observable, oldValue, newValue) -> {
                     boolean isSelected = newValue != null;
+                    // Habilita/deshabilita botones según si hay una batería seleccionada
                     btnAbrirDetalles.setDisable(!isSelected);
                     btnGuardarComentarios.setDisable(!isSelected); 
                     
                     if (isSelected && bateriasDelPaciente != null) {
+                        // Busca la batería completa y notifica al controlador
                         bateriasDelPaciente.stream()
                             .filter(b -> b.getTipoDeBateria().toString().equals(newValue))
                             .findFirst()
@@ -86,12 +107,15 @@ public class VentanaListarPacientes {
                 }
             );
             
+            // Listener para la selección de un paciente en la tabla
             tablaPacientes.getSelectionModel().selectedItemProperty().addListener(
                 (observable, oldValue, newValue) -> {
+                    // Notifica al controlador sobre el paciente seleccionado
                     control.seleccionarPaciente(newValue);
                 }
             );
 
+            // Crea y muestra la ventana
             stage = new Stage();
             Scene scene = new Scene(root);
             stage.setScene(scene);
@@ -99,12 +123,17 @@ public class VentanaListarPacientes {
             stage.show();
         } catch (IOException e) {
             e.printStackTrace();
+            muestraDialogoDeError("No se pudo cargar la ventana de pacientes. Contacte al administrador.");
         }
     }
 
+    /**
+     * Muestra los detalles de un historial clínico en la sección correspondiente de la UI.
+     * Oculta el placeholder y hace visible el panel de detalles.
+     */
     public void mostrarHistorialEnPestana(HistorialClinico historial) {
         historialPlaceholder.setVisible(false);
-        historialPlaceholder.setManaged(false);
+        historialPlaceholder.setManaged(false); 
         historialDetailsPane.setVisible(true);
         historialDetailsPane.setManaged(true);
         
@@ -116,6 +145,10 @@ public class VentanaListarPacientes {
         lblHistorialConsentimiento.setText(historial.isConsentimientoAceptado() ? "Sí" : "No");
     }
 
+    /**
+     * Limpia la sección del historial clínico, mostrando el placeholder inicial.
+     * Se usa cuando se deselecciona un paciente o se selecciona uno sin historial.
+     */
     public void limpiarHistorialEnPestana() {
         historialPlaceholder.setVisible(true);
         historialPlaceholder.setManaged(true);
@@ -123,6 +156,10 @@ public class VentanaListarPacientes {
         historialDetailsPane.setManaged(false);
     }
     
+    /**
+     * Limpia y resetea todos los campos relacionados con los detalles de las baterías.
+     * Se llama cuando cambia el paciente seleccionado.
+     */
     public void limpiarDetallesDeBateria() {
         this.bateriaSeleccionada = null;
         this.bateriasDelPaciente = null;
@@ -133,9 +170,15 @@ public class VentanaListarPacientes {
         btnGuardarComentarios.setDisable(true);
     }
 
+    /**
+     * Muestra la lista de baterías clínicas de un paciente en el ListView.
+     *
+     * @param baterias La lista de baterías a mostrar. Si es nula o vacía, la lista se limpia.
+     */
     public void mostrarBaterias(List<BateriaClinica> baterias) {
         this.bateriasDelPaciente = baterias;
         if (baterias != null) {
+            // Usa Streams para mapear la lista de objetos Bateria a una lista de sus nombres (String)
             List<String> nombresBaterias = baterias.stream()
                 .map(bateria -> bateria.getTipoDeBateria().toString())
                 .collect(Collectors.toList());
@@ -145,17 +188,45 @@ public class VentanaListarPacientes {
         }
     }
 
+    /**
+     * Muestra los detalles (calificación y comentarios) de una batería específica.
+     *
+     * @param bateria La batería seleccionada cuyos detalles se van a mostrar.
+     */
     public void mostrarDetallesBateria(BateriaClinica bateria) {
         this.bateriaSeleccionada = bateria;
         puntajeObtenidoLabel.setText(String.valueOf(bateria.getCalificacion()));
         comentariosTextArea.setText(bateria.getComentarios());
     }
 
-    public void cierra() { if (stage != null) { stage.close(); } }
-    public void muestraDialogoDeInformacion(String m) { new Alert(AlertType.INFORMATION, m).showAndWait(); }
-    public void muestraDialogoDeError(String m) { new Alert(AlertType.ERROR, m).showAndWait(); }
+    public void cierra() { 
+        if (stage != null) { 
+            stage.close(); 
+        } 
+    }
+    
+    public void muestraDialogoDeInformacion(String mensaje) { 
+        new Alert(AlertType.INFORMATION, mensaje).showAndWait(); 
+    }
 
-    @FXML private void handleGuardarComentarios() { control.guardarComentarios(bateriaSeleccionada, comentariosTextArea.getText()); }
-    @FXML private void handleCerrar() { control.cerrar(); }
-    @FXML private void handleAbrirDetalles() { if (bateriaSeleccionada != null) { control.abrirDetallesBateria(bateriaSeleccionada); } }
+    public void muestraDialogoDeError(String mensaje) { 
+        new Alert(AlertType.ERROR, mensaje).showAndWait(); 
+    }
+
+    @FXML 
+    private void handleGuardarComentarios() { 
+        control.guardarComentarios(bateriaSeleccionada, comentariosTextArea.getText()); 
+    }
+
+    @FXML 
+    private void handleCerrar() { 
+        control.cerrar(); 
+    }
+
+    @FXML 
+    private void handleAbrirDetalles() { 
+        if (bateriaSeleccionada != null) { 
+            control.abrirDetallesBateria(bateriaSeleccionada); 
+        } 
+    }
 }
