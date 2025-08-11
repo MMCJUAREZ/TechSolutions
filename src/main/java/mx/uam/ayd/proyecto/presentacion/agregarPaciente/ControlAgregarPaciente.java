@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import mx.uam.ayd.proyecto.presentacion.agregarBAI.VentanaAgregarBAI;
 import mx.uam.ayd.proyecto.presentacion.agregarBDI.VentanaAgregarBDI;
 import mx.uam.ayd.proyecto.presentacion.agregarCEPER.VentanaAgregarCEPER;
-import mx.uam.ayd.proyecto.presentacion.agregarPaciente.VentanaAgregarPaciente;
 import mx.uam.ayd.proyecto.negocio.ServicioPaciente;
 import mx.uam.ayd.proyecto.negocio.modelo.Paciente;
 import mx.uam.ayd.proyecto.presentacion.contestarHistorialClinico.ControlContestarHistorialClinico;

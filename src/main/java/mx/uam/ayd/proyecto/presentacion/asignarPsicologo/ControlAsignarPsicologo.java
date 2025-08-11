@@ -4,7 +4,6 @@ import mx.uam.ayd.proyecto.negocio.ServicioPaciente;
 import mx.uam.ayd.proyecto.negocio.ServicioPsicologo;
 import mx.uam.ayd.proyecto.negocio.modelo.Paciente;
 import mx.uam.ayd.proyecto.negocio.modelo.Psicologo;
-import mx.uam.ayd.proyecto.presentacion.asignarPsicologo.VentanaAsignarPsicologo;
 
 import org.springframework.stereotype.Component;
 
@@ -35,14 +34,14 @@ public class ControlAsignarPsicologo {
     public void init() {
         ventanaAsignarPsicologo.setControlAsignarPsicologo(this);
     }
-    private Paciente pacienteActual;
+
     /**
      * Inicia el proceso de asignación de psicólogo para el paciente dado.
      * 
      * @param paciente El paciente al que se le asignará un psicólogo
      */
     public void inicia(Paciente paciente) {
-        this.pacienteActual = paciente;
+        
         List<Psicologo> psicologos = servicioPsicologo.obtenerPsicologosPorEdadPaciente(paciente);
         ventanaAsignarPsicologo.muestra(paciente, psicologos);
     }

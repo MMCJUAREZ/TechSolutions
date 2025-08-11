@@ -4,7 +4,6 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import mx.uam.ayd.proyecto.negocio.ServicioBateriaClinica;
-import mx.uam.ayd.proyecto.negocio.ServicioHistorialClinico;
 import mx.uam.ayd.proyecto.negocio.ServicioPaciente; 
 import mx.uam.ayd.proyecto.negocio.modelo.BateriaClinica;
 import mx.uam.ayd.proyecto.negocio.modelo.HistorialClinico;
@@ -17,8 +16,6 @@ public class ControlListarPacientes {
     private VentanaListarPacientes ventana;    
     @Autowired
     private ServicioPaciente servicioPaciente; 
-    @Autowired
-    private ServicioHistorialClinico servicioHistorialClinico;
     @Autowired
     private ServicioBateriaClinica servicioBateriaClinica;
 

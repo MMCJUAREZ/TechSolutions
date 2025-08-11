@@ -7,9 +7,6 @@ import jakarta.transaction.Transactional;
 import mx.uam.ayd.proyecto.datos.BateriaClinicaRepository;
 import mx.uam.ayd.proyecto.negocio.modelo.BateriaClinica;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;

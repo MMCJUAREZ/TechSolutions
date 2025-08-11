@@ -50,7 +50,6 @@ public class VentanaListarPacientes {
     
     private Stage stage;
     private ControlListarPacientes control;
-    private Paciente pacienteSeleccionado;
     private BateriaClinica bateriaSeleccionada;
     private List<BateriaClinica> bateriasDelPaciente;
     
@@ -89,7 +88,6 @@ public class VentanaListarPacientes {
             
             tablaPacientes.getSelectionModel().selectedItemProperty().addListener(
                 (observable, oldValue, newValue) -> {
-                    this.pacienteSeleccionado = newValue;
                     control.seleccionarPaciente(newValue);
                 }
             );
