@@ -10,8 +10,6 @@ import javafx.application.Platform;
 import javafx.stage.Stage;
 
 import mx.uam.ayd.proyecto.datos.PsicologoRepository;
-import mx.uam.ayd.proyecto.negocio.modelo.Psicologo;
-import mx.uam.ayd.proyecto.negocio.modelo.TipoEspecialidad;
 import mx.uam.ayd.proyecto.presentacion.principal.ControlPrincipalCentro;
 
 
@@ -28,14 +26,12 @@ import mx.uam.ayd.proyecto.presentacion.principal.ControlPrincipalCentro;
 public class ProyectoApplication {
 
     private final ControlPrincipalCentro controlPrincipalCentro;
-    private final PsicologoRepository psicologoRepository;
     
     @Autowired
     public ProyectoApplication(
             ControlPrincipalCentro controlPrincipalCentro,
             PsicologoRepository psicologoRepository) {
         this.controlPrincipalCentro = controlPrincipalCentro;
-        this.psicologoRepository = psicologoRepository;
     }
 
     /**

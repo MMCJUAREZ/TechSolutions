@@ -10,7 +10,6 @@ import org.springframework.stereotype.Service;
 
 import jakarta.transaction.Transactional;
 import mx.uam.ayd.proyecto.datos.PacienteRepository;
-import mx.uam.ayd.proyecto.negocio.modelo.BateriaClinica;
 import mx.uam.ayd.proyecto.negocio.modelo.Paciente;
 import mx.uam.ayd.proyecto.negocio.modelo.Psicologo;
 
