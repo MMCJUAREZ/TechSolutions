@@ -9,12 +9,9 @@ import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.stage.Stage;
 
-import mx.uam.ayd.proyecto.datos.GrupoRepository;
 import mx.uam.ayd.proyecto.datos.PsicologoRepository;
-import mx.uam.ayd.proyecto.negocio.modelo.Grupo;
 import mx.uam.ayd.proyecto.negocio.modelo.Psicologo;
 import mx.uam.ayd.proyecto.negocio.modelo.TipoEspecialidad;
-import mx.uam.ayd.proyecto.presentacion.principal.ControlPrincipal;
 import mx.uam.ayd.proyecto.presentacion.principal.ControlPrincipalCentro;
 
 
@@ -30,20 +27,14 @@ import mx.uam.ayd.proyecto.presentacion.principal.ControlPrincipalCentro;
 @SpringBootApplication
 public class ProyectoApplication {
 
-    private final ControlPrincipal controlPrincipal;
     private final ControlPrincipalCentro controlPrincipalCentro;
-    private final GrupoRepository grupoRepository;
     private final PsicologoRepository psicologoRepository;
     
     @Autowired
     public ProyectoApplication(
-            ControlPrincipal controlPrincipal,
             ControlPrincipalCentro controlPrincipalCentro,
-            GrupoRepository grupoRepository,
             PsicologoRepository psicologoRepository) {
-        this.controlPrincipal = controlPrincipal;
         this.controlPrincipalCentro = controlPrincipalCentro;
-        this.grupoRepository = grupoRepository;
         this.psicologoRepository = psicologoRepository;
     }
 
@@ -92,7 +83,6 @@ public class ProyectoApplication {
      * inicializa la bd y arranca los controladores
      */
     public void inicia() {
-        inicializaBD();
         
         // Make sure controllers are created on JavaFX thread
         Platform.runLater(() -> {
@@ -102,28 +92,5 @@ public class ProyectoApplication {
             // Se comenta el del profe
             // controlPrincipal.inicia();
         });
-    }
-    
-    /**
-     * Se mantiene como referencia
-     */
-    public void iniciarSistemaProfesor() {
-        Platform.runLater(() -> {
-            controlPrincipal.inicia();  
-        });
-    }
-    
-    /**
-     * Inicializa la BD con datos
-     */
-    public void inicializaBD() {
-        // Vamos a crear los dos grupos de usuarios
-        Grupo grupoAdmin = new Grupo();
-        grupoAdmin.setNombre("Administradores");
-        grupoRepository.save(grupoAdmin);
-        
-        Grupo grupoOps = new Grupo();
-        grupoOps.setNombre("Operadores");
-        grupoRepository.save(grupoOps);
     }
 }
