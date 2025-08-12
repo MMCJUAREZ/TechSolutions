@@ -14,6 +14,28 @@ import javafx.scene.control.CheckBox;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
+/**
+ * Ventana para capturar el Historial Clínico de un paciente.
+ *
+ * <p>Responsabilidades:
+ * <ul>
+ *   <li>Cargar y mostrar la interfaz JavaFX para el historial clínico.</li>
+ *   <li>Prellenar nombre/correo y fecha actual.</li>
+ *   <li>Validar entradas básicas y consentimiento.</li>
+ *   <li>Delegar el guardado al {@link ControlContestarHistorialClinico}.</li>
+ *   <li>Mostrar mensajes informativos/errores.</li>
+ * </ul>
+ * </p>
+ *
+ * <p>Uso típico:
+ * <ol>
+ *   <li>Llamar a {@link #muestra(String, String)} con nombre y correo del paciente.</li>
+ *   <li>Completar el formulario y presionar “Guardar”.</li>
+ * </ol>
+ * </p>
+ *
+ * @version 1.0
+ */
 @Component
 public class VentanaContestarHistorialClinico {
     private Stage stage;
@@ -47,10 +69,18 @@ public class VentanaContestarHistorialClinico {
     @FXML
     private CheckBox checkBoxConsentimiento;
 
+    /**
+     * Asigna el controlador asociado a esta vista.
+     * @param controlContestarHistorialClinico controlador de la ventana
+     */
     public void setControlContestarHistorialClinico(ControlContestarHistorialClinico controlContestarHistorialClinico){
         this.controlContestarHistorialClinico = controlContestarHistorialClinico;
     }
 
+    /**
+     * Inicializa la interfaz: carga el FXML, crea el {@link Stage} y configura la escena.
+     * <p>Si no se está en el hilo de JavaFX, reintenta con {@link Platform#runLater(Runnable)}.</p>
+     */
     private void initializeUI() {
         if (initialized) return;
         if (!Platform.isFxApplicationThread()) {
@@ -71,10 +101,14 @@ public class VentanaContestarHistorialClinico {
         }
     }
 
+    /** Constructor por defecto (no inicializa componentes JavaFX). */
     public VentanaContestarHistorialClinico() {
         // No inicializar componentes JavaFX en el constructor
     }
 
+    /**
+     * Limpia los campos del formulario.
+     */
     private void limpiarCampos() {
         textFieldNombre.clear();
         textFieldCorreo.clear();
@@ -87,6 +121,11 @@ public class VentanaContestarHistorialClinico {
         checkBoxConsentimiento.setSelected(false);
     }
 
+    /**
+     * Prellena nombre/correo y la fecha actual (día, mes, año).
+     * @param nombre nombre del paciente
+     * @param correo correo del paciente
+     */
     private void llenarCamposPorDefecto(String nombre, String correo) {
     // Nombre y correo pasados como argumento
         textFieldNombre.setText(nombre);
@@ -99,6 +138,11 @@ public class VentanaContestarHistorialClinico {
         textFieldAnio.setText(String.valueOf(hoy.getYear()));
     }
 
+    /**
+     * Muestra la ventana, limpia el formulario y prellena datos por defecto.
+     * @param nombre nombre del paciente
+     * @param correo correo del paciente
+     */
     public void muestra(String nombre, String correo) {
         if (!initialized) {
             initializeUI();
@@ -113,6 +157,10 @@ public class VentanaContestarHistorialClinico {
         stage.show();
     }
 
+    /**
+     * Cambia la visibilidad de la ventana.
+     * @param visible {@code true} para mostrar; {@code false} para ocultar
+     */
     public void setVisible(boolean visible) {
         if (!Platform.isFxApplicationThread()) {
             Platform.runLater(() -> this.setVisible(visible));
@@ -134,6 +182,10 @@ public class VentanaContestarHistorialClinico {
         }
     }
 
+    /**
+     * Muestra un diálogo informativo con el mensaje indicado.
+     * @param mensaje texto a mostrar
+     */
     public void muestraDialogoConMensaje(String mensaje) {
         if (!Platform.isFxApplicationThread()) {
             Platform.runLater(() -> this.muestraDialogoConMensaje(mensaje));
@@ -147,6 +199,11 @@ public class VentanaContestarHistorialClinico {
         alert.showAndWait();
     }
 
+    /**
+     * Acción del botón Guardar.
+     * <p>Valida campos obligatorios y consentimiento; si todo es correcto,
+     * delega el guardado al controlador.</p>
+     */
     @FXML
     private void handleGuardar(){
 

@@ -29,11 +29,23 @@ public class ControlListarPacientes {
     @Autowired
     private ServicioBateriaClinica servicioBateriaClinica;
 
+    /**
+     * Inicia la vista de listado de pacientes.
+     * <p>Obtiene la lista completa de pacientes desde el servicio y
+     * la pasa a la ventana para su visualización.</p>
+     */
     public void inicia() {
         List<Paciente> todosLosPacientes = servicioPaciente.recuperarTodosLosPacientes();
         ventana.muestra(this, todosLosPacientes);
     }
 
+    /**
+     * Maneja la selección de un paciente en la vista.
+     * <p>Actualiza la interfaz limpiando datos anteriores y mostrando
+     * las baterías clínicas y el historial del paciente seleccionado.</p>
+     *
+     * @param paciente Paciente seleccionado en la lista; puede ser {@code null}
+     */
     public void seleccionarPaciente(Paciente paciente) {
         // Limpia los paneles de la vista para evitar mostrar datos de selecciones anteriores
         ventana.limpiarDetallesDeBateria();
@@ -89,6 +101,9 @@ public class ControlListarPacientes {
         }
     }
     
+    /**
+     * Cierra la ventana de listado de pacientes.
+     */
     public void cerrar() {
         ventana.cierra();
     }

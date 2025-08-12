@@ -14,9 +14,22 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.Button;
 
 /**
- * Ventana de Login para el Centro Psicológico
+ * Ventana de login para el Centro Psicológico.
  * 
- * @author TechSolutions
+ * <p>Esta clase representa la interfaz gráfica de autenticación
+ * inicial del sistema. Sus responsabilidades incluyen:</p>
+ * <ul>
+ *   <li>Mostrar el formulario de ingreso de credenciales.</li>
+ *   <li>Gestionar la visibilidad de la contraseña (modo oculto/visible).</li>
+ *   <li>Delegar la validación y autenticación de credenciales al 
+ *       {@link ControlPrincipalCentro}.</li>
+ *   <li>Mostrar mensajes de error cuando las credenciales no son válidas.</li>
+ * </ul>
+ * 
+ * <p>La ventana está construida con JavaFX y vinculada a un archivo
+ * FXML para su diseño visual.</p>
+ * 
+ * @author 
  */
 @Component
 public class VentanaPrincipalCentro {
@@ -29,6 +42,11 @@ public class VentanaPrincipalCentro {
     @FXML private Button btnTogglePassword;
     private boolean mostrando = false;
 
+    /**
+     * Inicializa la lógica de sincronización entre el campo de contraseña visible
+     * y el campo oculto. Este método es invocado automáticamente por JavaFX
+     * después de cargar el FXML.
+     */
     @FXML
     private void initialize() {
         // Sincroniza ambos campos para que siempre tengan el mismo texto
@@ -37,6 +55,9 @@ public class VentanaPrincipalCentro {
         }
     }
 
+    /**
+     * Alterna la visibilidad de la contraseña entre modo oculto y texto plano.
+     */
     // Ncesitamos manejar el cambio entre una version y otra
     @FXML
     private void togglePasswordVisibility() {
@@ -55,12 +76,17 @@ public class VentanaPrincipalCentro {
     private ControlPrincipalCentro control;
     private boolean initialized = false;
 
+    /**
+     * Constructor por defecto.  
+     * No inicializa la interfaz hasta que se invoque {@link #muestra()}.
+     */
     public VentanaPrincipalCentro() {
         // Constructor vacío
     }
 
     /**
-     * Inicializa la interfaz de usuario en el hilo de JavaFX
+     * Inicializa la interfaz gráfica de la ventana en el hilo de aplicación JavaFX.
+     * Carga el archivo FXML y configura el {@link Stage}.
      */
     private void initializeUI() {
         if (initialized) {
@@ -100,7 +126,8 @@ public class VentanaPrincipalCentro {
     }
 
     /**
-     * Muestra la ventana de login
+     * Muestra la ventana de login.
+     * Si la interfaz no está inicializada, la carga antes de mostrarla.
      */
     public void muestra() {
         if (!Platform.isFxApplicationThread()) {
@@ -113,7 +140,8 @@ public class VentanaPrincipalCentro {
     }
 
     /**
-     * Maneja el evento del botón "Ingresar"
+     * Maneja el evento del botón "Ingresar".
+     * Recupera las credenciales y las envía al controlador para su autenticación.
      */
     @FXML
     private void handleIngresar() {
