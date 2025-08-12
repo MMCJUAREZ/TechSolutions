@@ -15,6 +15,28 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
+/**
+ * Ventana para registrar nuevos pacientes.
+ *
+ * <p>Responsabilidades:
+ * <ul>
+ *   <li>Cargar y mostrar la interfaz JavaFX para el alta de pacientes.</li>
+ *   <li>Validar los datos ingresados (nombre, correo, teléfono, edad).</li>
+ *   <li>Delegar la creación del paciente a {@link ControlAgregarPaciente}.</li>
+ *   <li>Permitir la apertura de cuestionarios (BAI, BDI, CEPER) desde la ventana.</li>
+ * </ul>
+ * </p>
+ *
+ * <p>Flujo típico:
+ * <ol>
+ *   <li>Mostrar la ventana con {@link #muestra()}.</li>
+ *   <li>Ingresar datos y presionar "Agregar paciente" para validarlos y enviarlos al controlador.</li>
+ *   <li>Opcionalmente abrir cuestionarios con los botones correspondientes.</li>
+ * </ol>
+ * </p>
+ *
+ * @version 1.0
+ */
 @Component
 public class VentanaAgregarPaciente {
     private Stage stage;
@@ -36,7 +58,7 @@ public class VentanaAgregarPaciente {
     /**
      * Establece el controlador asociado a esta ventana
      * 
-     * @param control El controlador asociado
+     * @param controlAgregarPaciente El controlador asociado
      */
     public void setControlAgregarPaciente(ControlAgregarPaciente controlAgregarPaciente) {
         this.controlAgregarPaciente = controlAgregarPaciente;
@@ -44,6 +66,7 @@ public class VentanaAgregarPaciente {
 
     /**
      * Inicializa la interfaz de usuario.
+     * <p>Si no se está en el hilo de JavaFX, la acción se delega a {@link Platform#runLater(Runnable)}.</p>
      */
     private void initializeUI() {
         if (initialized) return;
@@ -114,7 +137,7 @@ public class VentanaAgregarPaciente {
     /**
      * Establece la visibilidad de la ventana.
      * 
-     * @param visible true para mostrar la ventana, false para ocultarla
+     * @param visible {@code true} para mostrar; {@code false} para ocultar
      */
     public void setVisible(boolean visible) {
 		if (!Platform.isFxApplicationThread()) {
@@ -140,6 +163,8 @@ public class VentanaAgregarPaciente {
 
     /**
      * Maneja el evento del botón "Agregar paciente" en la ventana.
+     * <p>Valida campos obligatorios, formatos y rango de edad antes de
+     * delegar el registro al controlador.</p>
      */
     @FXML
     private void handleAgregarPaciente() {
@@ -193,6 +218,7 @@ public class VentanaAgregarPaciente {
         controlAgregarPaciente.agregarPaciente(nombre, correo, telefono, edad);
     }
 
+    /** Abre la ventana de captura CEPER del paciente actual. */
     @FXML
     private void handleCeper(){
         if(controlAgregarPaciente != null) {
@@ -200,6 +226,7 @@ public class VentanaAgregarPaciente {
         }
     }
 
+    /** Abre la ventana de captura BAI del paciente actual. */
     @FXML
     private void handleBAI(){
         if (controlAgregarPaciente != null) {
@@ -207,6 +234,7 @@ public class VentanaAgregarPaciente {
         }
     }
 
+    /** Abre la ventana de captura BDI-II del paciente actual. */
     @FXML
     private void handleBDI(){
         if (controlAgregarPaciente != null) {

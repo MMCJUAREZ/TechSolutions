@@ -13,6 +13,28 @@ import org.springframework.stereotype.Component;
 import mx.uam.ayd.proyecto.negocio.modelo.TipoEspecialidad;
 import java.io.IOException;
 
+/**
+ * Ventana para registrar nuevos psicólogos.
+ *
+ * <p>Responsabilidades:
+ * <ul>
+ *   <li>Cargar y mostrar la interfaz JavaFX para el alta de psicólogos.</li>
+ *   <li>Validar los datos ingresados por el usuario.</li>
+ *   <li>Delegar la creación de psicólogos al {@link ControlAgregarPsicologo}.</li>
+ *   <li>Mostrar mensajes de éxito o error.</li>
+ * </ul>
+ * </p>
+ *
+ * <p>Flujo típico:
+ * <ol>
+ *   <li>Mostrar la ventana con {@link #muestra()}.</li>
+ *   <li>Ingresar datos y presionar "Agregar psicólogo".</li>
+ *   <li>Si las validaciones son correctas, delegar al controlador para registrar.</li>
+ * </ol>
+ * </p>
+ *
+ * @version 1.0
+ */
 @Component
 public class VentanaAgregarPsicologo {
 
@@ -32,10 +54,15 @@ public class VentanaAgregarPsicologo {
     private ControlAgregarPsicologo controlAgregarPsicologo;
     private boolean initialized = false;
 
+    /** Constructor por defecto. */
     public VentanaAgregarPsicologo() {
         //constructor vacio
     }
 
+    /**
+     * Inicializa la interfaz de usuario cargando el FXML y creando el Stage.
+     * <p>Si no se está en el hilo de JavaFX, la acción se reprograma con {@link Platform#runLater(Runnable)}.</p>
+     */
     private void initializeUI(){
         if (initialized) {
             return;
@@ -62,11 +89,19 @@ public class VentanaAgregarPsicologo {
             e.printStackTrace();
         }
     }
-        
+    
+    /**
+     * Asigna el controlador que gestionará las acciones de esta vista.
+     * @param control controlador de la ventana
+     */
     public void setControlAgregarPsicologo(ControlAgregarPsicologo control){
         this.controlAgregarPsicologo = control;
     }
 
+    /**
+     * Muestra la ventana. Si no está inicializada, la prepara primero.
+     * <p>Se limpia el formulario antes de mostrar.</p>
+     */
     public void muestra(){
         if (!Platform.isFxApplicationThread()){
             Platform.runLater(() -> this.muestra());
@@ -74,9 +109,13 @@ public class VentanaAgregarPsicologo {
         }
 
         initializeUI();
+        limpiarCampos();
         stage.show();
     }
 
+    /**
+     * Inicializa el ComboBox con las especialidades disponibles.
+     */
     private void inicializarComboBox() {
         if (comboBoxEspecialidad != null) {
             comboBoxEspecialidad.setItems(FXCollections.observableArrayList(TipoEspecialidad.values()));
@@ -84,6 +123,10 @@ public class VentanaAgregarPsicologo {
         }
     }
 
+    /**
+     * Maneja el evento de agregar un psicólogo desde la UI.
+     * <p>Valida los campos y, si todo es correcto, delega el registro al controlador.</p>
+     */
     @FXML
     private void handleAgregarPsicologo(){
         String nombre = textFieldNombre.getText();
@@ -122,6 +165,10 @@ public class VentanaAgregarPsicologo {
         }
     }
 
+    /**
+     * Muestra un mensaje de error en una alerta modal.
+     * @param mensaje texto del error
+     */
     public void mostrarError(String mensaje) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle("Error de validacion");
@@ -130,6 +177,10 @@ public class VentanaAgregarPsicologo {
         alert.showAndWait();
     }
 
+    /**
+     * Muestra un mensaje de éxito en una alerta modal.
+     * @param mensaje texto del éxito
+     */
     public void mostrarExito(String mensaje) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Éxito");
@@ -138,13 +189,21 @@ public class VentanaAgregarPsicologo {
         alert.showAndWait();
     }
 
+    /**
+     * Limpia los campos del formulario.
+     */
     public void limpiarCampos() {
-        textFieldNombre.clear();
-        textFieldCorreo.clear();
-        textFieldTelefono.clear();
-        comboBoxEspecialidad.setValue(null);
+        if (!initialized) return;
+        if (textFieldNombre != null) textFieldNombre.clear();
+        if (textFieldCorreo != null) textFieldCorreo.clear();
+        if (textFieldTelefono != null) textFieldTelefono.clear();
+        if (comboBoxEspecialidad != null) comboBoxEspecialidad.setValue(null);
     }
 
+    /**
+     * Cambia la visibilidad de la ventana.
+     * @param visible {@code true} para mostrar; {@code false} para ocultar
+     */
     public void setVisible(boolean visible) {
 		if (!Platform.isFxApplicationThread()) {
 			Platform.runLater(() -> this.setVisible(visible));
@@ -166,6 +225,9 @@ public class VentanaAgregarPsicologo {
 		}
 	}
 
+    /**
+     * Maneja el evento de cancelar, cerrando la ventana.
+     */
     @FXML
     private void handleCancelar() {
         if (stage != null) {

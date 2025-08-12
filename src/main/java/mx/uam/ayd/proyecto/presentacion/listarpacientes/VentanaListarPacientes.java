@@ -27,6 +27,23 @@ import mx.uam.ayd.proyecto.negocio.modelo.BateriaClinica;
 import mx.uam.ayd.proyecto.negocio.modelo.HistorialClinico;
 import mx.uam.ayd.proyecto.negocio.modelo.Paciente;
 
+/**
+ * Ventana de interfaz gráfica para listar pacientes y gestionar la visualización de sus datos clínicos.
+ * 
+ * Esta vista permite:
+ * <ul>
+ *   <li>Visualizar una tabla con los pacientes registrados.</li>
+ *   <li>Consultar y mostrar el historial clínico de un paciente seleccionado.</li>
+ *   <li>Listar las baterías clínicas asociadas a un paciente y mostrar sus detalles (puntaje y comentarios).</li>
+ *   <li>Guardar comentarios actualizados en una batería clínica.</li>
+ *   <li>Abrir una vista con información detallada de una batería.</li>
+ * </ul>
+ *
+ * La clase actúa como controlador de la vista JavaFX definida en el archivo FXML correspondiente,
+ * y delega la lógica de negocio a {@link ControlListarPacientes}.
+ * 
+ * @author TechSolutions
+ */
 @Component
 public class VentanaListarPacientes {
 
@@ -199,30 +216,55 @@ public class VentanaListarPacientes {
         comentariosTextArea.setText(bateria.getComentarios());
     }
 
+    /**
+     * Cierra la ventana actual de listado de pacientes.
+     */
     public void cierra() { 
         if (stage != null) { 
             stage.close(); 
         } 
     }
     
+    /**
+     * Muestra un cuadro de diálogo informativo con el mensaje proporcionado.
+     *
+     * @param mensaje Texto que se mostrará en el cuadro de diálogo.
+     */
     public void muestraDialogoDeInformacion(String mensaje) { 
         new Alert(AlertType.INFORMATION, mensaje).showAndWait(); 
     }
 
+    /**
+     * Muestra un cuadro de diálogo de error con el mensaje proporcionado.
+     *
+     * @param mensaje Texto que se mostrará en el cuadro de diálogo.
+     */
     public void muestraDialogoDeError(String mensaje) { 
         new Alert(AlertType.ERROR, mensaje).showAndWait(); 
     }
 
+    /**
+     * Evento manejador para el botón de guardar comentarios.
+     * Llama al controlador para persistir los comentarios de la batería seleccionada.
+     */
     @FXML 
     private void handleGuardarComentarios() { 
         control.guardarComentarios(bateriaSeleccionada, comentariosTextArea.getText()); 
     }
 
+    /**
+     * Evento manejador para el botón de cerrar.
+     * Delegar la acción de cierre al controlador.
+     */
     @FXML 
     private void handleCerrar() { 
         control.cerrar(); 
     }
 
+    /**
+     * Evento manejador para el botón de abrir detalles.
+     * Solicita al controlador que muestre los detalles de la batería seleccionada.
+     */
     @FXML 
     private void handleAbrirDetalles() { 
         if (bateriaSeleccionada != null) { 

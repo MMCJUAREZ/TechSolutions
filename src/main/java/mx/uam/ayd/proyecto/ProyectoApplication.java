@@ -125,13 +125,5 @@ public class ProyectoApplication {
         Grupo grupoOps = new Grupo();
         grupoOps.setNombre("Operadores");
         grupoRepository.save(grupoOps);
-
-        //Nuestros datos iniciales prueba
-        Psicologo psicologo1 = new Psicologo();
-        psicologo1.setNombre("Dr. Ana María González");
-        psicologo1.setCorreo("ana.gonzalez@techsolutions.com");
-        psicologo1.setTelefono("555-0101");
-        psicologo1.setEspecialidad(TipoEspecialidad.INFANTIL);
-        psicologoRepository.save(psicologo1);
     }
 }

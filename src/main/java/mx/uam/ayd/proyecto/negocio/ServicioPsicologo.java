@@ -15,6 +15,18 @@ import mx.uam.ayd.proyecto.negocio.modelo.Paciente;
 import mx.uam.ayd.proyecto.negocio.modelo.Psicologo;
 import mx.uam.ayd.proyecto.negocio.modelo.TipoEspecialidad;
 
+/**
+ * Servicio que encapsula la lógica de negocio relacionada con los psicólogos.
+ *
+ * <p>Permite registrar nuevos psicólogos, listar los existentes, obtener
+ * pacientes con cuestionarios y recomendar psicólogos según la edad del paciente.</p>
+ *
+ * <p>Utiliza {@link PacienteRepository} y {@link PsicologoRepository} como
+ * capa de acceso a datos.</p>
+ *
+ * @author Tech Solutions
+ * @version 1.0
+ */
 @Service
 public class ServicioPsicologo {
 
@@ -40,6 +52,24 @@ public class ServicioPsicologo {
                 .collect(Collectors.toList());
     }
 
+    /**
+     * Registra un nuevo psicólogo en el sistema tras validar datos y reglas de negocio.
+     *
+     * <p>Validaciones aplicadas:
+     * <ul>
+     *   <li>Nombre, correo y teléfono no nulos ni vacíos.</li>
+     *   <li>No debe existir otro psicólogo con el mismo correo.</li>
+     *   <li>No debe existir otro psicólogo con el mismo teléfono.</li>
+     * </ul>
+     * </p>
+     *
+     * @param nombre el nombre del psicólogo.
+     * @param correo el correo electrónico del psicólogo.
+     * @param telefono el teléfono del psicólogo.
+     * @param especialidad la especialidad del psicólogo.
+     * @return el psicólogo registrado.
+     * @throws IllegalArgumentException si algún dato es inválido o ya existe conflicto de correo/teléfono.
+     */
     public Psicologo agregarPsicologo(String nombre, String correo, String telefono, TipoEspecialidad especialidad) {
         if(nombre == null || nombre.trim().isEmpty()) {
             throw new IllegalArgumentException("El nombre no puede ser nulo o vacio");
@@ -81,6 +111,11 @@ public class ServicioPsicologo {
         return psicologo;
     }
 
+    /**
+     * Lista todos los psicólogos registrados.
+     *
+     * @return una lista con todos los psicólogos; si no existen registros, la lista estará vacía.
+     */
     public List<Psicologo> listarPsicologos() {
         List<Psicologo> psicologos = new ArrayList<>();
         psicologoRepository.findAll().forEach(psicologos::add);
@@ -88,6 +123,19 @@ public class ServicioPsicologo {
     }
 
     //Obtiene los psicologos por especialidad acorde a la edad del paciente
+    /**
+     * Obtiene psicólogos recomendados según la edad del paciente.
+     *
+     * <p>Regla:
+     * <ul>
+     *   <li>Si el paciente es menor de 18 años → solo especialidad INFANTIL.</li>
+     *   <li>Si es mayor o igual a 18 años → todas las especialidades excepto INFANTIL.</li>
+     * </ul>
+     * </p>
+     *
+     * @param paciente el paciente para el cual se recomienda la especialidad.
+     * @return una lista de psicólogos acorde a la regla de edad.
+     */
     public List<Psicologo> obtenerPsicologosPorEdadPaciente(Paciente paciente) {
     if (paciente.getEdad() < 18) {
         // Solo psicólogos infantiles

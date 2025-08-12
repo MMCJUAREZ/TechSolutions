@@ -13,6 +13,24 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ToggleGroup;
 import javafx.stage.Stage;
 
+/**
+ * Ventana para capturar la batería BAI (Inventario de Ansiedad de Beck).
+ *
+ * <p>Responsabilidades:
+ * <ul>
+ *   <li>Cargar y mostrar la interfaz JavaFX para la batería BAI.</li>
+ *   <li>Recolectar las respuestas del usuario y validar que estén completas.</li>
+ *   <li>Delegar el guardado de resultados al controlador {@link ControlAgregarBAI}.</li>
+ *   <li>Mostrar mensajes informativos y de error.</li>
+ * </ul>
+ * </p>
+ *
+ * <p>Uso: invocar {@link #setControlAgregarBAI(ControlAgregarBAI)}, 
+ * {@link #setPacienteID(Long)} y finalmente {@link #muestra()} para desplegar la ventana.</p>
+ *
+ * @author Tech Solutions
+ * @version 1.0
+ */
 @Component
 public class VentanaAgregarBAI {
     
@@ -22,10 +40,18 @@ public class VentanaAgregarBAI {
 
     private Long pacienteID;
 
+    /**
+     * Inyecta el controlador que realizará el guardado de resultados.
+     * @param controlAgregarBAI controlador para la batería BAI
+     */
     public void setControlAgregarBAI(ControlAgregarBAI controlAgregarBAI) {
         this.controlAgregarBAI = controlAgregarBAI;
     }
 
+    /**
+     * Define el ID del paciente al que se asociará la captura.
+     * @param pacienteID identificador del paciente
+     */
     public void setPacienteID(Long pacienteID) {
         this.pacienteID=pacienteID;
     }
@@ -36,6 +62,11 @@ public class VentanaAgregarBAI {
     @FXML private javafx.scene.control.ToggleGroup q4;
     @FXML private javafx.scene.control.ToggleGroup q5;
 
+    /**
+     * Acción del botón Guardar.
+     * <p>Valida que todas las preguntas tengan respuesta, arma la lista de respuestas
+     * y delega el guardado al controlador.</p>
+     */
     @FXML
     private void onGuard() {
         try {
@@ -63,6 +94,11 @@ public class VentanaAgregarBAI {
         }
     }
 
+    /**
+     * Obtiene el valor seleccionado de un grupo de toggles.
+     * @param group grupo de opciones
+     * @return valor entero definido en el {@code userData} del toggle seleccionado; 0 si no hay selección
+     */
     private Integer getSelectedValue(ToggleGroup group) {
         if (group != null && group.getSelectedToggle() != null &&
             group.getSelectedToggle().getUserData() != null) {
@@ -71,6 +107,10 @@ public class VentanaAgregarBAI {
         return 0;
     }
 
+    /**
+     * Inicializa la interfaz de usuario (carga el FXML y configura el {@link Stage}).
+     * <p>Si no se está en el hilo de JavaFX, reintenta mediante {@link Platform#runLater(Runnable)}.</p>
+     */
     private void initializeUI() {
         if (initialized) return;
         if (!Platform.isFxApplicationThread()) {
@@ -91,10 +131,14 @@ public class VentanaAgregarBAI {
         }
     }
 
+    /** Constructor por defecto requerido por Spring/JavaFX. */
     public VentanaAgregarBAI() {
         
     }
 
+    /**
+     * Muestra la ventana. Si no ha sido inicializada, la inicializa primero.
+     */
     public void muestra() {
         if (!initialized) {
             initializeUI();
@@ -102,6 +146,11 @@ public class VentanaAgregarBAI {
         stage.show();
     }
 
+    /**
+     * Cambia la visibilidad de la ventana.
+     * <p>Garantiza la ejecución en el hilo de JavaFX y crea la UI si es necesario.</p>
+     * @param visible {@code true} para mostrar; {@code false} para ocultar
+     */
     public void setVisible(boolean visible) {
         if (!Platform.isFxApplicationThread()) {
             Platform.runLater(() -> this.setVisible(visible));
@@ -123,6 +172,11 @@ public class VentanaAgregarBAI {
         }
     }
 
+    /**
+     * Muestra un diálogo informativo con el mensaje indicado.
+     * <p>Si no se ejecuta en el hilo de JavaFX, reprograma la acción.</p>
+     * @param mensaje contenido a mostrar en la alerta
+     */
     public void muestraDialogoConMensaje(String mensaje) {
         if (!Platform.isFxApplicationThread()) {
             Platform.runLater(() -> this.muestraDialogoConMensaje(mensaje));

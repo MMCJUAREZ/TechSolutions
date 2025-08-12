@@ -12,13 +12,30 @@ import mx.uam.ayd.proyecto.negocio.ServicioPaciente;
 import mx.uam.ayd.proyecto.negocio.modelo.Paciente;
 import mx.uam.ayd.proyecto.presentacion.contestarHistorialClinico.ControlContestarHistorialClinico;
 
-
 /**
  * Controlador para agregar pacientes.
- * 
+ *
+ * <p>Responsabilidades:
+ * <ul>
+ *   <li>Inicializar la vista {@link VentanaAgregarPaciente} y mostrarla.</li>
+ *   <li>Registrar un nuevo paciente mediante {@link ServicioPaciente}.</li>
+ *   <li>Abrir las ventanas de captura de baterías (BAI, BDI, CEPER).</li>
+ *   <li>Desencadenar el flujo para contestar el historial clínico.</li>
+ * </ul>
+ * </p>
+ *
+ * <p>Flujo típico:
+ * <ol>
+ *   <li>Llamar a {@link #inicia()} para mostrar la ventana de alta.</li>
+ *   <li>Usar {@link #agregarPaciente(String, String, String, int)} para registrar.</li>
+ *   <li>Opcionalmente abrir BAI/BDI/CEPER con los métodos correspondientes.</li>
+ *   <li>Continuar a historial clínico con {@link #contestarHistorialClinico(Paciente)}.</li>
+ * </ol>
+ * </p>
+ *
  * @author TechSolutions
+ * @version 1.0
  */
-
 @Component
 public class ControlAgregarPaciente {
     private Long pacienteID;
@@ -31,6 +48,16 @@ public class ControlAgregarPaciente {
     private final VentanaAgregarCEPER ventanaAgregarCEPER;
     private final ControlContestarHistorialClinico controlContestarHistorialClinico;
 
+    /**
+     * Constructor con inyección de dependencias.
+     *
+     * @param ventanaAgregarPaciente vista para alta de pacientes
+     * @param servicioPaciente servicio de negocio para pacientes
+     * @param ventanaAgregarBAI ventana de captura BAI
+     * @param ventanaAgregarBDI ventana de captura BDI-II
+     * @param ventanaAgregarCEPER ventana de captura CEPER
+     * @param controlContestarHistorialClinico flujo de historial clínico
+     */
     @Autowired
     public ControlAgregarPaciente(
     VentanaAgregarPaciente ventanaAgregarPaciente, 
@@ -84,21 +111,34 @@ public class ControlAgregarPaciente {
 		}
     }
 
+    /**
+     * Abre la ventana para capturar la batería BAI del paciente actual.
+     */
     public void agregarBAI() {
         ventanaAgregarBAI.setPacienteID(pacienteID);
         ventanaAgregarBAI.muestra();
     }
 
+    /**
+     * Abre la ventana para capturar la batería BDI-II del paciente actual.
+     */
     public void agregarBDI() {
         ventanaAgregarBDI.setPacienteID(pacienteID);
         ventanaAgregarBDI.muestra();
     }
     
+    /**
+     * Abre la ventana para capturar la batería CEPER del paciente actual.
+     */
     public void agregarCEPER() {
         ventanaAgregarCEPER.setPacienteID(pacienteID);
         ventanaAgregarCEPER.muestra();
     }
 
+    /**
+     * Inicia el flujo para contestar el historial clínico del paciente.
+     * @param paciente instancia del paciente recién agregado
+     */
     public void contestarHistorialClinico(Paciente paciente) {
         controlContestarHistorialClinico.inicia(paciente);
     }

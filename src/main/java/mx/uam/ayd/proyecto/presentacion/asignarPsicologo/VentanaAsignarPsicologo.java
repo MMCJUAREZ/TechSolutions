@@ -17,6 +17,29 @@ import javafx.scene.control.TableView;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+
+/**
+ * Ventana para asignar un psicólogo a un paciente.
+ *
+ * <p>Responsabilidades:
+ * <ul>
+ *   <li>Cargar y mostrar la interfaz JavaFX para la asignación.</li>
+ *   <li>Mostrar la lista de psicólogos disponibles en una tabla.</li>
+ *   <li>Permitir la selección de un psicólogo y delegar la asignación al {@link ControlAsignarPsicologo}.</li>
+ *   <li>Mostrar mensajes informativos al usuario.</li>
+ * </ul>
+ * </p>
+ *
+ * <p>Flujo típico:
+ * <ol>
+ *   <li>Invocar {@link #muestra(Paciente, List)} para abrir la ventana con la lista de psicólogos.</li>
+ *   <li>Seleccionar un psicólogo y presionar el botón de asignar.</li>
+ *   <li>La acción se delega al controlador, que realiza la asignación.</li>
+ * </ol>
+ * </p>
+ *
+ * @version 1.0
+ */
 @Slf4j
 @Component
 public class VentanaAsignarPsicologo {
@@ -42,10 +65,18 @@ public class VentanaAsignarPsicologo {
     @FXML
     private TableColumn<Psicologo, String> tableColumnEspecialidad;
 
+    /**
+     * Asigna el controlador que gestionará las acciones de esta ventana.
+     * @param controlAsignarPsicologo controlador de la ventana
+     */
     public void setControlAsignarPsicologo(ControlAsignarPsicologo controlAsignarPsicologo) {
         this.controlAsignarPsicologo = controlAsignarPsicologo;
     }
 
+    /**
+     * Inicializa la UI: carga el FXML, crea el Stage y configura la tabla.
+     * <p>Si no se está en el hilo de JavaFX, la acción se reprograma con {@link Platform#runLater(Runnable)}.</p>
+     */
     private void initializeUI() {
         if (initialized) {
             return;
@@ -81,11 +112,21 @@ public class VentanaAsignarPsicologo {
         }
     }
 
+    /**
+     * Limpia la tabla de psicólogos.
+     */
     private void limpiarCampos() {
         tableViewPsicologos.getItems().clear();
     }
 
     private Paciente pacienteActual;
+
+    /**
+     * Muestra la ventana con la lista de psicólogos disponibles para un paciente.
+     *
+     * @param paciente paciente al que se le asignará el psicólogo
+     * @param psicologos lista de psicólogos filtrados según la edad del paciente
+     */
     public void muestra(Paciente paciente, List<Psicologo> psicologos) {
         if(!Platform.isFxApplicationThread()) {
             Platform.runLater(() -> muestra(paciente, psicologos));
@@ -101,6 +142,10 @@ public class VentanaAsignarPsicologo {
         tableViewPsicologos.getItems().setAll(psicologos);
     }
 
+    /**
+     * Cambia la visibilidad de la ventana.
+     * @param visible {@code true} para mostrar; {@code false} para ocultar
+     */
     public void setVisible(boolean visible) {
         if (!Platform.isFxApplicationThread()) {
             Platform.runLater(() -> this.setVisible(visible));
@@ -122,6 +167,10 @@ public class VentanaAsignarPsicologo {
         }
     }
 
+    /**
+     * Muestra un diálogo informativo con el mensaje indicado.
+     * @param mensaje texto a mostrar
+     */
     public void muestraDialogoConMensaje(String mensaje) {
         if (!Platform.isFxApplicationThread()) {
             Platform.runLater(() -> this.muestraDialogoConMensaje(mensaje));
@@ -135,6 +184,10 @@ public class VentanaAsignarPsicologo {
         alert.showAndWait();
     }
 
+    /**
+     * Acción del botón "Asignar".
+     * <p>Valida que se haya seleccionado un psicólogo y delega la asignación al controlador.</p>
+     */
     @FXML
     private void handleAsignar() {
         if (tableViewPsicologos.getSelectionModel().isEmpty()) {
