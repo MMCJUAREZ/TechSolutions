@@ -13,6 +13,28 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ToggleGroup;
 import javafx.stage.Stage;
 
+/**
+ * Ventana para capturar la batería CEPER
+ * (Inventario Exploratorio de Personalidad CEPER).
+ *
+ * <p>Responsabilidades:
+ * <ul>
+ *   <li>Cargar y mostrar la interfaz JavaFX para el cuestionario CEPER.</li>
+ *   <li>Recolectar y validar las respuestas del usuario.</li>
+ *   <li>Delegar el guardado al controlador {@link ControlAgregarCEPER}.</li>
+ *   <li>Mostrar mensajes informativos y de error.</li>
+ * </ul>
+ * </p>
+ *
+ * <p>Uso típico:
+ * <ol>
+ *   <li>Llamar a {@link #setControlAgregarCEPER(ControlAgregarCEPER)} y {@link #setPacienteID(Long)}.</li>
+ *   <li>Invocar {@link #muestra()} para abrir la ventana.</li>
+ * </ol>
+ * </p>
+ *
+ * @version 1.0
+ */
 @Component
 public class VentanaAgregarCEPER {
     private Stage stage;
@@ -21,10 +43,18 @@ public class VentanaAgregarCEPER {
 
     private Long pacienteID;
 
+    /**
+     * Asigna el controlador que gestionará el guardado de la batería CEPER.
+     * @param controlAgregarCEPER controlador asociado
+     */
     public void setControlAgregarCEPER(ControlAgregarCEPER controlAgregarCEPER) {
         this.controlAgregarCEPER=controlAgregarCEPER;
     }
 
+    /**
+     * Define el ID del paciente asociado a la captura.
+     * @param pacienteID identificador del paciente
+     */
     public void setPacienteID(Long pacienteID) {
         this.pacienteID = pacienteID;
     }
@@ -35,6 +65,11 @@ public class VentanaAgregarCEPER {
     @FXML private javafx.scene.control.ToggleGroup q4;
     @FXML private javafx.scene.control.ToggleGroup q5;
 
+    /**
+     * Acción del botón Guardar.
+     * <p>Valida que todas las preguntas tengan respuesta, arma la lista y
+     * delega el guardado al controlador.</p>
+     */
     @FXML
     private void onGuard() {
         try {
@@ -62,6 +97,11 @@ public class VentanaAgregarCEPER {
         }
     }
 
+    /**
+     * Obtiene el valor seleccionado de un grupo de toggles.
+     * @param group grupo de opciones
+     * @return entero definido en el {@code userData} del toggle seleccionado; 0 si no hay selección
+     */
     private Integer getSelectedValue(ToggleGroup group) {
         if (group != null && group.getSelectedToggle() != null &&
             group.getSelectedToggle().getUserData() != null) {
@@ -70,6 +110,10 @@ public class VentanaAgregarCEPER {
         return 0;
     }
 
+    /**
+     * Inicializa la interfaz de usuario cargando el FXML y configurando el {@link Stage}.
+     * <p>Si no se está en el hilo de JavaFX, se reintenta mediante {@link Platform#runLater(Runnable)}.</p>
+     */
     private void initializeUI() {
         if (initialized) return;
         if (!Platform.isFxApplicationThread()) {
@@ -90,10 +134,14 @@ public class VentanaAgregarCEPER {
         }
     }
 
+    /** Constructor por defecto. */
     public VentanaAgregarCEPER(){
 
     }
 
+    /**
+     * Muestra la ventana. Si no está inicializada, la inicializa primero.
+     */
     public void muestra() {
         if (!initialized) {
             initializeUI();
@@ -101,6 +149,10 @@ public class VentanaAgregarCEPER {
         stage.show();
     }
 
+    /**
+     * Cambia la visibilidad de la ventana garantizando la ejecución en el hilo de JavaFX.
+     * @param visible {@code true} para mostrar; {@code false} para ocultar
+     */
     public void setVisible(boolean visible) {
         if (!Platform.isFxApplicationThread()) {
             Platform.runLater(() -> this.setVisible(visible));
@@ -122,6 +174,11 @@ public class VentanaAgregarCEPER {
         }
     }
 
+    /**
+     * Muestra un diálogo de información con el mensaje indicado.
+     * <p>Si no se está en el hilo de JavaFX, reintenta la acción.</p>
+     * @param mensaje texto a mostrar
+     */
     public void muestraDialogoConMensaje(String mensaje) {
         if (!Platform.isFxApplicationThread()) {
             Platform.runLater(() -> this.muestraDialogoConMensaje(mensaje));

@@ -15,8 +15,16 @@ import mx.uam.ayd.proyecto.negocio.modelo.Paciente;
 import mx.uam.ayd.proyecto.negocio.modelo.Psicologo;
 
 /**
- * Servicio relacionado con los pacientes
- * @author TechSolutions
+ * Servicio que gestiona la lógica de negocio relacionada con los pacientes.
+ *
+ * <p>Permite registrar nuevos pacientes, recuperar la lista de pacientes registrados
+ * y asignar psicólogos a pacientes existentes.</p>
+ *
+ * <p>Utiliza {@link PacienteRepository} para acceder y persistir la información
+ * en la base de datos.</p>
+ *
+ * @author Tech Solutions
+ * @version 1.0
  */
 @Service
 public class ServicioPaciente {
@@ -26,6 +34,17 @@ public class ServicioPaciente {
     @Autowired
     private PacienteRepository pacienteRepository;
     
+    /**
+     * Registra un nuevo paciente en el sistema, validando que los datos sean correctos
+     * y que el correo electrónico no esté previamente registrado.
+     *
+     * @param nombre el nombre del paciente; no debe ser nulo ni vacío.
+     * @param correo el correo electrónico del paciente; no debe ser nulo ni vacío.
+     * @param telefono el número de teléfono del paciente; no debe ser nulo ni vacío.
+     * @param edad la edad del paciente.
+     * @return el paciente registrado.
+     * @throws IllegalArgumentException si alguno de los parámetros es inválido o si el correo ya está registrado.
+     */
     public Paciente agregarPaciente(String nombre, String correo, String telefono, int edad) {
         if(nombre == null || nombre.trim().isEmpty()) {
             throw new IllegalArgumentException("El nombre no puede ser nulo o vacio");
@@ -55,13 +74,23 @@ public class ServicioPaciente {
         return paciente;
     }
 
-    // Lista para recuperar los pacientes
+    /**
+     * Recupera todos los pacientes registrados en el sistema.
+     *
+     * @return una lista con todos los pacientes; si no hay pacientes registrados, la lista estará vacía.
+     */
     public List<Paciente> recuperarTodosLosPacientes() {
         List<Paciente> pacientes = new ArrayList<>();
         pacienteRepository.findAll().forEach(pacientes::add);
         return pacientes;
     }
 
+    /**
+     * Asigna un psicólogo a un paciente existente.
+     *
+     * @param paciente el paciente al que se le asignará el psicólogo.
+     * @param psicologo el psicólogo a asignar.
+     */
     @Transactional
     public void asignarPsicologo(Paciente paciente, Psicologo psicologo) {
         paciente.setPsicologo(psicologo);

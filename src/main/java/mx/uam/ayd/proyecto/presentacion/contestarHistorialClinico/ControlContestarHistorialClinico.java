@@ -8,6 +8,29 @@ import mx.uam.ayd.proyecto.negocio.ServicioHistorialClinico;
 import mx.uam.ayd.proyecto.negocio.modelo.Paciente;
 import mx.uam.ayd.proyecto.presentacion.asignarPsicologo.ControlAsignarPsicologo;
 
+/**
+ * Controlador para la ventana de contestación del historial clínico.
+ *
+ * <p>Responsabilidades:
+ * <ul>
+ *   <li>Inicializar la vista {@link VentanaContestarHistorialClinico} y vincularla con este controlador.</li>
+ *   <li>Mostrar la ventana para completar el historial clínico de un paciente.</li>
+ *   <li>Guardar los datos del historial clínico a través de {@link ServicioHistorialClinico}.</li>
+ *   <li>Almacenar el paciente actual y, tras guardar, iniciar el flujo de asignación de psicólogo.</li>
+ *   <li>Cerrar la ventana al finalizar.</li>
+ * </ul>
+ * </p>
+ *
+ * <p>Flujo típico:
+ * <ol>
+ *   <li>Llamar a {@link #inicia(Paciente)} para mostrar la ventana de historial clínico.</li>
+ *   <li>Completar el formulario y confirmar.</li>
+ *   <li>El controlador guarda la información, cierra la ventana e inicia la asignación de psicólogo.</li>
+ * </ol>
+ * </p>
+ *
+ * @version 1.0
+ */
 @Component
 public class ControlContestarHistorialClinico {
     
@@ -16,6 +39,13 @@ public class ControlContestarHistorialClinico {
     private final ServicioHistorialClinico servicioHistorialClinico;
     private final ControlAsignarPsicologo controlAsignarPsicologo;
 
+    /**
+     * Constructor con inyección de dependencias.
+     *
+     * @param ventanaContestarHistorialClinico vista para contestar historial clínico
+     * @param servicioHistorialClinico servicio de negocio para historial clínico
+     * @param controlAsignarPsicologo controlador de asignación de psicólogo
+     */
     @Autowired
     public ControlContestarHistorialClinico(
             VentanaContestarHistorialClinico ventanaContestarHistorialClinico,
@@ -36,6 +66,7 @@ public class ControlContestarHistorialClinico {
     }
 
     private Paciente pacienteActual;
+    
     /**
      * Inicia el controlador con el paciente actual.
      * 

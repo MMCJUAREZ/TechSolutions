@@ -4,6 +4,19 @@ import jakarta.persistence.*;
 import lombok.Data;
 import java.util.Date;
 
+/**
+ * Entidad que representa una batería clínica aplicada a un paciente.
+ *
+ * <p>Incluye las respuestas a preguntas específicas, la fecha de aplicación,
+ * la calificación obtenida, el tipo de batería, comentarios adicionales
+ * y la relación con el paciente al que fue aplicada.</p>
+ *
+ * <p>Esta entidad es administrada por JPA y mapeada a una tabla en la base de datos.
+ * Utiliza anotaciones de {@link jakarta.persistence} para definir su configuración de persistencia.</p>
+ *
+ * @author Tech Solutions
+ * @version 1.0
+ */
 @Entity
 @Data
 public class BateriaClinica {

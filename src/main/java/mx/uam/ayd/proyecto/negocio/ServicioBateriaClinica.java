@@ -15,13 +15,31 @@ import mx.uam.ayd.proyecto.datos.PacienteRepository;
 import mx.uam.ayd.proyecto.negocio.modelo.Paciente;
 import mx.uam.ayd.proyecto.negocio.modelo.TipoBateria;
 
-
+/**
+ * Servicio encargado de la gestión de baterías clínicas.
+ *
+ * <p>Incluye la lógica de negocio para registrar nuevas baterías, guardar comentarios
+ * y obtener detalles de una batería clínica específica. Se encarga de coordinar
+ * la interacción entre los repositorios de {@link BateriaClinica} y {@link Paciente}.</p>
+ *
+ * <p>Utiliza anotaciones de Spring para ser manejado como un servicio y
+ * {@link jakarta.transaction.Transactional} para asegurar la integridad en operaciones críticas.</p>
+ *
+ * @author Tech Solutions
+ * @version 1.0
+ */
 @Service
 public class ServicioBateriaClinica {
     
     private final BateriaClinicaRepository bateriaClinicaRepository;
     private final PacienteRepository pacienteRepository;
 
+    /**
+     * Constructor que inyecta las dependencias requeridas.
+     *
+     * @param bateriaClinicaRepository repositorio para la entidad {@link BateriaClinica}.
+     * @param pacienteRepository repositorio para la entidad {@link Paciente}.
+     */
     @Autowired
     public ServicioBateriaClinica(BateriaClinicaRepository bateriaClinicaRepository,
                                     PacienteRepository pacienteRepository) {
@@ -30,12 +48,18 @@ public class ServicioBateriaClinica {
     }
 
     /**
-     * Registra las respuestas de y obtiene el puntaje para despues asociar la bateria al paciente
-     * @param pacienteID el id del paciente a quien se le va asociar la bateria
-     * @param tipo el tipo de bateria que se va a registrar (CEPER, BAI, BDI-II)
-     * @param respuestas una lista que contiene las respuestas dadas por el usuario
-     * @param comentarios los comentarios que el psicologo hace respecto al puntaje obtenido 
-     * @return una nueva bateria 
+     * Registra una batería clínica asociada a un paciente, calculando la calificación
+     * en base a las respuestas proporcionadas.
+     *
+     * <p>Si ya existe una batería para el paciente y tipo especificados, se actualiza.
+     * De lo contrario, se crea una nueva.</p>
+     *
+     * @param pacienteID el ID del paciente al que se asociará la batería; no debe ser {@code null}.
+     * @param tipo el tipo de batería que se va a registrar (por ejemplo, CEPER, BAI, BDI-II); no debe ser {@code null}.
+     * @param respuestas lista con las 5 respuestas dadas por el usuario; no debe ser {@code null} y debe tener tamaño 5.
+     * @param comentarios comentarios adicionales realizados por el psicólogo sobre el puntaje obtenido.
+     * @return la batería clínica registrada o actualizada.
+     * @throws IllegalArgumentException si el paciente no existe o los parámetros son inválidos.
      */
     @Transactional
     public BateriaClinica registrarBateria(Long pacienteID,
@@ -73,10 +97,12 @@ public class ServicioBateriaClinica {
     }
 
     /**
-     * Guarda los comentarios para una batería clínica específica.
-     * @param bateria La batería a actualizar.
-     * @param comentarios Los nuevos comentarios.
-     * @return La batería actualizada y guardada.
+     * Guarda o actualiza los comentarios asociados a una batería clínica específica.
+     *
+     * @param bateria la batería a actualizar; no debe ser {@code null}.
+     * @param comentarios los nuevos comentarios.
+     * @return la batería clínica actualizada y persistida.
+     * @throws IllegalArgumentException si la batería es {@code null}.
      */
     public BateriaClinica guardarComentarios(BateriaClinica bateria, String comentarios) {
         if (bateria == null) {
@@ -87,10 +113,14 @@ public class ServicioBateriaClinica {
     }
     
     /**
-     * Obtiene los detalles de una batería para mostrarlos.
-     * (En el futuro, aquí se podrían buscar preguntas y respuestas desde el repositorio)
-     * @param bateria La batería seleccionada.
-     * @return Un string con los detalles.
+     * Obtiene una descripción en texto con los detalles de una batería clínica.
+     *
+     * <p>Actualmente, la información incluye el tipo de batería, la fecha de aplicación
+     * y el puntaje obtenido. En el futuro, este método podría expandirse para
+     * mostrar preguntas y respuestas.</p>
+     *
+     * @param bateria la batería seleccionada; puede ser {@code null}.
+     * @return una cadena con los detalles de la batería o un mensaje si no se ha seleccionado ninguna.
      */
     public String obtenerDetallesBateria(BateriaClinica bateria) {
         if (bateria == null) {
@@ -106,5 +136,4 @@ public class ServicioBateriaClinica {
         
         return detalles.toString();
     }
-
 }

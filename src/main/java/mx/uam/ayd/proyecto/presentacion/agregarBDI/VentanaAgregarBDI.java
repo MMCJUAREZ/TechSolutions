@@ -13,8 +13,24 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ToggleGroup;
 import javafx.stage.Stage;
 
-
-
+/**
+ * Ventana para capturar la batería BDI-II (Inventario de Depresión de Beck).
+ *
+ * <p>Responsabilidades:
+ * <ul>
+ *   <li>Cargar y mostrar la interfaz JavaFX correspondiente al BDI-II.</li>
+ *   <li>Recolectar y validar las respuestas del cuestionario.</li>
+ *   <li>Delegar el guardado al controlador {@link ControlAgregarBDI}.</li>
+ *   <li>Mostrar mensajes informativos y de error.</li>
+ * </ul>
+ * </p>
+ *
+ * <p>Uso típico: establecer el controlador con
+ * {@link #setControlAgregarBDI(ControlAgregarBDI)}, asignar el paciente con
+ * {@link #setPacienteID(Long)} y llamar a {@link #muestra()}.</p>
+ *
+ * @version 1.0
+ */
 @Component
 public class VentanaAgregarBDI {
 
@@ -24,10 +40,18 @@ public class VentanaAgregarBDI {
 
     private Long pacienteID;
 
+    /**
+     * Inyecta el controlador que gestionará el guardado del BDI-II.
+     * @param controlAgregarBDI controlador asociado a esta vista
+     */
     public void setControlAgregarBDI(ControlAgregarBDI controlAgregarBDI) {
         this.controlAgregarBDI = controlAgregarBDI;
     }
     
+    /**
+     * Inicializa la UI: carga el FXML, crea el {@link Stage} y configura la escena.
+     * <p>Si no se está en el hilo de JavaFX, reintenta con {@link Platform#runLater(Runnable)}.</p>
+     */
     private void initializeUI() {
         if (initialized) return;
         if (!Platform.isFxApplicationThread()) {
@@ -48,10 +72,14 @@ public class VentanaAgregarBDI {
         }
     }
 
+    /** Constructor por defecto (no inicializa componentes JavaFX). */
     public VentanaAgregarBDI() {
         // No inicializar componentes JavaFX en el constructor
     }
 
+    /**
+     * Muestra la ventana. Si aún no está inicializada, la inicializa primero.
+     */
     public void muestra() {
         if (!initialized) {
             initializeUI();
@@ -59,6 +87,11 @@ public class VentanaAgregarBDI {
         stage.show();
     }
 
+    /**
+     * Cambia la visibilidad de la ventana, garantizando el uso del hilo de JavaFX.
+     * <p>Si se solicita mostrar y aún no está inicializada, la inicializa.</p>
+     * @param visible {@code true} para mostrar; {@code false} para ocultar
+     */
     public void setVisible(boolean visible) {
         if (!Platform.isFxApplicationThread()) {
             Platform.runLater(() -> this.setVisible(visible));
@@ -80,6 +113,11 @@ public class VentanaAgregarBDI {
         }
     }
 
+    /**
+     * Muestra un diálogo informativo con el mensaje indicado.
+     * <p>Si no se ejecuta en el hilo de JavaFX, reprograma la acción.</p>
+     * @param mensaje contenido a mostrar en la alerta
+     */
     public void muestraDialogoConMensaje(String mensaje) {
         if (!Platform.isFxApplicationThread()) {
             Platform.runLater(() -> this.muestraDialogoConMensaje(mensaje));
@@ -93,6 +131,10 @@ public class VentanaAgregarBDI {
         alert.showAndWait();
     }
 
+    /**
+     * Define el identificador del paciente al que se asociará la captura.
+     * @param pacienteID ID del paciente
+     */
     public void setPacienteID(Long pacienteID) {
         this.pacienteID=pacienteID;
     }
@@ -103,6 +145,10 @@ public class VentanaAgregarBDI {
     @FXML private javafx.scene.control.ToggleGroup q4;
     @FXML private javafx.scene.control.ToggleGroup q5;
 
+    /**
+     * Acción del botón Guardar.
+     * <p>Valida respuestas, construye la lista y delega el guardado al controlador.</p>
+     */
     @FXML    
     private void onGuard() {
         try {
@@ -131,6 +177,11 @@ public class VentanaAgregarBDI {
     
     }
 
+    /**
+     * Obtiene el valor seleccionado de un grupo de toggles.
+     * @param group grupo de opciones
+     * @return entero definido en el {@code userData} del toggle seleccionado; 0 si no hay selección
+     */
     private Integer getSelectedValue(ToggleGroup group) {
         if (group != null && group.getSelectedToggle() != null &&
             group.getSelectedToggle().getUserData() != null) {

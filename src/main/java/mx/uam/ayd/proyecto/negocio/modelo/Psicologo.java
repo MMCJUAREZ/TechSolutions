@@ -4,6 +4,19 @@ import jakarta.persistence.*;
 import lombok.Data;
 import java.util.List;
 
+/**
+ * Entidad que representa a un psicólogo en el sistema.
+ *
+ * <p>Contiene datos personales como nombre, correo electrónico, teléfono
+ * y su especialidad. Además, mantiene las relaciones con los pacientes
+ * que atiende y con los historiales clínicos que ha registrado o consultado.</p>
+ *
+ * <p>Esta entidad está mapeada a la base de datos mediante anotaciones JPA
+ * y permite persistir la información de los psicólogos junto con sus relaciones.</p>
+ *
+ * @author Tech Solutions
+ * @version 1.0
+ */
 @Entity
 @Data
 public class Psicologo {

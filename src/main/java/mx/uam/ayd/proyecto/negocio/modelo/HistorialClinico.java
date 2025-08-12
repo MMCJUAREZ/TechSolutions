@@ -5,6 +5,22 @@ import lombok.Data;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+/**
+ * Entidad que representa el historial clínico de un paciente.
+ *
+ * <p>Contiene la información médica y psicológica registrada por un psicólogo,
+ * incluyendo observaciones, motivo de consulta, consumo de sustancias, y
+ * estado del consentimiento informado.</p>
+ *
+ * <p>El historial clínico está asociado de manera uno a uno con un {@link Paciente}
+ * y puede estar vinculado a un {@link Psicologo} que haya trabajado con el paciente.</p>
+ *
+ * <p>Esta clase incluye un método para generar una versión formateada en texto
+ * de toda la información contenida en el historial.</p>
+ *
+ * @author Tech Solutions
+ * @version 1.0
+ */
 @Entity
 @Data
 public class HistorialClinico {
@@ -33,10 +49,12 @@ public class HistorialClinico {
     private String descripcionDrogas;
 
     /**
-     * MÉTODO QUE FALTA:
-     * La anotación @Transient le dice a la base de datos que ignore este método.
-     * Su función es convertir los datos del historial en un String legible.
-     * @return Un String con toda la información del historial formateada.
+     * Convierte los datos del historial clínico en un formato de texto legible para presentación.
+     *
+     * <p>Incluye fecha de elaboración, motivo de consulta, consumo de sustancias,
+     * observaciones del psicólogo y el estado del consentimiento informado.</p>
+     *
+     * @return una cadena con la información del historial clínico formateada.
      */
     @Transient
     public String toStringFormateado() {
